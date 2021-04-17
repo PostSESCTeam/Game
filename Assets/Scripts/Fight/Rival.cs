@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Rival : MonoBehaviour
 {
+    private int lives = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,8 @@ public class Rival : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lives == 0)
+            Debug.Log("You win!");
         
     }
 }
