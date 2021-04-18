@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class Scale : MonoBehaviour
 {
-    private static int scaleSize = 20;
-    public int balancedValue = (scaleSize / 2);
-    public int scaleValue = 10;
+    public const int ScaleSize = 20, BalancedValue = ScaleSize / 2;
 
-    public void UpdateScale(int dt)
+    public void UpdateScale(int newScaleValue)
     {
-        var newValue = scaleValue + dt;
-        if (newValue < scaleSize && newValue > 0) scaleValue = newValue;
-        else
-        {
-            Debug.Log("YOU DIED!");
-            Destroy(FindObjectOfType<Act>());
-        }
+        //TODO: resize scale
     }
 }

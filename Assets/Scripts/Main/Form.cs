@@ -1,25 +1,39 @@
 using System;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Form : MonoBehaviour
 {
     private FormCard curForm;
+    private Characters chars;
+    private GameObject formsPlace;
+
+    public FormCard CurForm
+    {
+        get { return curForm; }
+    }
 
     void Awake()
     {
-        curForm = FormCard.GenerateForm();
+        formsPlace = GameObject.Find("FormsPlace");
+        chars = new Characters();
+        ChangeFormCard();
     }
 
-    public void ChangeFormCard() => ChangeFormCard(FormCard.GenerateForm());
+    public void ChangeFormCard() => ChangeFormCard(chars.TakeRandomCard(1));
 
     public void ChangeFormCard(FormCard newForm)
     {
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Main.IsFormsOpened && Input.GetAxis("Horizontal") > 0)
             Debug.Log($"You liked {curForm.Name}, {curForm.Age}");
-        else Debug.Log($"You disliked {curForm.Name}, {curForm.Age}");
+        else if (Input.GetAxis("Horizontal") < 0) 
+            Debug.Log($"You disliked {curForm.Name}, {curForm.Age}");
 
         curForm = newForm;
+        var texts = formsPlace.GetComponentsInChildren<Text>();
+        texts[0].text = $"{curForm.Name}, {curForm.Age}"; 
+        texts[1].text = curForm.Description; 
     }
 }
 

@@ -4,32 +4,41 @@ using UnityEngine;
 
 public class Act : MonoBehaviour
 {
-    Scale scale;
-    Form form;
+    private int love;
+    private Scale scale;
+    private Form form;
+
     void Start() 
     {
+        love = Scale.BalancedValue;
         scale = FindObjectOfType<Scale>();
         form = FindObjectOfType<Form>();
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Horizontal"))
+        if (Main.IsFormsOpened && Input.GetButtonDown("Horizontal"))
         {
-            form.ChangeFormCard();
             var liked = Input.GetAxis("Horizontal") > 0;
             if (liked)
-                scale.UpdateScale(1);
+                Main.AddLiked(form.CurForm);
             else
-                scale.UpdateScale(-1);
+                Main.AddDisliked(form.CurForm);
+            love += liked ? 1 : -1;
+            form.ChangeFormCard();
+
+            if (love <= 0 || love > Scale.ScaleSize)
+            {
+                Debug.Log("YOU DIED!");
+                Destroy(this);
+            }
         }  
     }
 
     void UpdateAfterDuel()
     {
         var win = true;
-        var s = scale.scaleValue;
-        var d = Math.Sign(scale.balancedValue - s) * 4;
+        var d = Math.Sign(Scale.BalancedValue - love);
         scale.UpdateScale(win ? d : -d);
     }
 }

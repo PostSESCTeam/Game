@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 145663277}
   - component: {fileID: 145663278}
-  - component: {fileID: 145663279}
   m_Layer: 0
   m_Name: Screen
   m_TagString: Untagged
@@ -206,18 +205,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &145663279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145663276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40e0609e4dcebbc47b0f559dfe165da1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &163579642
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,8 +737,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -105, y: -200}
-  m_SizeDelta: {x: 369.36, y: 80.75}
+  m_AnchoredPosition: {x: -4.69, y: -200}
+  m_SizeDelta: {x: 569.98, y: 80.75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &460569365
 MonoBehaviour:
@@ -811,7 +798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &588236977
 Transform:
   m_ObjectHideFlags: 0
@@ -1284,19 +1271,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 947022002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072382854}
-        m_TargetAssemblyTypeName: ButtomsClicks, Assembly-CSharp
-        m_MethodName: OpenProfile
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &947022002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,19 +1676,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1225618060}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2072382854}
-        m_TargetAssemblyTypeName: ButtomsClicks, Assembly-CSharp
-        m_MethodName: OpenForms
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1225618060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1761,6 +1724,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1311302474}
+  - component: {fileID: 1311302475}
   m_Layer: 0
   m_Name: Form
   m_TagString: Untagged
@@ -1787,6 +1751,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311302475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311302473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e0609e4dcebbc47b0f559dfe165da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1313165854
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,8 +1840,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97.07, y: -279.17}
-  m_SizeDelta: {x: 385.22, y: 77.58}
+  m_AnchoredPosition: {x: -4.69, y: -279.17}
+  m_SizeDelta: {x: 569.98, y: 77.58}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424966801
 MonoBehaviour:
@@ -2000,6 +1976,7 @@ GameObject:
   - component: {fileID: 1812039390}
   - component: {fileID: 1812039389}
   - component: {fileID: 1812039388}
+  - component: {fileID: 1812039391}
   m_Layer: 5
   m_Name: Icons
   m_TagString: Untagged
@@ -2090,6 +2067,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 3
   m_TargetDisplay: 0
+--- !u!114 &1812039391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812039386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fad984bccf9fbc4289d5c3b852dd26c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2027667792
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,7 +2165,6 @@ GameObject:
   - component: {fileID: 2072382853}
   - component: {fileID: 2072382852}
   - component: {fileID: 2072382851}
-  - component: {fileID: 2072382854}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2249,19 +2237,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2072382854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072382850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fad984bccf9fbc4289d5c3b852dd26c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ProfilePlace: {fileID: 588236976}
-  FormsPlace: {fileID: 1095062567}
-  IsProfileOpened: 0
-  IsFormsOpened: 1
