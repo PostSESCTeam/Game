@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Act : MonoBehaviour
@@ -17,22 +16,25 @@ public class Act : MonoBehaviour
 
     void Update()
     {
+        // do we need it?
         if (Main.IsFormsOpened && Input.GetButtonDown("Horizontal"))
-        {
-            var liked = Input.GetAxis("Horizontal") > 0;
-            if (liked)
-                Main.AddLiked(form.CurForm);
-            else
-                Main.AddDisliked(form.CurForm);
-            love += liked ? 1 : -1;
-            form.ChangeFormCard();
+            ChangeFormCard(Input.GetAxis("Horizontal") > 0);
+    }
 
-            if (love <= 0 || love > Scale.ScaleSize)
-            {
-                Debug.Log("YOU DIED!");
-                Destroy(this);
-            }
-        }  
+    public void ChangeFormCard(bool isLiked)
+    {
+        if (isLiked)
+            Main.AddLiked(form.CurForm);
+        else
+            Main.AddDisliked(form.CurForm);
+        love += isLiked ? 1 : -1;
+        form.ChangeFormCard();
+
+        if (love <= 0 || love > Scale.ScaleSize)
+        {
+            Debug.Log("YOU DIED!");
+            Destroy(this);
+        }
     }
 
     void UpdateAfterDuel()

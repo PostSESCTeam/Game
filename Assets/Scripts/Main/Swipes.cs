@@ -1,48 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Swipes : MonoBehaviour
 {
-    public GameObject Form;
-    public float x1;
-    public float x2;
-    public float move = 0;
+    private GameObject Form;
+    private float x1, x2;
+    private Rotation rotation;
+    private const int MinSwipeLenX = 20;
+    private const int RotationSpeed = 100;
+    private const double MaxAngle = 0.5;
+    private readonly Vector3 RotationPoint = new Vector3(0f, -6f);
+    private readonly Vector3 RotationAxis = new Vector3(0f, 0f, 1f);
 
     void Start()
     {
-        
+        Form = GameObject.Find("FormsPlace");
+        rotation = Rotation.None;
     }
 
     void Update()
     {
+        if (!Main.IsFormsOpened)
+            return;
+
         if (Input.GetMouseButtonDown(0))
-        {
             x1 = Input.mousePosition.x;
-        }
+
         if (Input.GetMouseButtonUp(0))
         {
             x2 = Input.mousePosition.x;
             if (x1 > x2)
-                move = 1f;
-            if (x2 > x1)
-                move = 2f;
+                rotation = Rotation.Right;
+            else if (x2 > x1)
+                rotation = Rotation.Left;
         }
 
-        if (move == 1)
+        if (Mathf.Abs(x1 - x2) < MinSwipeLenX)
+            return;
+
+        Form.transform.RotateAround(RotationPoint, RotationAxis, (int) rotation * RotationSpeed * Time.deltaTime);
+
+        if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
         {
-            Form.transform.RotateAround(new Vector3(0f, -6f), new Vector3(0f, 0f, 1f), 100 * Time.deltaTime);
-        }
-        if (move == 2)
-        {
-            Form.transform.RotateAround(new Vector3(0f, -6f), new Vector3(0f, 0f, 1f), -100 * Time.deltaTime);
-        }
-        //Debug.Log(Mathf.Abs(Form.transform.rotation.z));
-        if (Mathf.Abs(Form.transform.rotation.z) >= 0.5)
-        {
-            Debug.Log("should stop");
-            move = 0;
+            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
+            rotation = Rotation.None;
+            Form.transform.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
         }
     }
+}
+
+public enum Rotation
+{
+    None,
+    Left = -1,
+    Right = 1
 }

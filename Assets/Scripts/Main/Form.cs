@@ -1,10 +1,10 @@
-using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Form : MonoBehaviour
 {
+    private int randomAmount = 5;
     private FormCard curForm;
     private Characters chars;
     private GameObject formsPlace;
@@ -14,20 +14,21 @@ public class Form : MonoBehaviour
         get { return curForm; }
     }
 
-    void Awake()
+    void Start()
     {
         formsPlace = GameObject.Find("FormsPlace");
         chars = new Characters();
-        ChangeFormCard();
+        ChangeFormCard(isFirst: true);
     }
 
-    public void ChangeFormCard() => ChangeFormCard(chars.TakeRandomCard(1));
+    public void ChangeFormCard(bool isLiked = false, bool isFirst = false) 
+        => ChangeFormCard(chars.TakeRandomCard(randomAmount), isLiked, isFirst);
 
-    public void ChangeFormCard(FormCard newForm)
+    public void ChangeFormCard(FormCard newForm, bool isLiked = false, bool isFirst = false)
     {
-        if (Main.IsFormsOpened && Input.GetAxis("Horizontal") > 0)
+        if (!isFirst && isLiked)
             Debug.Log($"You liked {curForm.Name}, {curForm.Age}");
-        else if (Input.GetAxis("Horizontal") < 0) 
+        else if (!isFirst)
             Debug.Log($"You disliked {curForm.Name}, {curForm.Age}");
 
         curForm = newForm;

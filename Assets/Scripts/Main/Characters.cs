@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
-using UnityEngine;
 
 public class Characters
 {
-    private FormCard[] plotCards = new FormCard[] {
+    private readonly FormCard[] plotCards = new FormCard[] {
         new FormCard("Виктор", 433, Sex.Male, "", 1.0, true),
         new FormCard("Фуршет", 12, Sex.Female, "Невеста божья", 1.0, true),
         new FormCard("Марк", 129, Sex.Male, "", 1.0, true)
@@ -20,14 +18,7 @@ public class Characters
 
     public FormCard TakeRandomCard(int randomAmount)
     {
-        var index = new System.Random().Next(plotCards.Length + randomAmount);
-        try
-        {
-            return plotCards[index];
-        }
-        catch
-        {
-            return FormCard.GenerateForm();
-        }
+        var index = new Random().Next(plotCards.Length + randomAmount);
+        return index < plotCards.Length ? plotCards[index] : FormCard.GenerateForm();
     }
 }
