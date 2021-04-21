@@ -28,7 +28,7 @@ public class Act : MonoBehaviour
         else
             Main.AddDisliked(form.CurForm);
         love += isLiked ? 1 : -1;
-        form.ChangeFormCard();
+        form.ChangeFormCard(isLiked: isLiked);
 
         if (love <= 0 || love > Scale.ScaleSize)
         {

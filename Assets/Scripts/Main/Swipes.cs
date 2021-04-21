@@ -28,16 +28,15 @@ public class Swipes : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             x2 = Input.mousePosition.x;
-            if (x1 > x2)
+            if (Mathf.Abs(x1 - x2) < MinSwipeLenX)
+                return;
+            if (x1 < x2)
                 rotation = Rotation.Right;
-            else if (x2 > x1)
+            else 
                 rotation = Rotation.Left;
         }
 
-        if (Mathf.Abs(x1 - x2) < MinSwipeLenX)
-            return;
-
-        Form.transform.RotateAround(RotationPoint, RotationAxis, (int) rotation * RotationSpeed * Time.deltaTime);
+        Form.transform.RotateAround(RotationPoint, RotationAxis, (int) rotation * -RotationSpeed * Time.deltaTime);
 
         if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
         {
