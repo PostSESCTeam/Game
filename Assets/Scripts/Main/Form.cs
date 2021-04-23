@@ -63,7 +63,6 @@ public class Form : MonoBehaviour
     private Sprite GetSpriteFromFile(string path)
     {
         var texture = new Texture2D(2, 2);
-
         texture.LoadImage(File.ReadAllBytes(path));
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
