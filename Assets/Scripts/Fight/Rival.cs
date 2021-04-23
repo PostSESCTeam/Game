@@ -5,7 +5,7 @@ using UnityEngine;
 public class Rival : MonoBehaviour
 {
     private int lives = 3;
-    // Start is called before the first frame update
+    
     void Start()
     {
         

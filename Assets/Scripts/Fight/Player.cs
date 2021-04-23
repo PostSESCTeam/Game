@@ -1,18 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private Vector2 position;
+
     void Start()
     {
-        
+        position = new Vector2();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetButtonDown("Horizontal"))
+        {
+            position += new Vector2(Input.GetAxis("Horizontal") > 0 ? 1 : -1, 0);
+        } 
+        else if (Input.GetButtonDown("Vertical"))
+        {
+            position += new Vector2(0, Input.GetAxis("Vertical") > 0 ? 1 : -1);
+        } else if (Input.GetKeyDown("Fire"))
+        {
+            // TODO: ye
+        }
     }
 }

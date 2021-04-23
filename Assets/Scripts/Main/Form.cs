@@ -48,16 +48,20 @@ public class Form : MonoBehaviour
     {
         if (isSpecial)
         {
-            for (var i = 1; i < 4; i++)
+            places[0].gameObject.SetActive(true);
+            for (var i = 1; i < 5; i++)
                 places[i].gameObject.SetActive(false);
             places[0].sprite = GetSpriteFromFile(files[0]);
         }
         else
-            for (var i = 0; i < 4; i++)
+        {
+            places[0].gameObject.SetActive(false);
+            for (var i = 1; i < 5; i++)
             {
                 places[i].gameObject.SetActive(true);
-                places[i].sprite = GetSpriteFromFile(files[i]);
+                places[i].sprite = GetSpriteFromFile(files[i - 1]);
             }
+        }
     }
 
     private Sprite GetSpriteFromFile(string path)
