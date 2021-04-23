@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,7 +9,7 @@ public class Form : MonoBehaviour
     private FormCard curForm;
     private Characters chars;
     private GameObject formsPlace;
-    private SpriteRenderer picPlace;
+    private SpriteRenderer[] drawPlaces;
 
     public FormCard CurForm
     {
@@ -19,7 +20,7 @@ public class Form : MonoBehaviour
     {
         chars = new Characters();
         formsPlace = GameObject.Find("FormsPlace");
-        picPlace = formsPlace.transform.GetChild(2).gameObject.GetComponent<SpriteRenderer>();
+        drawPlaces = Enumerable.Range(0, formsPlace.transform.childCount).Skip(2).Select(i => formsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>()).Reverse().ToArray();
         ChangeFormCard(isFirst: true);
     }
 
@@ -40,9 +41,30 @@ public class Form : MonoBehaviour
         var texts = formsPlace.GetComponentsInChildren<Text>();
         texts[0].text = $"{curForm.Name}, {curForm.Age}"; 
         texts[1].text = curForm.Description;
+        Redraw(curForm.Pictures, curForm.IsSpecial, drawPlaces);
+    }
+
+    private void Redraw(string[] files, bool isSpecial, SpriteRenderer[] places)
+    {
+        if (isSpecial)
+        {
+            for (var i = 1; i < 4; i++)
+                places[i].gameObject.SetActive(false);
+            places[0].sprite = GetSpriteFromFile(files[0]);
+        }
+        else
+            for (var i = 0; i < 4; i++)
+            {
+                places[i].gameObject.SetActive(true);
+                places[i].sprite = GetSpriteFromFile(files[i]);
+            }
+    }
+
+    private Sprite GetSpriteFromFile(string path)
+    {
         var texture = new Texture2D(2, 2);
-        texture.LoadImage(File.ReadAllBytes(curForm.Pictures[0]));
-        picPlace.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        texture.LoadImage(File.ReadAllBytes(path));
+        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 }
 
@@ -54,7 +76,7 @@ public class FormCard
     public string[] Pictures;
     public string Description;
     private double fightProbability;
-    private bool isSpecial;
+    public bool IsSpecial;
     private int id;
 
     public FormCard(string name, int age, Sex sex, string[] pictures, string description, 
@@ -65,7 +87,7 @@ public class FormCard
         this.sex = sex;
         this.Pictures = pictures;
         this.Description = description;
-        this.isSpecial = isSpecial;
+        this.IsSpecial = isSpecial;
         this.fightProbability = fightProbability;
     }
 
@@ -74,14 +96,15 @@ public class FormCard
         var random = new System.Random();
         var age = random.Next(18, 45);
         var sex = (Sex) random.Next(2);
-        var path = @"Assets\Forms\" + sex.ToString() + "Names.txt";
-        var names = File.ReadAllLines(path);
-        var picsFolder = new DirectoryInfo(@"Assets\Sprites\Characters\" + "Female" + @"\");
+        var namesPath = @"Assets\Forms\" + sex.ToString() + "Names.txt";
+        var names = File.ReadAllLines(namesPath);
+        var path = @"Assets\Sprites\Characters\" + "Female" + @"\";
+        var picsFolder = new DirectoryInfo(path);
         //var id = random.Next(1).ToString();
-        var hairs = picsFolder.EnumerateFiles(@"Hair_{0}.png");
-        var ups = picsFolder.EnumerateFiles("Up_{0}.png");
+        var hairs = picsFolder.EnumerateFiles("Hair_*.png");
+        var ups = picsFolder.EnumerateFiles("Up_*.png");
         var bottoms = picsFolder.EnumerateFiles("Bottom_*.png");
-        var pics = new string[] { @"Assets\Sprites\Characters\" + "Female" + @"\" + "Body.png" };//hairs.GetRandom(), ups.GetRandom(), };
+        var pics = new string[] { path + "Body.png", path + hairs.GetRandom().Name, path + ups.GetRandom().Name, path + bottoms.GetRandom().Name };
 
         return new FormCard(names.GetRandom(),
             age, sex, pics, "", random.NextDouble());
