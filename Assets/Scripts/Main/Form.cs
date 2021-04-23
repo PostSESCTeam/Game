@@ -77,8 +77,9 @@ public class FormCard
         var path = @"Assets\Forms\" + sex.ToString() + "Names.txt";
         var names = File.ReadAllLines(path);
         var picsFolder = new DirectoryInfo(@"Assets\Sprites\Characters\" + "Female" + @"\");
-        var hairs = picsFolder.EnumerateFiles("Hair_*.png");
-        var ups = picsFolder.EnumerateFiles("Up_*.png");
+        //var id = random.Next(1).ToString();
+        var hairs = picsFolder.EnumerateFiles(@"Hair_{0}.png");
+        var ups = picsFolder.EnumerateFiles("Up_{0}.png");
         var bottoms = picsFolder.EnumerateFiles("Bottom_*.png");
         var pics = new string[] { @"Assets\Sprites\Characters\" + "Female" + @"\" + "Body.png" };//hairs.GetRandom(), ups.GetRandom(), };
 
