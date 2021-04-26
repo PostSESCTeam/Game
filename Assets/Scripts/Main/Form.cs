@@ -44,14 +44,14 @@ public class Form : MonoBehaviour
         Redraw(curForm.Pictures, curForm.IsSpecial, drawPlaces);
     }
 
-    private void Redraw(string[] files, bool isSpecial, SpriteRenderer[] places)
+    private async void Redraw(string[] files, bool isSpecial, SpriteRenderer[] places)
     {
         if (isSpecial)
         {
             places[0].gameObject.SetActive(true);
             for (var i = 1; i < 5; i++)
                 places[i].gameObject.SetActive(false);
-            places[0].sprite = GetSpriteFromFile(files[0]);
+            places[0].sprite = await Utils.GetSpriteFromFileAsync(files[0]);
         }
         else
         {
@@ -59,16 +59,9 @@ public class Form : MonoBehaviour
             for (var i = 1; i < 5; i++)
             {
                 places[i].gameObject.SetActive(true);
-                places[i].sprite = GetSpriteFromFile(files[i - 1]);
+                places[i].sprite = await Utils.GetSpriteFromFileAsync(files[i - 1]);
             }
         }
-    }
-
-    private Sprite GetSpriteFromFile(string path)
-    {
-        var texture = new Texture2D(2, 2);
-        texture.LoadImage(File.ReadAllBytes(path));
-        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 }
 
