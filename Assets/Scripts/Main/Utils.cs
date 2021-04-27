@@ -24,4 +24,11 @@ public static class Utils
         texture.LoadImage(result);
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
+
+    public static Sprite GetSpriteFromFile(string path)
+    {
+        var texture = new Texture2D(1, 1);
+        texture.LoadImage(File.ReadAllBytes(path));
+        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+    }
 }
