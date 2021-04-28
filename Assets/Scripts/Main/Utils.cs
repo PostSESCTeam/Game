@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public static class Utils
@@ -9,21 +8,16 @@ public static class Utils
     public static T GetRandom<T>(this IEnumerable<T> collection)
         => collection.ElementAt(new System.Random().Next(collection.Count()));
 
-    public static async Task<Sprite> GetSpriteFromFileAsync(string path)
+    public static IEnumerable<(int X, int Y)> GetNeighbours(this (int X, int Y) p)
     {
-        var texture = new Texture2D(1, 1);
-        byte[] result;
-
-        using (FileStream fs = File.Open(path, FileMode.Open))
-        {
-            result = new byte[fs.Length];
-            await fs.ReadAsync(result, 0, (int) fs.Length);
-        }
-
-        Debug.Log(path);
-        texture.LoadImage(result);
-        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        var d = new int[]{ -1, 0, 1 };
+        return d
+            .SelectMany(i => d.Select(j => (p.X + i, p.Y + j)))
+            .Where(i => !p.Equals(i));
     }
+
+    public static IEnumerable<(int X, int Y)> GetNeighbours(this IEnumerable<(int X, int Y)> ps) 
+        => ps.SelectMany(i => GetNeighbours(i)).Except(ps);
 
     public static Sprite GetSpriteFromFile(string path)
     {
