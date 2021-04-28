@@ -1,55 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     private const float stepSize = 0.1f;
-    private Rigidbody2D rigidbody;
     private SpriteRenderer sprite;
     private float speed = 5.0f;
-    private Bullet bullet;
+    public Transform bullet;
 
-    void Start()
+    private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
         sprite = GetComponentInChildren<SpriteRenderer>();
-        bullet = Resources.Load<Bullet>("Bullet");
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetButton("Horizontal") && Input.GetButton("Vertical"))
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
-            Run(new Vector3(Input.GetAxis("Horizontal") > 0 ? stepSize : -stepSize, Input.GetAxis("Vertical") > 0 ? stepSize : -stepSize));
-        }
-        else if (Input.GetButton("Horizontal"))
-        {
-            Run(new Vector3(Input.GetAxis("Horizontal") > 0 ? stepSize : -stepSize, 0));
-            sprite.flipX = Input.GetAxis("Horizontal") < 0.0f;
-        } 
-        else if (Input.GetButton("Vertical"))
-        {
-
-            Run(new Vector3(0, Input.GetAxis("Vertical") > 0 ? stepSize : -stepSize));
+            var dx = Input.GetAxis("Horizontal") > 0 ? stepSize : Input.GetAxis("Horizontal") < 0 ? -stepSize : 0;
+            var dy = Input.GetAxis("Vertical") > 0 ? stepSize : Input.GetAxis("Vertical") < 0 ? -stepSize : 0;
+            // можно переписать на Mathf.Sign(), но там какие-то проблемы
+            Run(new Vector3(dx, dy));
         }
 
         if (Input.GetButtonDown("Fire1"))
-        {
             Shoot();
-        }
     }
 
-    public void Run(Vector3 direction)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
-    }
+    public void Run(Vector3 direction) 
+        => transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, speed * Time.deltaTime);
 
     public void Shoot()
     {
         Vector3 position = transform.position;
         position.y += 0.1f;
-        Instantiate(bullet, position, bullet.transform.rotation);
+        var transformBullet = Instantiate(bullet, position, bullet.transform.rotation);
+        transformBullet.GetComponent<Bullet>().Direction = transform.right;
+        // TODO: определить правильное направление движения пули
     }
 }

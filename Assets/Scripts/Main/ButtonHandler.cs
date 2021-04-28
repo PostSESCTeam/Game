@@ -16,7 +16,6 @@ public class ButtonHandler : MonoBehaviour
         //chatPlace = GameObject.Find("ChatsPlace");
         formsPlace = GameObject.Find("FormsPlace");
         profilePlace = GameObject.Find("ProfilePlace");
-        Update();
     }
 
     private void Update()
@@ -26,25 +25,29 @@ public class ButtonHandler : MonoBehaviour
         profilePlace.SetActive(Main.IsProfileOpened);
     }
 
-    // We have no chats, so this part should not work
-    public void OpenChat()
-    {
-        //Main.IsChatOpened = true;
-        //Main.IsFormsOpened = false;
-        //Main.IsProfileOpened = false;
-    }
-
-    public void OpenForms()
-    {
-        Main.IsChatOpened = false;
-        Main.IsFormsOpened = true;
-        Main.IsProfileOpened = false;
-    }
-
-    public void OpenProfile()
+    private void CloseEverything()
     {
         Main.IsChatOpened = false;
         Main.IsFormsOpened = false;
+        Main.IsProfileOpened = false;
+    }
+
+    // We have no chats, so this part should not work
+    private void OpenChat()
+    {
+        //CloseEverything();
+        //Main.IsChatOpened = true;
+    }
+
+    private void OpenForms()
+    {
+        CloseEverything();
+        Main.IsFormsOpened = true;
+    }
+
+    private void OpenProfile()
+    {
+        CloseEverything();
         Main.IsProfileOpened = true;
     }
 }

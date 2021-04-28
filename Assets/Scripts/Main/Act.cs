@@ -7,14 +7,14 @@ public class Act : MonoBehaviour
     private Scale scale;
     private Form form;
 
-    void Start() 
+    private void Start() 
     {
         love = Scale.BalancedValue;
         scale = FindObjectOfType<Scale>();
         form = FindObjectOfType<Form>();
     }
 
-    void Update()
+    private void Update()
     {
         // do we need it?
         if (Main.IsFormsOpened && Input.GetButtonDown("Horizontal"))
@@ -28,13 +28,16 @@ public class Act : MonoBehaviour
         else
             Main.AddDisliked(form.CurForm);
         love += isLiked ? 1 : -1;
-        form.ChangeFormCard(isLiked: isLiked);
+        scale.UpdateScale(love);
 
-        if (love <= 0 || love > Scale.ScaleSize)
+        if (love <= 0 || love >= Scale.ScaleSize)
         {
             Debug.Log("YOU DIED!");
+            Destroy(FindObjectOfType<Swipes>());
             Destroy(this);
         }
+        else
+            form.ChangeFormCard(isLiked);
     }
 
     void UpdateAfterDuel()

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 public class Map
 {
@@ -19,6 +21,9 @@ public class Map
             Cells[X, Y] = Cell.Wall;
     }
 
+    private static bool IsInBounds(int height, int width, (int X, int Y) point) 
+        => (0 <= point.X) && (point.X < width) && (0 <= point.Y) && (point.Y < height);
+
     public static Map GenerateMap(int height, int width)
     {
         var blocks = new List<(int X, int Y)[]>();
@@ -34,15 +39,18 @@ public class Map
             {
                 if (fields.Count() == 0)
                     break;
+
                 while (true)
                 {
-                    var point = fields.GetRandom();
-                    var orient = (Orientation)rand.Next(2);
-                    var block = Enumerable.Range(0, i).Select(k => (X: point.X, Y: point.Y + k));
-                    
-                    if (block.All(k => fields.Contains(k)) && block.GetNeighbours().All(k => fields.Contains(k)))
+                    var (X, Y) = fields.GetRandom();
+                    var isHorizontal = Convert.ToBoolean(rand.Next(2));
+                    var block = Enumerable.Range(0, i)
+                        .Select(k => isHorizontal ? (X, Y: Y + k) : (X: X + k, Y));
+                    var neighs = block.GetNeighbours().Where(i => IsInBounds(height, width, i));
+
+                    if (block.All(k => fields.Contains(k)) && neighs.All(k => fields.Contains(k)))
                     {
-                        fields.Except(block);
+                        fields = fields.Except(block).Except(neighs);
                         blocks.Add(block.ToArray());
                         break;
                     }
@@ -51,16 +59,24 @@ public class Map
         }
         return new Map(height, width, blocks);
     }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+
+        for (var i = 0; i < MapHeight; i++)
+        {
+            for (var j = 0; j < MapWidth; j++)
+                builder.Append((int)Cells[i, j]);
+            builder.Append('\n');
+        }
+
+        return builder.ToString();
+    }
 }
 
 public enum Cell
 {
     Empty,
     Wall
-}
-
-public enum Orientation
-{
-    Vertical,
-    Horizontal
 }

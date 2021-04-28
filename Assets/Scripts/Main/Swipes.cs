@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Swipes : MonoBehaviour
 {
-    private GameObject Form;
+    private Transform Form;
     private float x1, x2;
     private Rotation rotation;
     private const int MinSwipeLenX = 20;
@@ -13,7 +13,7 @@ public class Swipes : MonoBehaviour
 
     void Start()
     {
-        Form = GameObject.Find("FormsPlace");
+        Form = GameObject.Find("FormsPlace").transform;
         rotation = Rotation.None;
     }
 
@@ -36,13 +36,13 @@ public class Swipes : MonoBehaviour
                 rotation = Rotation.Left;
         }
 
-        Form.transform.RotateAround(RotationPoint, RotationAxis, (int) rotation * -RotationSpeed * Time.deltaTime);
+        Form.RotateAround(RotationPoint, RotationAxis, (int) rotation * -RotationSpeed * Time.deltaTime);
 
         if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
         {
-            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
             rotation = Rotation.None;
-            Form.transform.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
+            Form.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
+            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
         }
     }
 }
