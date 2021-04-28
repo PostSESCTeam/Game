@@ -26,7 +26,12 @@ public class Act : MonoBehaviour
         if (isLiked)
             Main.AddLiked(form.CurForm);
         else
+        {
             Main.AddDisliked(form.CurForm);
+            if (new System.Random().NextDouble() <= form.CurForm.FightProbability) ;
+                //start duel
+        }
+            
         love += isLiked ? 1 : -1;
         scale.UpdateScale(love);
 
