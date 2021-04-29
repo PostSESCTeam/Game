@@ -18,7 +18,7 @@ public class Map
         Blocks = blocks;
         Cells = new Cell[MapHeight, MapWidth];
         foreach (var (X, Y) in blocks.SelectMany(i => i))
-            Cells[X, Y] = Cell.Wall;
+            Cells[Y, X] = Cell.Wall;
     }
 
     private static bool IsInBounds(int height, int width, (int X, int Y) point) 
@@ -27,8 +27,10 @@ public class Map
     public static Map GenerateMap(int height, int width)
     {
         var blocks = new List<(int X, int Y)[]>();
-        var rand = new System.Random();
-        var fields = Enumerable.Range(0, height).SelectMany(i => Enumerable.Range(0, width).Select(j => (X: i, Y: j)));
+        var rand = new Random();
+        var fields = Enumerable.Range(0, height)
+            .SelectMany(i => Enumerable.Range(0, width).Select(j => (X: j, Y: i)))
+            .ToArray();
 
         foreach (var i in BlockAmount.Keys)
         {
@@ -45,12 +47,13 @@ public class Map
                     var (X, Y) = fields.GetRandom();
                     var isHorizontal = Convert.ToBoolean(rand.Next(2));
                     var block = Enumerable.Range(0, i)
-                        .Select(k => isHorizontal ? (X, Y: Y + k) : (X: X + k, Y));
-                    var neighs = block.GetNeighbours().Where(i => IsInBounds(height, width, i));
+                        .Select(k => isHorizontal ? (X, Y: Y + k) : (X: X + k, Y))
+                        .ToArray();
+                    var neighs = block.GetNeighbours().Where(i => IsInBounds(height, width, i)).ToArray();
 
                     if (block.All(k => fields.Contains(k)) && neighs.All(k => fields.Contains(k)))
                     {
-                        fields = fields.Except(block).Except(neighs);
+                        fields = fields.Except(block).Except(neighs).ToArray();
                         blocks.Add(block.ToArray());
                         break;
                     }
