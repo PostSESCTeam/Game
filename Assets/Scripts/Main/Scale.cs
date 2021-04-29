@@ -7,7 +7,10 @@ public class Scale : MonoBehaviour
     private Image scale;
     private float fillAmount = 0.5f;
 
-    private void Start() => scale = transform.GetComponentInChildren<Image>();
+    private void Start()
+    {
+        scale = transform.GetComponentInChildren<Image>();
+    }
 
     //TODO: smooth changing
     public void UpdateScale(int newScaleValue) => scale.fillAmount = (float)newScaleValue / ScaleSize;

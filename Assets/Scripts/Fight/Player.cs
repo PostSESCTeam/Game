@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     private const float stepSize = 0.1f;
     private SpriteRenderer sprite;
     private float speed = 5.0f;
-    public Transform bullet;
+    public Transform transformBullet;
 
     private void Start()
     {
@@ -33,8 +33,9 @@ public class Player : MonoBehaviour
     {
         Vector3 position = transform.position;
         position.y += 0.1f;
-        var transformBullet = Instantiate(bullet, position, bullet.transform.rotation);
-        transformBullet.GetComponent<Bullet>().Direction = transform.right;
+        var bullet = Instantiate(transformBullet, position, transformBullet.transform.rotation).GetComponent<Bullet>();
+        bullet.Parent = gameObject;
         // TODO: определить правильное направление движения пули
+        bullet.Direction = transform.right;
     }
 }

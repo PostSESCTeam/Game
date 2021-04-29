@@ -1,21 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rival : MonoBehaviour
 {
-    private int lives = 3;
-    
-    void Start()
+    private int lives;
+
+    private void Start()
     {
-        
+        lives = 3;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (lives == 0)
+        if (lives < 1)
+        {
             Debug.Log("You win!");
-        
+            Destroy(gameObject);
+            FuckGoBack();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Bullet>())
+            lives--; 
+    }
+
+    public void FuckGoBack()
+    {
+        SceneManager.UnloadSceneAsync("Duel");
+        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+            i.SetActive(true);
     }
 }

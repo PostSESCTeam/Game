@@ -1949,7 +1949,7 @@ GameObject:
   - component: {fileID: 1290681930}
   m_Layer: 5
   m_Name: Scale
-  m_TagString: Untagged
+  m_TagString: DoNotRemove
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2059,7 +2059,7 @@ GameObject:
   - component: {fileID: 1311302475}
   m_Layer: 0
   m_Name: Form
-  m_TagString: Untagged
+  m_TagString: DoNotRemove
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2107,7 +2107,7 @@ GameObject:
   - component: {fileID: 1313165855}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: DoNotRemove
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

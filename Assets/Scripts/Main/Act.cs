@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Act : MonoBehaviour
 {
@@ -26,11 +26,7 @@ public class Act : MonoBehaviour
         if (isLiked)
             Main.AddLiked(form.CurForm);
         else
-        {
             Main.AddDisliked(form.CurForm);
-            if (new System.Random().NextDouble() <= form.CurForm.FightProbability) ;
-                //start duel
-        }
             
         love += isLiked ? 1 : -1;
         scale.UpdateScale(love);
@@ -39,16 +35,22 @@ public class Act : MonoBehaviour
         {
             Debug.Log("YOU DIED!");
             Destroy(FindObjectOfType<Swipes>());
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
             form.ChangeFormCard(isLiked);
+        Debug.Log(form.CurForm.Name);
+
+        SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
+        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+            i.SetActive(false);
     }
 
-    void UpdateAfterDuel()
+    void UpdateAfterDuel(bool isWin)
     {
-        var win = true;
-        var d = Math.Sign(Scale.BalancedValue - love);
-        scale.UpdateScale(win ? d : -d);
+        love = isWin 
+            ? Scale.BalancedValue 
+            : Scale.BalancedValue + (int) ((Scale.BalancedValue - love) * 1.5);
+        scale.UpdateScale(love);
     }
 }
