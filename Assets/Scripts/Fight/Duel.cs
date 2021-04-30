@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,7 +9,7 @@ public class Duel : MonoBehaviour
     private Rival rival;
     private Tilemap tilemap;
 
-    private void Awake()
+    private void Start()
     {
         map = Map.GenerateMap(10, 18);
         player = FindObjectOfType<Player>();

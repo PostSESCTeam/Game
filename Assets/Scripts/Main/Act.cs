@@ -30,6 +30,7 @@ public class Act : MonoBehaviour
             
         love += isLiked ? 1 : -1;
         scale.UpdateScale(love);
+        var fightProb = form.CurForm.FightProbability;
 
         if (love <= 0 || love >= Scale.ScaleSize)
         {
@@ -39,8 +40,15 @@ public class Act : MonoBehaviour
         }
         else
             form.ChangeFormCard(isLiked);
-        Debug.Log(form.CurForm.Name);
 
+        var rand = new System.Random();
+        if (rand.NextDouble() <= fightProb)
+            StartDuel();
+    }
+
+    void StartDuel()
+    {
+        Debug.Log(love);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(false);

@@ -1,11 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Blocks : MonoBehaviour
 {
+    private Tilemap tilemap;
+
+    private void Start()
+    {
+        tilemap = FindObjectOfType<Tilemap>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Destroy(gameObject);
+        if (collision.gameObject.name == "Bullet(Clone)")
+        {
+            var pos = collision.gameObject.transform.position;
+            tilemap.SetTile(tilemap.WorldToCell(pos), null);
+        }
     }
 }

@@ -40,9 +40,9 @@ public class Swipes : MonoBehaviour
 
         if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
         {
+            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
             rotation = Rotation.None;
             Form.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
-            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
         }
     }
 }
