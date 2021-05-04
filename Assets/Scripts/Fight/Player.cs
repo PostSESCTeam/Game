@@ -5,6 +5,9 @@ public class Player : MonoBehaviour
     private const float stepSize = 0.1f;
     private SpriteRenderer sprite;
     private float speed = 5.0f;
+
+    private Vector3 mousePosition;
+
     public Transform transformBullet;
 
     private void Start()
@@ -21,6 +24,12 @@ public class Player : MonoBehaviour
             // можно переписать на Mathf.Sign(), но там какие-то проблемы
             Run(new Vector3(dx, dy));
         }
+
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 difference = mousePosition - transform.position;
+        difference.Normalize();
+        float rotation_z = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, rotation_z);
 
         if (Input.GetButtonDown("Fire1"))
             Shoot();

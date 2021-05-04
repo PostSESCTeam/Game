@@ -49,7 +49,7 @@ public class Map
                     var block = Enumerable.Range(0, i)
                         .Select(k => isHorizontal ? (X, Y: Y + k) : (X: X + k, Y))
                         .ToArray();
-                    var neighs = block.GetNeighbours().Where(i => IsInBounds(height, width, i)).ToArray();
+                    var neighs = block.GetNeighbours().Where(x => IsInBounds(height, width, x)).ToArray();
 
                     if (block.All(k => fields.Contains(k)) && neighs.All(k => fields.Contains(k)))
                     {

@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 public class Blocks : MonoBehaviour
 {
     private Tilemap tilemap;
+    private GameObject block;
 
     private void Start()
     {
@@ -16,6 +17,7 @@ public class Blocks : MonoBehaviour
         {
             var pos = collision.gameObject.transform.position;
             tilemap.SetTile(tilemap.WorldToCell(pos), null);
+            //пока что тело блока остается на карте
         }
     }
 }

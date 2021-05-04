@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Act : MonoBehaviour
 {
-    private int love;
-    private Scale scale;
+    public Animator animator;
+    private static int love;
+    private static Scale scale;
     private Form form;
 
     private void Start() 
@@ -43,10 +45,15 @@ public class Act : MonoBehaviour
 
         var rand = new System.Random();
         if (rand.NextDouble() <= fightProb)
-            StartDuel();
+            StartFade();
     }
 
-    void StartDuel()
+    public void StartFade()
+    {
+        animator.SetTrigger("FadeOut");
+    }
+
+    public void StartDuel()
     {
         Debug.Log(love);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
@@ -54,11 +61,22 @@ public class Act : MonoBehaviour
             i.SetActive(false);
     }
 
-    void UpdateAfterDuel(bool isWin)
+    public static void UpdateAfterDuel(bool isWin)
     {
-        love = isWin 
-            ? Scale.BalancedValue 
-            : Scale.BalancedValue + (int) ((Scale.BalancedValue - love) * 1.5);
+        //love = isWin 
+          //  ? Scale.BalancedValue 
+            //: Scale.BalancedValue + (int) ((Scale.BalancedValue - love) * 1.5);
+            var d = (int) Mathf.Sign(Scale.BalancedValue - love) * 3;
+        if (love != Scale.BalancedValue)
+        {
+            if (isWin && 3 < Mathf.Abs(Scale.BalancedValue - love))
+                love += d;
+            else if (isWin)
+                love = Scale.BalancedValue;
+            else
+                love -= d;
+        } 
+        //love = isWin ? love + d : love - d;
         scale.UpdateScale(love);
     }
 }

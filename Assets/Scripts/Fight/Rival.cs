@@ -16,6 +16,7 @@ public class Rival : MonoBehaviour
         {
             Debug.Log("You win!");
             Destroy(gameObject);
+            Act.UpdateAfterDuel(true);
             FuckGoBack();
         }
     }
