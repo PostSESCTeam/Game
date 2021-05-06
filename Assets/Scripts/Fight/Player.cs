@@ -24,7 +24,6 @@ public class Player : MonoBehaviour
             Debug.Log("You lose!");
             Destroy(gameObject);
             Act.UpdateAfterDuel(false);
-            //StartFade();
         }
         if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
