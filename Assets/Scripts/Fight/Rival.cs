@@ -35,6 +35,8 @@ public class Rival : MonoBehaviour
             Destroy(gameObject);
             StartFade();
         }
+
+
     }
 
     public void Shoot()
