@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class Main
 {
@@ -9,6 +11,7 @@ public static class Main
     public static bool IsFormsOpened = true;
     public static bool IsProfileOpened = false;
 
+    private static Act actor;
     private static readonly List<FormCard> liked = new List<FormCard>();
     private static readonly List<FormCard> disliked = new List<FormCard>();
     private static readonly string path = @"Assets\Sprites\Characters\";
@@ -32,4 +35,23 @@ public static class Main
     public static void AddDisliked(FormCard newDisliked) => disliked.Add(newDisliked);
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
+
+    public static IEnumerator StartDuel(Animator animator)
+    {
+        animator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
+        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+            i.SetActive(false);
+    }
+
+    public static IEnumerator FinishDuel(Animator animator, bool isWin)
+    {
+        animator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1);
+        SceneManager.UnloadSceneAsync("Duel");
+        foreach (var i in SceneManager.GetSceneByBuildIndex(1).GetRootGameObjects())
+            i.SetActive(true);
+        yield break;
+    }
 }

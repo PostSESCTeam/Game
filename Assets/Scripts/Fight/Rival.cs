@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Rival : MonoBehaviour
 {
@@ -16,9 +15,8 @@ public class Rival : MonoBehaviour
         if (lives < 1)
         {
             Debug.Log("You win!");
-            Destroy(gameObject);
             Act.UpdateAfterDuel(true);
-            StartFade();
+            StartCoroutine(Main.FinishDuel(animator, true));
         }
     }
 
@@ -26,17 +24,5 @@ public class Rival : MonoBehaviour
     {
         if (collision.GetComponent<Bullet>())
             lives--; 
-    }
-
-    public void StartFade()
-    {
-        animator.SetTrigger("FadeOut");
-    }
-
-    public void FuckGoBack()
-    {
-        SceneManager.UnloadSceneAsync("Duel");
-        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
-            i.SetActive(true);
     }
 }
