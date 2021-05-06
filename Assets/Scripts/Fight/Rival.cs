@@ -31,7 +31,7 @@ public class Rival : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            StartFade();
+            StartCoroutine(Main.FinishDuel(animator, false));
         }
     }
 
