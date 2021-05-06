@@ -17,6 +17,9 @@ public class Blocks : MonoBehaviour
         {
             var pos = collision.gameObject.transform.position;
             tilemap.SetTile(tilemap.WorldToCell(pos), null);
+            var collider = tilemap.GetComponent<TilemapCollider2D>();
+            collider.gameObject.SetActive(false);
+            collider.gameObject.SetActive(true);
             //пока что тело блока остается на карте
         }
     }

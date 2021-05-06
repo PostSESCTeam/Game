@@ -8,6 +8,7 @@ public class Map
     public int MapHeight, MapWidth;
     public Cell[,] Cells;
     public List<(int X, int Y)[]> Blocks;
+    public List<(int X, int Y)> EmptyCells;
     public static Dictionary<int, int> BlockAmount = new (int Size, int Amount)[] { (1, 3), (2, 2), (3, 1) }
         .ToDictionary(i => i.Size, i => i.Amount);
 
@@ -19,6 +20,11 @@ public class Map
         Cells = new Cell[MapHeight, MapWidth];
         foreach (var (X, Y) in blocks.SelectMany(i => i))
             Cells[Y, X] = Cell.Wall;
+
+        EmptyCells = Enumerable.Range(0, mapHeight)
+            .SelectMany(i => Enumerable.Range(0, mapWidth).Select(j => (X: j, Y: i)))
+            .Where(i => Cells[i.Y, i.X] == Cell.Empty)
+            .ToList();
     }
 
     private static bool IsInBounds(int height, int width, (int X, int Y) point) 

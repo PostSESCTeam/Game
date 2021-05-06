@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class Rival : MonoBehaviour
 {
     private int lives;
+    public Animator animator;
 
     private void Start()
     {
@@ -17,7 +18,7 @@ public class Rival : MonoBehaviour
             Debug.Log("You win!");
             Destroy(gameObject);
             Act.UpdateAfterDuel(true);
-            FuckGoBack();
+            StartFade();
         }
     }
 
@@ -25,6 +26,11 @@ public class Rival : MonoBehaviour
     {
         if (collision.GetComponent<Bullet>())
             lives--; 
+    }
+
+    public void StartFade()
+    {
+        animator.SetTrigger("FadeOut");
     }
 
     public void FuckGoBack()

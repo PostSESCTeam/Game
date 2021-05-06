@@ -75,8 +75,7 @@ public class Act : MonoBehaviour
                 love = Scale.BalancedValue;
             else
                 love -= d;
-        } 
-        //love = isWin ? love + d : love - d;
+        }
         scale.UpdateScale(love);
     }
 }
