@@ -40,9 +40,4 @@ public class Duel : MonoBehaviour
         collider.gameObject.SetActive(false);
         collider.gameObject.SetActive(true);
     }
-
-    void Update()
-    {
-        
-    }
 }

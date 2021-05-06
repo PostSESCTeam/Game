@@ -1,6 +1,5 @@
 using System.Drawing;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Rival : MonoBehaviour
 {
@@ -22,9 +21,8 @@ public class Rival : MonoBehaviour
         if (lives < 1)
         {
             Debug.Log("You win!");
-            Destroy(gameObject);
             Act.UpdateAfterDuel(true);
-            StartFade();
+            StartCoroutine(Main.FinishDuel(animator, true));
         }
 
         var player = FindObjectOfType<Player>();
@@ -54,17 +52,5 @@ public class Rival : MonoBehaviour
         var bullet = collision.GetComponent<Bullet>();
         if (bullet && bullet.Parent != gameObject)
             lives--;
-    }
-
-    public void StartFade()
-    {
-        animator.SetTrigger("FadeOut");
-    }
-
-    public void FuckGoBack()
-    {
-        SceneManager.UnloadSceneAsync("Duel");
-        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
-            i.SetActive(true);
     }
 }
