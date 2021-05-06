@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 
     public Vector3 Direction { set => direction = value; }
 
-    public GameObject Parent { set => parent = value; }
+    public GameObject Parent { get => parent; set => parent = value; }
 
     private void Start() => Destroy(gameObject, 5);
 

@@ -220,6 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 882479418}
+  bullet: {fileID: 0}
+  fireRate: 0.8
 --- !u!95 &882479418
 Animator:
   serializedVersion: 3
@@ -780,6 +782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 882479418}
+  bullet: {fileID: 5759540862134483626, guid: 7e7492010b55be54fb2aba7bfea2fe56, type: 3}
+  fireRate: 0.8
 --- !u!1 &1717395199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,6 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed6d36090b271340afa5f8bbae9918a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireRate: 0.5
   transformBullet: {fileID: 5759540862134483626, guid: 7e7492010b55be54fb2aba7bfea2fe56, type: 3}
 --- !u!60 &1779445860
 PolygonCollider2D:
