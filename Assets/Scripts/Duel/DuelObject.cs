@@ -21,7 +21,7 @@ public abstract class DuelObject : MonoBehaviour
 
     public void Die() 
     {
-        var animator = GameObject.Find("SceneChanger_1").GetComponent<Animator>();
+        var animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
         StartCoroutine(Main.FinishDuel(animator, !(this is Player)));
     }
 
