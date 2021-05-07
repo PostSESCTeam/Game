@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Act : MonoBehaviour
 {
-    private static int love;
-    private static Scale scale;
+    private int love;
+    private Scale scale;
     private Form form;
 
     private void Start() 
@@ -23,9 +23,9 @@ public class Act : MonoBehaviour
     public void ChangeFormCard(bool isLiked)
     {
         if (isLiked)
-            Main.AddLiked(form.CurForm);
+            Main.Like(form.CurForm);
         else
-            Main.AddDisliked(form.CurForm);
+            Main.Dislike(form.CurForm);
             
         love += isLiked ? 1 : -1;
         scale.UpdateScale(love);
@@ -44,8 +44,9 @@ public class Act : MonoBehaviour
             StartCoroutine(Main.StartDuel(GameObject.Find("SceneChanger").GetComponent<Animator>()));
     }
 
-    public static void UpdateAfterDuel(bool isWin)
+    public void UpdateAfterDuel(bool isWin)
     {
+        Debug.Log(isWin ? "You win!" : "You lose!");
         var d = (int) Mathf.Sign(Scale.BalancedValue - love) * 3;
         if (love != Scale.BalancedValue)
         {

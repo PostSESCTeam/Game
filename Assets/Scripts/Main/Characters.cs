@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Characters
 {
-    private readonly List<FormCard> plotCards = new List<FormCard>(new FormCard[] {
+    private List<FormCard> plotCards = new List<FormCard>(new FormCard[] {
         new FormCard("Виктор", 433, Sex.Male, new string[] { @"Assets\Sprites\Characters\Plot\Victor.png" }, "Не кровосос, а дегустатор", 1.0, true),
         new FormCard("Фуршет", 12, Sex.Female, new string[] { @"Assets\Sprites\Characters\Plot\Fufe.png" }, "Невеста божья", 1.0, true),
         new FormCard("Марк", 129, Sex.Male, new string[] { @"Assets\Sprites\Characters\Plot\Reptiloid.png" }, "Что-то по рептилоидному", 1.0, true),

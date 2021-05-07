@@ -11,7 +11,7 @@ public static class Main
     public static bool IsFormsOpened = true;
     public static bool IsProfileOpened = false;
 
-    private static Act actor;
+    private static readonly Act actor = Object.FindObjectOfType<Act>();
     private static readonly List<FormCard> liked = new List<FormCard>();
     private static readonly List<FormCard> disliked = new List<FormCard>();
     private static readonly string path = @"Assets\Sprites\Characters\";
@@ -31,8 +31,8 @@ public static class Main
         .Select(i => i.EnumerateFiles("Bottom_*.png").Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
         .ToList();
 
-    public static void AddLiked(FormCard newLiked) => liked.Add(newLiked);
-    public static void AddDisliked(FormCard newDisliked) => disliked.Add(newDisliked);
+    public static void Like(FormCard newLiked) => liked.Add(newLiked);
+    public static void Dislike(FormCard newDisliked) => disliked.Add(newDisliked);
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
 
@@ -47,11 +47,15 @@ public static class Main
 
     public static IEnumerator FinishDuel(Animator animator, bool isWin)
     {
+        foreach (var i in Object.FindObjectsOfType<Bullet>())
+            Object.Destroy(i.gameObject);
+
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.UnloadSceneAsync("Duel");
-        foreach (var i in SceneManager.GetSceneByBuildIndex(1).GetRootGameObjects())
+        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(true);
-        yield break;
+
+        actor.UpdateAfterDuel(isWin);
     }
 }
