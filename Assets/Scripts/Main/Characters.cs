@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Characters
 {
@@ -20,12 +21,13 @@ public class Characters
 
         var res = plotCards[index];
         plotCards.RemoveAt(index);
+        Debug.Log(plotCards.Count);
         return res;
     }
 
     public FormCard TakeRandomCard(int randomAmount)
     {
-        var index = new Random().Next(plotCards.Count + randomAmount);
-        return index < plotCards.Count ? plotCards[index] : FormCard.GenerateForm();
+        var index = new System.Random().Next(plotCards.Count + randomAmount);
+        return index < plotCards.Count ? TakePlotCard(index) : FormCard.GenerateForm();
     }
 }

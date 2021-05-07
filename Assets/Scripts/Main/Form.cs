@@ -4,25 +4,38 @@ using UnityEngine.UI;
 
 public class Form : MonoBehaviour
 {
-    private int randomAmount = 5;
+    private int randomAmount = 15;
     private bool isFirst = true;
     private Characters chars;
-    private GameObject formsPlace;
-    private Text[] texts;
-    private SpriteRenderer[] drawPlaces;
+    private GameObject frontFormsPlace;
+    private GameObject backFormsPlace;
+    private Text[] frontTexts;
+    private Text[] backTexts;
+    private SpriteRenderer[] frontDrawPlaces;
+    private SpriteRenderer[] backDrawPlaces;
 
     public FormCard CurForm { get; private set; }
+    public FormCard NextForm { get; private set; }
 
-    void Start()
+    private void Start()
     {
         chars = new Characters();
-        formsPlace = GameObject.Find("FormsPlace");
-        texts = formsPlace.GetComponentsInChildren<Text>();
-        drawPlaces = Enumerable.Range(0, formsPlace.transform.childCount)
+        frontFormsPlace = GameObject.Find("FrontFormsPlace");
+        backFormsPlace = GameObject.Find("BackFormsPlace");
+        frontTexts = frontFormsPlace.GetComponentsInChildren<Text>();
+        backTexts = backFormsPlace.GetComponentsInChildren<Text>();
+        frontDrawPlaces = Enumerable.Range(0, frontFormsPlace.transform.childCount)
             .Skip(2)
-            .Select(i => formsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
+            .Select(i => frontFormsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
             .Reverse()
             .ToArray();
+        backDrawPlaces = Enumerable.Range(0, backFormsPlace.transform.childCount)
+            .Skip(2)
+            .Select(i => backFormsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
+            .Reverse()
+            .ToArray();
+        NextForm = chars.TakeRandomCard(randomAmount);
+        Redraw(NextForm, backDrawPlaces, backTexts);
         ChangeFormCard(true);
     }
 
@@ -40,20 +53,22 @@ public class Form : MonoBehaviour
         }
 
         isFirst = false;
-        CurForm = newForm;
-        Redraw();
+        CurForm = NextForm;
+        Redraw(CurForm, frontDrawPlaces, frontTexts);
+        NextForm = newForm;
+        Redraw(NextForm, backDrawPlaces, backTexts);
     }
 
-    private void Redraw()
+    private void Redraw(FormCard form, SpriteRenderer[] drawPlaces, Text[] texts)
     {
-        texts[0].text = $"{CurForm.Name}, {CurForm.Age}"; 
-        texts[1].text = CurForm.Description;
-        if (CurForm.IsSpecial)
+        texts[0].text = $"{form.Name}, {form.Age}";
+        texts[1].text = form.Description;
+        if (form.IsSpecial)
         {
             drawPlaces[0].gameObject.SetActive(true);
             for (var i = 1; i < 5; i++)
                 drawPlaces[i].gameObject.SetActive(false);
-            drawPlaces[0].sprite = CurForm.Pictures[0];
+            drawPlaces[0].sprite = form.Pictures[0];
         }
         else
         {
@@ -61,7 +76,7 @@ public class Form : MonoBehaviour
             for (var i = 1; i < 5; i++)
             {
                 drawPlaces[i].gameObject.SetActive(true);
-                drawPlaces[i].sprite = CurForm.Pictures[i - 1];
+                drawPlaces[i].sprite = form.Pictures[i - 1];
             }
         }
     }

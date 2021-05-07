@@ -13,13 +13,6 @@ public class Act : MonoBehaviour
         form = FindObjectOfType<Form>();
     }
 
-    private void Update()
-    {
-        // do we need it?
-        if (Main.IsFormsOpened && Input.GetButtonDown("Horizontal"))
-            ChangeFormCard(Input.GetAxis("Horizontal") > 0);
-    }
-
     public void ChangeFormCard(bool isLiked)
     {
         if (isLiked)

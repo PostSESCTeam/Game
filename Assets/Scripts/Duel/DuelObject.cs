@@ -9,7 +9,7 @@ public abstract class DuelObject : MonoBehaviour
 
     public void Update()
     {
-        if (lives < 1) Die();
+        if (lives == 0) Die();
     }
 
     public void Rotate(Vector3 destination)

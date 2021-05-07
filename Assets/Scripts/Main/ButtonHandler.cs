@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class ButtonHandler : MonoBehaviour
 {
     private GameObject chatPlace;
-    private GameObject formsPlace;
+    private GameObject frontFormsPlace;
+    private GameObject backFormsPlace;
     private GameObject profilePlace;
 
     private void Start()
@@ -14,14 +15,16 @@ public class ButtonHandler : MonoBehaviour
         GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);
         //TODO: chats (or not to do)
         //chatPlace = GameObject.Find("ChatsPlace");
-        formsPlace = GameObject.Find("FormsPlace");
+        frontFormsPlace = GameObject.Find("FrontFormsPlace");
+        backFormsPlace = GameObject.Find("BackFormsPlace");
         profilePlace = GameObject.Find("ProfilePlace");
     }
 
     private void Update()
     {
         //chatPlace.SetActive(Main.IsChatOpened);
-        formsPlace.SetActive(Main.IsFormsOpened);
+        frontFormsPlace.SetActive(Main.IsFormsOpened);
+        backFormsPlace.SetActive(Main.IsFormsOpened);
         profilePlace.SetActive(Main.IsProfileOpened);
     }
 

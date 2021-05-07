@@ -17,10 +17,11 @@ public class Duel : MonoBehaviour
         rival = FindObjectOfType<Rival>();
         tilemap = GameObject.Find("Tilemap").GetComponent<Tilemap>();
 
-        var playerPos = map.EmptyCells.GetRandom();
+        var emptyCells = map.EmptyCells.Where(i => i.X > 0 && i.Y < 9);
+        var playerPos = emptyCells.GetRandom();
         player.transform.position = new Vector3(playerPos.X - 9, 4 - playerPos.Y);
 
-        var rivalPos = map.EmptyCells.Except(new (int, int)[] { playerPos })
+        var rivalPos = emptyCells.Except(new (int, int)[] { playerPos })
             .Where(i => Mathf.Abs(playerPos.X - i.Item1) + Mathf.Abs(playerPos.Y - i.Item2) >= 6)
             .GetRandom();
 

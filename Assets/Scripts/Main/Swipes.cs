@@ -13,7 +13,7 @@ public class Swipes : MonoBehaviour
 
     void Start()
     {
-        Form = GameObject.Find("FormsPlace").transform;
+        Form = GameObject.Find("FrontFormsPlace").transform;
         rotation = Rotation.None;
     }
 
