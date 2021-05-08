@@ -1,5 +1,9 @@
 using System.Collections;
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public abstract class DuelObject : MonoBehaviour
 {
@@ -17,6 +21,11 @@ public abstract class DuelObject : MonoBehaviour
         Vector3 difference = (destination - transform.position).normalized;
         float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
+    }
+
+    public void Move(Vector3 target, float speed )
+    {
+        transform.position = Vector2.MoveTowards(transform.position, target, speed);
     }
 
     public void Die() 

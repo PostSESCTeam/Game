@@ -1,16 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Rival : DuelObject
+public class CrazyRival : DuelObject
 {
-    private const float fireRate = 1.5f;
+    private const float fireRate = 0.2f;
 
     private new void Update()
     {
         base.Update();
         var target = FindObjectOfType<Player>().gameObject.transform.position;
         Rotate(target);
-        Move(target, 0.008f);
+        Move(target, 0.03f);
         StartCoroutine(AutoShoot(fireRate));
     }
 }

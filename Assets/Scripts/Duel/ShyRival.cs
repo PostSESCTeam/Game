@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Rival : DuelObject
+public class ShyRival : DuelObject
 {
     private const float fireRate = 1.5f;
 
@@ -10,7 +10,7 @@ public class Rival : DuelObject
         base.Update();
         var target = FindObjectOfType<Player>().gameObject.transform.position;
         Rotate(target);
-        Move(target, 0.008f);
+        Move(-target, 0.008f);
         StartCoroutine(AutoShoot(fireRate));
     }
 }

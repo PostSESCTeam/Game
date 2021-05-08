@@ -38,15 +38,17 @@ public class FormCard
         var sex = (Sex) random.Next(2);
         var namesPath = @"Assets\Forms\" + sex.ToString() + "Names.txt";
         var names = File.ReadAllLines(namesPath);
+        var descripPath = @"Assets\Forms\Descriptions.txt";
+        var descriptions = File.ReadAllLines(descripPath);
         var pics = new Sprite[] { 
-            Main.Bodies[0], //(int) sex
-            Main.Hairs[0].GetRandom(), 
-            Main.Ups[0].GetRandom(), 
-            Main.Bottoms[0].GetRandom() 
+            Main.Bodies[(int)sex],
+            Main.Hairs[(int)sex].GetRandom(), 
+            Main.Ups[(int)sex].GetRandom(), 
+            Main.Bottoms[(int)sex].GetRandom() 
         };
 
         return new FormCard(names.GetRandom(),
-            age, sex, pics, "", random.NextDouble());
+            age, sex, pics, descriptions.GetRandom(), random.NextDouble());
         //TODO: generate description (using pregenerated info?)
     }
 }

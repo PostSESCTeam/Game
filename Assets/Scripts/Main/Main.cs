@@ -15,7 +15,7 @@ public static class Main
     private static readonly List<FormCard> liked = new List<FormCard>();
     private static readonly List<FormCard> disliked = new List<FormCard>();
     private static readonly string path = @"Assets\Sprites\Characters\";
-    private static readonly IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Female } // add Sex.Male
+    private static readonly IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
         .Select(i => new DirectoryInfo(path + i.ToString()));
 
     public static readonly List<Sprite> Bodies = sexFolders
