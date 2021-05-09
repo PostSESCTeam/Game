@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Numerics;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -9,7 +8,9 @@ public abstract class DuelObject : MonoBehaviour
 {
     private float nextFire = 0.0f;
     private int lives = 3;
-    public Transform transformBullet;
+    private Transform transformBullet;
+
+    public void Start() => transformBullet = Resources.Load<Transform>("Bullet");
 
     public void Update()
     {
@@ -23,10 +24,8 @@ public abstract class DuelObject : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
     }
 
-    public void Move(Vector3 target, float speed )
-    {
-        transform.position = Vector2.MoveTowards(transform.position, target, speed);
-    }
+    public void Move(Vector3 target, float speed) 
+        => transform.position = Vector2.MoveTowards(transform.position, target, speed);
 
     public void Die() 
     {
