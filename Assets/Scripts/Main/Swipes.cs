@@ -19,7 +19,7 @@ public class Swipes : MonoBehaviour
 
     void Update()
     {
-        if (!Main.IsFormsOpened)
+        if (!Main.IsFormsOpened || Main.IsSwipesFrozen)
             return;
 
         if (Input.GetMouseButtonDown(0))

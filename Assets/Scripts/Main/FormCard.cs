@@ -11,7 +11,7 @@ public class FormCard
     public string Description { get; private set; }
     public double FightProbability { get; private set; }
     public bool IsSpecial { get; private set; }
-    public int ID { get; private set; }
+    // public int ID { get; private set; }
 
     public FormCard(string name, int age, Sex sex, Sprite[] pictures, string description,
         double fightProbability = 1.0, bool isSpecial = false)
@@ -40,16 +40,16 @@ public class FormCard
         var names = File.ReadAllLines(namesPath);
         var descripPath = @"Assets\Forms\Descriptions.txt";
         var descriptions = File.ReadAllLines(descripPath);
-        var pics = new Sprite[] { 
-            Main.Bodies[(int)sex],
-            Main.Hairs[(int)sex].GetRandom(), 
-            Main.Ups[(int)sex].GetRandom(), 
-            Main.Bottoms[(int)sex].GetRandom() 
-        };
+        var pics = new FileInfo[] {
+            Main.Hairs[(int)sex].GetRandom(),
+            Main.Ups[(int)sex].GetRandom(),
+            Main.Bottoms[(int)sex].GetRandom()
+        }.Select(i => Utils.GetSpriteFromFile(i.ToString()));
+
+        var a = new Sprite[] { Main.Bodies[(int)sex] }.Union(pics).ToArray();
 
         return new FormCard(names.GetRandom(),
-            age, sex, pics, descriptions.GetRandom(), random.NextDouble());
-        //TODO: generate description (using pregenerated info?)
+            age, sex, a, descriptions.GetRandom(), random.NextDouble());
     }
 }
 

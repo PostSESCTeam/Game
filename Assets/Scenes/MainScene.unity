@@ -2812,7 +2812,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -4.69, y: -279.17}
-  m_SizeDelta: {x: 569.98, y: 77.58}
+  m_SizeDelta: {x: 569.98, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1357074811
 MonoBehaviour:
@@ -2836,7 +2836,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 42
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3052,7 +3052,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -4.69, y: -279.17}
-  m_SizeDelta: {x: 569.98, y: 77.58}
+  m_SizeDelta: {x: 569.98, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424966801
 MonoBehaviour:
@@ -3076,18 +3076,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 42
+    m_FontSize: 36
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 48
+    m_MaxSize: 57
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: About me
+  m_Text: About me ghjghjhjghjghjghjghjhgjhgjhjghjghjg
 --- !u!222 &1424966802
 CanvasRenderer:
   m_ObjectHideFlags: 0

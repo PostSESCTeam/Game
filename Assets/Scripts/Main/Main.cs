@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +10,7 @@ public static class Main
     public static bool IsChatOpened = false;
     public static bool IsFormsOpened = true;
     public static bool IsProfileOpened = false;
+    public static bool IsSwipesFrozen = false;
 
     private static readonly Act actor = Object.FindObjectOfType<Act>();
     private static readonly List<FormCard> liked = new List<FormCard>();
@@ -21,14 +22,14 @@ public static class Main
     public static readonly List<Sprite> Bodies = sexFolders
         .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
         .ToList();
-    public static readonly List<List<Sprite>> Hairs = sexFolders
-        .Select(i => i.EnumerateFiles("Hair_*.png").Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
+    public static readonly List<List<FileInfo>> Hairs = sexFolders
+        .Select(i => i.EnumerateFiles("Hair_*.png").ToList())
         .ToList();
-    public static readonly List<List<Sprite>> Ups = sexFolders
-        .Select(i => i.EnumerateFiles("Up_*.png").Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
+    public static readonly List<List<FileInfo>> Ups = sexFolders
+        .Select(i => i.EnumerateFiles("Up_*.png").ToList())
         .ToList();
-    public static readonly List<List<Sprite>> Bottoms = sexFolders
-        .Select(i => i.EnumerateFiles("Bottom_*.png").Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
+    public static readonly List<List<FileInfo>> Bottoms = sexFolders
+        .Select(i => i.EnumerateFiles("Bottom_*.png").ToList())
         .ToList();
 
     public static void Like(FormCard newLiked) => liked.Add(newLiked);
@@ -38,6 +39,7 @@ public static class Main
 
     public static IEnumerator StartDuel(Animator animator)
     {
+        IsSwipesFrozen = true;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
@@ -57,5 +59,6 @@ public static class Main
             i.SetActive(true);
 
         actor.UpdateAfterDuel(isWin);
+        IsSwipesFrozen = false;
     }
 }

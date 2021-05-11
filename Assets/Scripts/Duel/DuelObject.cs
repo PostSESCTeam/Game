@@ -1,8 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Quaternion = UnityEngine.Quaternion;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
 
 public abstract class DuelObject : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public abstract class DuelObject : MonoBehaviour
     private int lives = 3;
     private Transform transformBullet;
 
-    public void Start() => transformBullet = Resources.Load<Transform>("Bullet");
+    private void Start() => transformBullet = Resources.Load<Transform>("Bullet");
 
     public void Update()
     {
@@ -44,8 +41,9 @@ public abstract class DuelObject : MonoBehaviour
         if (Time.time < nextFire) return;
 
         nextFire = Time.time + fireRate;
-        Vector3 position = transform.position;
-        var bullet = Instantiate(transformBullet, position, transformBullet.transform.rotation).GetComponent<Bullet>();
+        var bullet = Instantiate(transformBullet,
+                                 transform.position,
+                                 transformBullet.transform.rotation).GetComponent<Bullet>();
         bullet.Parent = gameObject;
         bullet.Direction = transform.right;
     }
