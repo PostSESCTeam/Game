@@ -6,7 +6,6 @@ public class Rival : DuelObject
     private const float fireRate = 1.5f;
     public Action<Vector3> MoveRival;
 
-
     private new void Update()
     {
         base.Update();

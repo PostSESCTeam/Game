@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Swipes : MonoBehaviour
 {
+    private Act act;
     private Transform Form;
     private float x1, x2;
     private Rotation rotation;
@@ -13,6 +14,7 @@ public class Swipes : MonoBehaviour
 
     void Start()
     {
+        act = FindObjectOfType<Act>();
         Form = GameObject.Find("FrontFormsPlace").transform;
         rotation = Rotation.None;
     }
@@ -40,7 +42,7 @@ public class Swipes : MonoBehaviour
 
         if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
         {
-            FindObjectOfType<Act>().ChangeFormCard(rotation > 0);
+            act.ChangeFormCard(rotation > 0);
             rotation = Rotation.None;
             Form.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
         }

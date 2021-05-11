@@ -6,14 +6,14 @@ public class Bullet : MonoBehaviour
     public Vector3 Direction;
     public GameObject Parent;
 
-    private void Start() => Destroy(gameObject, 5);
+    private void Start() => Destroy(gameObject, 3);
 
     private void Update() 
         => transform.position = Vector3.MoveTowards(transform.position,
                                                     transform.position + Direction,
                                                     speed * Time.deltaTime);
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject != Parent)
             Destroy(gameObject);

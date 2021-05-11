@@ -21,7 +21,6 @@ public class Characters
 
         var res = plotCards[index];
         plotCards.RemoveAt(index);
-        Debug.Log(plotCards.Count);
         return res;
     }
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public static class Utils
 {
     public static T GetRandom<T>(this IEnumerable<T> collection)
-        => collection.ElementAt(new System.Random().Next(collection.Count()));
+        => collection.ElementAt(Random.Range(0, collection.Count()));
 
     public static IEnumerable<(int X, int Y)> GetNeighbours(this (int X, int Y) p)
     {

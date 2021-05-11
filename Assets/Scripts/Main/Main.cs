@@ -47,8 +47,10 @@ public static class Main
             i.SetActive(false);
     }
 
-    public static IEnumerator FinishDuel(Animator animator, bool isWin)
+    public static IEnumerator FinishDuel(Animator animator, DuelObject lostObject)
     {
+        var isWin = !(lostObject is Player);
+
         foreach (var i in Object.FindObjectsOfType<Bullet>())
             Object.Destroy(i.gameObject);
 

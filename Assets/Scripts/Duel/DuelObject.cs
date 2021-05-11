@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public abstract class DuelObject : MonoBehaviour
@@ -6,12 +5,13 @@ public abstract class DuelObject : MonoBehaviour
     private float nextFire = 0.0f;
     private int lives = 3;
     private Transform transformBullet;
+    private bool isDied = false;
 
     private void Start() => transformBullet = Resources.Load<Transform>("Bullet");
 
     public void Update()
     {
-        if (lives == 0) Die();
+        if (!isDied && lives == 0) Die();
     }
 
     public void Rotate(Vector3 destination)
@@ -26,14 +26,9 @@ public abstract class DuelObject : MonoBehaviour
 
     public void Die() 
     {
+        isDied = true;
         var animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
-        StartCoroutine(Main.FinishDuel(animator, !(this is Player)));
-    }
-
-    public IEnumerator AutoShoot(float fireRate)
-    {
-        yield return new WaitForSeconds(fireRate);
-        Shoot(fireRate);
+        StartCoroutine(Main.FinishDuel(animator, this));
     }
 
     public void Shoot(float fireRate)
