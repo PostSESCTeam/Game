@@ -4,8 +4,8 @@ public abstract class DuelObject : MonoBehaviour
 {
     private float nextFire = 0.0f;
     private int lives = 3;
-    private Transform transformBullet;
     private bool isDied = false;
+    private Transform transformBullet;
 
     private void Start() => transformBullet = Resources.Load<Transform>("Bullet");
 

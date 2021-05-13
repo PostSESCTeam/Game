@@ -12,7 +12,7 @@ public static class Main
     public static bool IsProfileOpened = false;
     public static bool IsSwipesFrozen = false;
 
-    private static readonly Act actor = Object.FindObjectOfType<Act>();
+    private static Act actor = Object.FindObjectOfType<Act>();
     private static readonly List<FormCard> liked = new List<FormCard>();
     private static readonly List<FormCard> disliked = new List<FormCard>();
     private static readonly string path = @"Assets\Sprites\Characters\";
@@ -39,6 +39,7 @@ public static class Main
 
     public static IEnumerator StartDuel(Animator animator)
     {
+        actor = Object.FindObjectOfType<Act>();
         IsSwipesFrozen = true;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
