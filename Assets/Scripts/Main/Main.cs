@@ -40,7 +40,7 @@ public static class Main
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
 
-    public static IEnumerator StartDuel(Animator animator)
+    public static IEnumerator StartDuel(Animator animator, string behName = null)
     {
         actor = Object.FindObjectOfType<Act>();
         IsSwipesFrozen = true;
@@ -49,6 +49,10 @@ public static class Main
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(false);
+
+        foreach (var i in SceneManager.GetSceneByBuildIndex(2).GetRootGameObjects())
+            if (i.name == "Grid")
+                i.GetComponent<Duel>().SetRivalBehaviour(behName);
     }
 
     public static IEnumerator FinishDuel(Animator animator, DuelObject lostObject)

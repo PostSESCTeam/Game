@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -28,9 +27,11 @@ public class Duel : MonoBehaviour
             .GetRandom();
 
         rival.transform.position = new Vector3(rivalPos.Item1 - 9, rivalPos.Item2 - 5);
-        rival.SetBehaviour("Standard");
+        rival.SetBehaviour((rival, target) => { }, (rival, target) => { }, (rival, fireRate) => { });
         DrawMap();
     }
+
+    public void SetRivalBehaviour(string behName = null) => rival.SetBehaviour(behName);
 
     private void DrawMap()
     {

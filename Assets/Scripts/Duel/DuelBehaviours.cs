@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class DuelBehaviours
 {
-    public static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival = new List<(string Name, Action<Rival, Vector3> Action)>
+    private static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
         ("Standard", (rival, target) => rival.Rotate(target)),
         ("Random", (rival, target) =>
@@ -15,7 +15,7 @@ public static class DuelBehaviours
         })
     }.ToDictionary(i => i.Name, i => i.Action);
 
-    public static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>
+    private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
         ("Standard", (rival, target) => rival.Move(target, 0.03f)),
         ("Shy", (rival, target) => rival.Move(-target, 0.008f)),
@@ -27,7 +27,7 @@ public static class DuelBehaviours
         })
     }.ToDictionary(i => i.Name, i => i.Action);
 
-    public static readonly Dictionary<string, Action<Rival, float>> shootRival = new List<(string, Action<Rival, float>)>
+    private static readonly Dictionary<string, Action<Rival, float>> shootRival = new List<(string, Action<Rival, float>)>
     {
         ("Standard", (rival, fireRate) => rival.Shoot(fireRate)),
         ("Random", (rival, fireRate) => rival.Shoot(UnityEngine.Random.Range(0.5f, 3f)))
@@ -46,8 +46,14 @@ public static class DuelBehaviours
             shootFunc = shootRival[behName];
         }
 
-        rival.RotateRival = target => rotateFunc(rival, target);
-        rival.MoveRival = target => moveFunc(rival, target);
-        rival.ShootRival = fireRate => shootFunc(rival, fireRate);
+        rival.SetBehaviour(rotateFunc, moveFunc, shootFunc);
+    }
+
+    public static void SetBehaviour(this Rival rival, Action<Rival, Vector3> rotate, Action<Rival, Vector3> move, Action<Rival, float> shoot)
+    {
+        Debug.Log("ye");
+        rival.RotateRival = target => rotate(rival, target);
+        rival.MoveRival = target => move(rival, target);
+        rival.ShootRival = fireRate => shoot(rival, fireRate);
     }
 }
