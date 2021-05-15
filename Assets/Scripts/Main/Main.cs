@@ -22,14 +22,17 @@ public static class Main
     public static readonly List<Sprite> Bodies = sexFolders
         .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
         .ToList();
-    public static readonly List<List<FileInfo>> Hairs = sexFolders
-        .Select(i => i.EnumerateFiles("Hair_*.png").ToList())
+    public static readonly List<List<Sprite>> Hairs = sexFolders
+        .Select(i => i.EnumerateFiles("Hair_*.png")
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
         .ToList();
-    public static readonly List<List<FileInfo>> Ups = sexFolders
-        .Select(i => i.EnumerateFiles("Up_*.png").ToList())
+    public static readonly List<List<Sprite>> Ups = sexFolders
+        .Select(i => i.EnumerateFiles("Up_*.png")
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
         .ToList();
-    public static readonly List<List<FileInfo>> Bottoms = sexFolders
-        .Select(i => i.EnumerateFiles("Bottom_*.png").ToList())
+    public static readonly List<List<Sprite>> Bottoms = sexFolders
+        .Select(i => i.EnumerateFiles("Bottom_*.png")
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
         .ToList();
 
     public static void Like(FormCard newLiked) => liked.Add(newLiked);

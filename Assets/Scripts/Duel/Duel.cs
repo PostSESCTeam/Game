@@ -5,34 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class Duel : MonoBehaviour
 {
-    public static readonly Action<Rival, Vector3>[] rotateRival = new Action<Rival, Vector3>[]
-    {
-        (rival, target) => rival.Rotate(target),
-        (rival, target) => 
-        {
-            var randPoint = UnityEngine.Random.insideUnitCircle;
-            rival.Rotate(new Vector3(randPoint.x, randPoint.y) + rival.transform.position);            
-        }
-    };
-
-    public static readonly Action<Rival, Vector3>[] moveRival = new Action<Rival, Vector3>[]
-    {
-        (rival, target) => rival.Move(target, 0.03f),
-        (rival, target) => rival.Move(-target, 0.008f),
-        (rival, target) =>
-        {
-            var direction = target.x - rival.transform.position.x;
-            if (Mathf.Abs(direction) < 7)
-                rival.Move(target, 0.004f);
-        }
-    };
-
-    public static readonly Action<Rival, float>[] shootRival = new Action<Rival, float>[]
-    {
-        (rival, fireRate) => rival.Shoot(fireRate)
-        //(rival, fireRate) => rival.Shoot(UnityEngine.Random.Range(0.5f, 3f))
-    };
-
     private Tile[] tiles;
     private Map map;
     private Player player;
@@ -56,12 +28,7 @@ public class Duel : MonoBehaviour
             .GetRandom();
 
         rival.transform.position = new Vector3(rivalPos.Item1 - 9, rivalPos.Item2 - 5);
-        var rotateFunc = rotateRival.GetRandom();
-        var moveFunc = moveRival.GetRandom();
-        var shootFunc = shootRival.GetRandom();
-        rival.RotateRival = target => rotateFunc(rival, target);
-        rival.MoveRival = target => moveFunc(rival, target);
-        rival.ShootRival = fireRate => shootFunc(rival, fireRate);
+        rival.SetBehaviour("Standard");
         DrawMap();
     }
 

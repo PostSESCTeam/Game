@@ -11,10 +11,10 @@ public class FormCard
     public string Description { get; private set; }
     public double FightProbability { get; private set; }
     public bool IsSpecial { get; private set; }
-    // public int ID { get; private set; }
+    public string CharacterSet { get; private set; }
 
     public FormCard(string name, int age, Sex sex, Sprite[] pictures, string description,
-        double fightProbability = 1.0, bool isSpecial = false)
+        double fightProbability = 1.0, bool isSpecial = false, string characterSet = null)
     {
         Name = name;
         Age = age;
@@ -23,33 +23,33 @@ public class FormCard
         Description = description;
         IsSpecial = isSpecial;
         FightProbability = fightProbability;
+        CharacterSet = characterSet;
     }
 
     public FormCard(string name, int age, Sex sex, string[] pictures, string description,
-        double fightProbability = 1.0, bool isSpecial = false) 
+        double fightProbability = 1.0, bool isSpecial = false, string characterSet = null) 
             : this(name, age, sex, pictures.Select(i => Utils.GetSpriteFromFile(i)).ToArray(), 
-                  description, fightProbability, isSpecial)
+                  description, fightProbability, isSpecial, characterSet)
     { }
 
     public static FormCard GenerateForm()
     {
-        var random = new System.Random();
-        var age = random.Next(18, 45);
-        var sex = (Sex) random.Next(2);
+        var age = Random.Range(18, 45);
+        var sex = (Sex) Random.Range(0, 2);
         var namesPath = @"Assets\Forms\" + sex.ToString() + "Names.txt";
         var names = File.ReadAllLines(namesPath);
-        var descripPath = @"Assets\Forms\Descriptions.txt";
-        var descriptions = File.ReadAllLines(descripPath);
-        var pics = new FileInfo[] {
+        var descPath = @"Assets\Forms\Descriptions.txt";
+        var descriptions = File.ReadAllLines(descPath);
+        var pics = new Sprite[]
+        {
+            Main.Bodies[(int)sex],
             Main.Hairs[(int)sex].GetRandom(),
             Main.Ups[(int)sex].GetRandom(),
             Main.Bottoms[(int)sex].GetRandom()
-        }.Select(i => Utils.GetSpriteFromFile(i.ToString()));
-
-        var a = new Sprite[] { Main.Bodies[(int)sex] }.Union(pics).ToArray();
+        };
 
         return new FormCard(names.GetRandom(),
-            age, sex, a, descriptions.GetRandom(), random.NextDouble());
+            age, sex, pics, descriptions.GetRandom(), Random.Range(0f, 1f));
     }
 }
 

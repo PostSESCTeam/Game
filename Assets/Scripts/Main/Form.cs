@@ -1,22 +1,16 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = System.Random;
 
 public class Form : MonoBehaviour
 {
     private int randomAmount = 15;
     private bool isFirst = true;
     private Characters chars;
-    private GameObject frontFormsPlace;
-    private GameObject backFormsPlace;
-    private Text[] frontTexts;
-    private Text[] backTexts;
-    private SpriteRenderer[] frontDrawPlaces;
-    private SpriteRenderer[] backDrawPlaces;
-    private SpriteRenderer spritefront;
-    private SpriteRenderer spriteback;
+    private GameObject frontFormsPlace, backFormsPlace;
+    private Text[] frontTexts, backTexts;
+    private SpriteRenderer[] frontDrawPlaces, backDrawPlaces;
+    private SpriteRenderer frontBG, backBG;
 
     public FormCard CurForm { get; private set; }
     public FormCard NextForm { get; private set; }
@@ -25,24 +19,27 @@ public class Form : MonoBehaviour
     {
         chars = new Characters();
         frontFormsPlace = GameObject.Find("FrontFormsPlace");
-        backFormsPlace = GameObject.Find("BackFormsPlace");
         frontTexts = frontFormsPlace.GetComponentsInChildren<Text>();
+        frontBG = frontFormsPlace.GetComponent<SpriteRenderer>();
+        frontDrawPlaces = GetDrawPlaces(frontFormsPlace);
+
+        backFormsPlace = GameObject.Find("BackFormsPlace");
         backTexts = backFormsPlace.GetComponentsInChildren<Text>();
-        spritefront = frontFormsPlace.gameObject.GetComponent<SpriteRenderer>();
-        spriteback = backFormsPlace.gameObject.GetComponent<SpriteRenderer>();
-        frontDrawPlaces = Enumerable.Range(0, frontFormsPlace.transform.childCount)
-            .Skip(2)
-            .Select(i => frontFormsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
-            .Reverse()
-            .ToArray();
-        backDrawPlaces = Enumerable.Range(0, backFormsPlace.transform.childCount)
-            .Skip(2)
-            .Select(i => backFormsPlace.transform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
-            .Reverse()
-            .ToArray();
+        backBG = backFormsPlace.GetComponent<SpriteRenderer>();
+        backDrawPlaces = GetDrawPlaces(backFormsPlace);
+
         NextForm = chars.TakeRandomCard(randomAmount);
-        Redraw(NextForm, backDrawPlaces, backTexts, spriteback);
+        Redraw(NextForm, backDrawPlaces, backTexts, backBG);
         ChangeFormCard(true);
+    }
+
+    private SpriteRenderer[] GetDrawPlaces(GameObject parent)
+    {
+        var parentTransform = parent.transform;
+        return Enumerable.Range(2, parentTransform.childCount - 2)
+            .Select(i => parentTransform.GetChild(i).gameObject.GetComponent<SpriteRenderer>())
+            .Reverse()
+            .ToArray();
     }
 
     public void ChangeFormCard(bool isLiked) 
@@ -60,15 +57,14 @@ public class Form : MonoBehaviour
 
         isFirst = false;
         CurForm = NextForm;
-        Redraw(CurForm, frontDrawPlaces, frontTexts, spritefront);
+        Redraw(CurForm, frontDrawPlaces, frontTexts, frontBG);
         NextForm = newForm;
-        Redraw(NextForm, backDrawPlaces, backTexts, spriteback);
+        Redraw(NextForm, backDrawPlaces, backTexts, backBG);
     }
 
-    private void Redraw(FormCard form, SpriteRenderer[] drawPlaces, Text[] texts, SpriteRenderer spritef)
+    private void Redraw(FormCard form, SpriteRenderer[] drawPlaces, Text[] texts, SpriteRenderer bg)
     {
-        var rnd = new Random();
-        spritef.color = new Color(rnd.NextFloat(0.6f, 1f), rnd.NextFloat(0.6f, 1f), rnd.NextFloat(0.8f, 1f));
+        bg.color = new Color(Random.Range(0.6f, 1), Random.Range(0.6f, 1), Random.Range(0.8f, 1));
         texts[0].text = $"{form.Name}, {form.Age}";
         texts[1].text = form.Description;
         if (form.IsSpecial)
