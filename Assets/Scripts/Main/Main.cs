@@ -12,6 +12,7 @@ public static class Main
     public static bool IsProfileOpened = false;
     public static bool IsSwipesFrozen = false;
 
+    private static string behName = null;
     private static Act actor = Object.FindObjectOfType<Act>();
     private static readonly List<FormCard> liked = new List<FormCard>();
     private static readonly List<FormCard> disliked = new List<FormCard>();
@@ -40,15 +41,23 @@ public static class Main
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
 
-    public static IEnumerator StartDuel(Animator animator)
+    public static IEnumerator StartDuel(Animator animator, string behName = null)
     {
         actor = Object.FindObjectOfType<Act>();
+        Main.behName = behName;
         IsSwipesFrozen = true;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
+        Debug.Log(Object.FindObjectOfType<Player>());
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(false);
+
+        SceneManager.sceneLoaded += (scene, sceneMode) =>
+        {
+            var duel = Object.FindObjectOfType<Duel>();
+            duel.OnInitRival += () => duel.SetRivalBehaviour(behName);
+        };
     }
 
     public static IEnumerator FinishDuel(Animator animator, DuelObject lostObject)

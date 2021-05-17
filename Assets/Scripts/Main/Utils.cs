@@ -25,4 +25,6 @@ public static class Utils
         texture.LoadImage(File.ReadAllBytes(path));
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
+
+    public static Color GetRandomColor() => new Color(Random.Range(0.6f, 1), Random.Range(0.6f, 1), Random.Range(0.8f, 1));
 }

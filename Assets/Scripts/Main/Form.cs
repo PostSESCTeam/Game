@@ -11,6 +11,7 @@ public class Form : MonoBehaviour
     private Text[] frontTexts, backTexts;
     private SpriteRenderer[] frontDrawPlaces, backDrawPlaces;
     private SpriteRenderer frontBG, backBG;
+    private Color frontColor, backColor;
 
     public FormCard CurForm { get; private set; }
     public FormCard NextForm { get; private set; }
@@ -18,6 +19,7 @@ public class Form : MonoBehaviour
     private void Start()
     {
         chars = new Characters();
+
         frontFormsPlace = GameObject.Find("FrontFormsPlace");
         frontTexts = frontFormsPlace.GetComponentsInChildren<Text>();
         frontBG = frontFormsPlace.GetComponent<SpriteRenderer>();
@@ -29,7 +31,8 @@ public class Form : MonoBehaviour
         backDrawPlaces = GetDrawPlaces(backFormsPlace);
 
         NextForm = chars.TakeRandomCard(randomAmount);
-        Redraw(NextForm, backDrawPlaces, backTexts, backBG);
+        backColor = Utils.GetRandomColor();
+        Redraw(NextForm, backDrawPlaces, backTexts, backBG, backColor);
         ChangeFormCard(true);
     }
 
@@ -57,14 +60,16 @@ public class Form : MonoBehaviour
 
         isFirst = false;
         CurForm = NextForm;
-        Redraw(CurForm, frontDrawPlaces, frontTexts, frontBG);
+        frontColor = backColor;
+        Redraw(CurForm, frontDrawPlaces, frontTexts, frontBG, frontColor);
         NextForm = newForm;
-        Redraw(NextForm, backDrawPlaces, backTexts, backBG);
+        backColor = Utils.GetRandomColor();
+        Redraw(NextForm, backDrawPlaces, backTexts, backBG, backColor);
     }
 
-    private void Redraw(FormCard form, SpriteRenderer[] drawPlaces, Text[] texts, SpriteRenderer bg)
+    private void Redraw(FormCard form, SpriteRenderer[] drawPlaces, Text[] texts, SpriteRenderer bg, Color color)
     {
-        bg.color = new Color(Random.Range(0.6f, 1), Random.Range(0.6f, 1), Random.Range(0.8f, 1));
+        bg.color = color;
         texts[0].text = $"{form.Name}, {form.Age}";
         texts[1].text = form.Description;
         if (form.IsSpecial)
