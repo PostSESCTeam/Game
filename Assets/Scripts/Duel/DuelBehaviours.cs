@@ -8,11 +8,11 @@ public static class DuelBehaviours
     private static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
         ("Standard", (rival, target) => rival.Rotate(target)),
-        ("Random", (rival, target) =>
-        {
-            var randPoint = UnityEngine.Random.insideUnitCircle;
-            rival.Rotate(new Vector3(randPoint.x, randPoint.y) + rival.transform.position);
-        })
+        //("Random", (rival, target) =>
+        //{
+        //    var randPoint = UnityEngine.Random.insideUnitCircle;
+        //    rival.Rotate(new Vector3(randPoint.x, randPoint.y) + rival.transform.position);
+        //})
     }.ToDictionary(i => i.Name, i => i.Action);
 
     private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>

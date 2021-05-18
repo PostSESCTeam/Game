@@ -67,8 +67,16 @@ public static class Main
         foreach (var i in Object.FindObjectsOfType<Bullet>())
             Object.Destroy(i.gameObject);
 
-        animator.SetTrigger("FadeOut");
-        yield return new WaitForSeconds(1);
+        if (isWin)
+        {
+            animator.SetTrigger("Winning");
+            yield return new WaitForSeconds(5);
+        }
+        else
+        {
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1);
+        }
         SceneManager.UnloadSceneAsync("Duel");
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(true);

@@ -12,8 +12,8 @@ public class Player : DuelObject
 
         // Кто придумал причислять 0 к положительным числам в Mathf.Sign...
         if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
-            Run(new Vector3(Math.Sign(Input.GetAxis("Horizontal")),
-                            Math.Sign(Input.GetAxis("Vertical"))));
+            Move(new Vector3(Math.Sign(Input.GetAxis("Horizontal")), 
+                             Math.Sign(Input.GetAxis("Vertical"))), 0.001f);
 
         Rotate(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 

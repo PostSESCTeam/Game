@@ -6,12 +6,18 @@ public abstract class DuelObject : MonoBehaviour
     private int lives = 3;
     private bool isDied = false;
     private Transform transformBullet;
+    private Rigidbody2D rigidbody;
 
-    private void Start() => transformBullet = Resources.Load<Transform>("Bullet");
+    private void Start()
+    {
+        transformBullet = Resources.Load<Transform>("Bullet");
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
 
     public void Update()
     {
         if (!isDied && lives == 0) Die();
+        rigidbody.velocity = new Vector2();
     }
 
     public void Rotate(Vector3 destination)
@@ -21,8 +27,11 @@ public abstract class DuelObject : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
     }
 
-    public void Move(Vector3 target, float speed) 
-        => transform.position = Vector2.MoveTowards(transform.position, target, speed);
+    public void Move(Vector3 target, float speed)
+    {
+        rigidbody.AddForce(target * speed, ForceMode2D.Impulse);
+        //transform.position = Vector2.MoveTowards(transform.position, target, speed);
+    }
 
     public void Die() 
     {
