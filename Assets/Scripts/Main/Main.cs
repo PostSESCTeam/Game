@@ -13,50 +13,44 @@ public static class Main
     public static bool IsSwipesFrozen = false;
 
     private static string behName = null;
-    private static Act actor = Object.FindObjectOfType<Act>();
-    private static readonly List<FormCard> liked = new List<FormCard>();
-    private static readonly List<FormCard> disliked = new List<FormCard>();
-    private static readonly string path = @"Assets\Sprites\Characters\";
-    private static readonly IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
-        .Select(i => new DirectoryInfo(path + i.ToString()));
+    private static Act actor = null;
+    private static readonly List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
 
-    public static readonly List<Sprite> Bodies = sexFolders
-        .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
-        .ToList();
-    public static readonly List<List<Sprite>> Hairs = sexFolders
-        .Select(i => i.EnumerateFiles("Hair_*.png")
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
-        .ToList();
-    public static readonly List<List<Sprite>> Ups = sexFolders
-        .Select(i => i.EnumerateFiles("Up_*.png")
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
-        .ToList();
-    public static readonly List<List<Sprite>> Bottoms = sexFolders
-        .Select(i => i.EnumerateFiles("Bottom_*.png")
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
-        .ToList();
+    public static List<Sprite> Bodies;
+    public static List<List<Sprite>> Hairs, Ups, Bottoms;
 
     public static void Like(FormCard newLiked) => liked.Add(newLiked);
     public static void Dislike(FormCard newDisliked) => disliked.Add(newDisliked);
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
 
-    public static IEnumerator StartDuel(Animator animator, string behName = null)
+    public static void Init()
+    {
+        var path = @"Assets\Sprites\Characters\";
+        var sexFolders = new Sex[] { Sex.Male, Sex.Female }.Select(i => new DirectoryInfo(path + i.ToString()));
+        Bodies = sexFolders
+            .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
+            .ToList();
+        Hairs = LoadSprites(sexFolders, "Hair_*.png");
+        Ups = LoadSprites(sexFolders, "Up_*.png");
+        Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+    }
+
+    public static IEnumerator StartDuel(Animator animator, string rivalBehName = null)
     {
         actor = Object.FindObjectOfType<Act>();
-        Main.behName = behName;
+        behName = rivalBehName;
         IsSwipesFrozen = true;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
-        Debug.Log(Object.FindObjectOfType<Player>());
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(false);
 
         SceneManager.sceneLoaded += (scene, sceneMode) =>
         {
             var duel = Object.FindObjectOfType<Duel>();
-            duel.OnInitRival += () => duel.SetRivalBehaviour(behName);
+            duel.OnInitRival += () => duel.SetRivalBehaviour(rivalBehName);
         };
     }
 
@@ -84,4 +78,9 @@ public static class Main
         actor.UpdateAfterDuel(isWin);
         IsSwipesFrozen = false;
     }
+
+    private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
+        => directories.Select(i => i.EnumerateFiles(filePattern)
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
+            .ToList();
 }

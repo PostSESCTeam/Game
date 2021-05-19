@@ -5,13 +5,22 @@ public class Scale : MonoBehaviour
 {
     public const int ScaleSize = 20, BalancedValue = ScaleSize / 2;
     private Image scale;
-    private float fillAmount = 0.5f;
+    private float oldFillAmount = (float) BalancedValue / ScaleSize,
+        newFillAmount = (float) BalancedValue / ScaleSize, t = 0.0f;
 
-    private void Start()
+    private void Start() => scale = transform.GetComponentInChildren<Image>();
+
+    private void Update()
     {
-        scale = transform.GetComponentInChildren<Image>();
+        scale.fillAmount = Mathf.Lerp(oldFillAmount, newFillAmount, t);
+        t += 0.2f * Time.deltaTime;
+
+        if (t > 1.0f)
+        {
+            oldFillAmount = newFillAmount;
+            t = 0.0f;
+        }
     }
 
-    //TODO: smooth changing
-    public void UpdateScale(int newScaleValue) => scale.fillAmount = (float)newScaleValue / ScaleSize;
+    public void UpdateScale(int newScaleValue) => newFillAmount = (float)newScaleValue / ScaleSize;
 }

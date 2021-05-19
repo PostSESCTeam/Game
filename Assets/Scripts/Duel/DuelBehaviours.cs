@@ -17,13 +17,13 @@ public static class DuelBehaviours
 
     private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
-        ("Standard", (rival, target) => rival.Move(target, 0.03f)),
-        ("Shy", (rival, target) => rival.Move(-target, 0.008f)),
+        ("Standard", (rival, target) => rival.Move(target, 0.3f)),
+        ("Shy", (rival, target) => rival.Move(-target, 0.08f)),
         ("Lazy", (rival, target) =>
         {
             var direction = target.x - rival.transform.position.x;
             if (Mathf.Abs(direction) < 7)
-                rival.Move(target, 0.004f);
+                rival.Move(target, 0.04f);
         })
     }.ToDictionary(i => i.Name, i => i.Action);
 
@@ -49,9 +49,9 @@ public static class DuelBehaviours
         rival.SetBehaviour(rotateFunc, moveFunc, shootFunc);
     }
 
-    public static void SetBehaviour(this Rival rival, Action<Rival, Vector3> rotate, Action<Rival, Vector3> move, Action<Rival, float> shoot)
+    public static void SetBehaviour(this Rival rival, Action<Rival, Vector3> rotate,
+        Action<Rival, Vector3> move, Action<Rival, float> shoot)
     {
-        Debug.Log("ye");
         rival.RotateRival = target => rotate(rival, target);
         rival.MoveRival = target => move(rival, target);
         rival.ShootRival = fireRate => shoot(rival, fireRate);

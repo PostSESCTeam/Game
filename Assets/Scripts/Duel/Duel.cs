@@ -11,6 +11,8 @@ public class Duel : MonoBehaviour
     private Rival rival;
     private Tilemap tilemap;
 
+    public event Action OnInitRival;
+
     private void Start()
     {
         tiles = Resources.LoadAll<Tile>("Tiles");
@@ -29,13 +31,10 @@ public class Duel : MonoBehaviour
             .GetRandom();
 
         rival.transform.position = new Vector3(rivalPos.Item1 - 9, rivalPos.Item2 - 5);
-        //rival.SetBehaviour((rival, target) => { }, (rival, target) => { }, (rival, fireRate) => { });
         DrawMap();
     }
 
     public void SetRivalBehaviour(string behName = null) => rival.SetBehaviour(behName);
-
-    public event Action OnInitRival;
 
     private void DrawMap()
     {
