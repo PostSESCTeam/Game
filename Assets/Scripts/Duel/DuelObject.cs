@@ -3,12 +3,12 @@ using UnityEngine;
 public abstract class DuelObject : MonoBehaviour
 {
     private float nextFire = 0.0f;
-    private int lives = 3;
+    public int lives = 3;
     private bool isDied = false;
     private Transform transformBullet;
     private new Rigidbody2D rigidbody;
 
-    private void Start()
+    public void Start()
     {
         transformBullet = Resources.Load<Transform>("Bullet");
         rigidbody = GetComponent<Rigidbody2D>();
@@ -27,7 +27,7 @@ public abstract class DuelObject : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
     }
 
-    public void Move(Vector3 target, float speed) => rigidbody.velocity = target * speed;
+    public void Move(Vector3 target, float speed) => rigidbody.velocity = target.normalized * speed;
 
     public void Die() 
     {

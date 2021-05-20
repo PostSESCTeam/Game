@@ -5,10 +5,18 @@ public class Player : DuelObject
 {
     private float speed = 10f;
     private float fireRate = 0.3f;
+    private DuelScale scale;
+
+    private new void Start()
+    {
+        base.Start();
+        scale = GameObject.Find("PlayerScale").GetComponent<DuelScale>();
+    }
 
     private new void FixedUpdate()
     {
         base.FixedUpdate();
+        scale.UpdateScale(lives);
 
         // Кто придумал причислять 0 к положительным числам в Mathf.Sign...
         if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))

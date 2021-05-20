@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ButtonHandler : MonoBehaviour
@@ -10,6 +11,7 @@ public class ButtonHandler : MonoBehaviour
 
     private void Start()
     {
+        GameObject.Find("Exit").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
         GameObject.Find("Chat").GetComponent<Button>().onClick.AddListener(OpenChat);
         GameObject.Find("Forms").GetComponent<Button>().onClick.AddListener(OpenForms);
         GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);

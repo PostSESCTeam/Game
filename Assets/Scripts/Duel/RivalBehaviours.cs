@@ -5,7 +5,8 @@ using UnityEngine;
 
 public static class RivalBehaviours
 {
-    private static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival = new List<(string Name, Action<Rival, Vector3> Action)>
+    private static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival
+        = new List<(string, Action<Rival, Vector3>)>
     {
         ("Standard", (rival, target) => rival.Rotate(target)),
         //("Random", (rival, target) =>
@@ -13,22 +14,31 @@ public static class RivalBehaviours
         //    var randPoint = UnityEngine.Random.insideUnitCircle;
         //    rival.Rotate(new Vector3(randPoint.x, randPoint.y) + rival.transform.position);
         //})
-    }.ToDictionary(i => i.Name, i => i.Action);
+    }.ToDictionary(i => i.Item1, i => i.Item2);
 
-    private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>
+    private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival
+        = new List<(string, Action<Rival, Vector3>)>
     {
-        ("Standard", (rival, target) => rival.Move(target, 3f)),
-        ("Crazy", (rival, target) => rival.Move(target, 6f)),
-        ("Shy", (rival, target) => rival.Move(-target, 0.8f)),
+        ("Standard", (rival, target) => 
+        {
+            if ((target - rival.transform.position).magnitude > 1)
+                rival.Move(target, 1f); 
+        }),
+        ("Crazy", (rival, target) =>
+        {
+            if ((target - rival.transform.position).magnitude > 3)
+                rival.Move(target, 3f);
+        }),
+        //("Shy", (rival, target) => rival.Move(-target, 0.8f)),
         ("Lazy", (rival, target) =>
         {
-            var direction = target.x - rival.transform.position.x;
-            if (Mathf.Abs(direction) < 7)
-                rival.Move(target, 0.4f);
+            if ((target - rival.transform.position).magnitude < 7)
+                rival.Move(target, 0.2f);
         })
-    }.ToDictionary(i => i.Name, i => i.Action);
+    }.ToDictionary(i => i.Item1, i => i.Item2);
 
-    private static readonly Dictionary<string, Action<Rival, float>> shootRival = new List<(string, Action<Rival, float>)>
+    private static readonly Dictionary<string, Action<Rival, float>> shootRival
+        = new List<(string, Action<Rival, float>)>
     {
         ("Standard", (rival, fireRate) => rival.Shoot(fireRate)),
         ("Crazy", (rival, fireRate) => rival.Shoot(fireRate / 2)),
