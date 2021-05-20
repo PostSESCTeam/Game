@@ -16,7 +16,7 @@ public class Duel : MonoBehaviour
     private void Start()
     {
         tiles = Resources.LoadAll<Tile>("Tiles");
-        map = Map.GenerateMap(10, 18);
+        map = Map.GenerateMap(10, 14);
         player = FindObjectOfType<Player>();
         rival = FindObjectOfType<Rival>();
         OnInitRival.Invoke();
@@ -24,13 +24,13 @@ public class Duel : MonoBehaviour
 
         var emptyCells = map.EmptyCells.Where(i => i.X > 0 && i.Y > 0);
         var playerPos = emptyCells.GetRandom();
-        player.transform.position = new Vector3(playerPos.X - 9, playerPos.Y - 5);
+        player.transform.position = new Vector3(playerPos.X - 7, playerPos.Y - 5);
 
         var rivalPos = emptyCells.Except(new (int, int)[] { playerPos })
             .Where(i => Mathf.Abs(playerPos.X - i.Item1) + Mathf.Abs(playerPos.Y - i.Item2) >= 6)
             .GetRandom();
 
-        rival.transform.position = new Vector3(rivalPos.Item1 - 9, rivalPos.Item2 - 5);
+        rival.transform.position = new Vector3(rivalPos.Item1 - 7, rivalPos.Item2 - 5);
         DrawMap();
     }
 
@@ -42,7 +42,7 @@ public class Duel : MonoBehaviour
         {
             var tile = tiles.GetRandom();
             foreach (var (X, Y) in i)
-                tilemap.SetTile(new Vector3Int(X - 9, Y - 5, 0), tile);
+                tilemap.SetTile(new Vector3Int(X - 7, Y - 5, 0), tile);
         }
 
         var collider = tilemap.GetComponent<TilemapCollider2D>();

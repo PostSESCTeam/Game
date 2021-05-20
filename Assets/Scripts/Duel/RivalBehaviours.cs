@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class DuelBehaviours
+public static class RivalBehaviours
 {
     private static readonly Dictionary<string, Action<Rival, Vector3>> rotateRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
@@ -17,36 +17,39 @@ public static class DuelBehaviours
 
     private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival = new List<(string Name, Action<Rival, Vector3> Action)>
     {
-        ("Standard", (rival, target) => rival.Move(target, 0.3f)),
-        ("Shy", (rival, target) => rival.Move(-target, 0.08f)),
+        ("Standard", (rival, target) => rival.Move(target, 3f)),
+        ("Crazy", (rival, target) => rival.Move(target, 6f)),
+        ("Shy", (rival, target) => rival.Move(-target, 0.8f)),
         ("Lazy", (rival, target) =>
         {
             var direction = target.x - rival.transform.position.x;
             if (Mathf.Abs(direction) < 7)
-                rival.Move(target, 0.04f);
+                rival.Move(target, 0.4f);
         })
     }.ToDictionary(i => i.Name, i => i.Action);
 
     private static readonly Dictionary<string, Action<Rival, float>> shootRival = new List<(string, Action<Rival, float>)>
     {
         ("Standard", (rival, fireRate) => rival.Shoot(fireRate)),
-        ("Random", (rival, fireRate) => rival.Shoot(UnityEngine.Random.Range(0.5f, 3f)))
+        ("Crazy", (rival, fireRate) => rival.Shoot(fireRate / 2)),
+        ("Random", (rival, fireRate) => rival.Shoot(UnityEngine.Random.Range(1f, 3f)))
     }.ToDictionary(i => i.Item1, i => i.Item2);
 
     public static void SetBehaviour(this Rival rival, string behName = null)
     {
-        var rotateFunc = rotateRival.GetRandom().Value;
-        var moveFunc = moveRival.GetRandom().Value;
-        var shootFunc = shootRival.GetRandom().Value;
+        Action<Rival, Vector3> rotateFunc = null, moveFunc = null;
+        Action<Rival, float> shootFunc = null;
 
         if (behName != null)
         {
-            rotateFunc = rotateRival[behName];
-            moveFunc = moveRival[behName];
-            shootFunc = shootRival[behName];
+            rotateRival.TryGetValue(behName, out rotateFunc);
+            moveRival.TryGetValue(behName, out moveFunc);
+            shootRival.TryGetValue(behName, out shootFunc);
         }
 
-        rival.SetBehaviour(rotateFunc, moveFunc, shootFunc);
+        rival.SetBehaviour(rotateFunc ?? rotateRival.GetRandom().Value,
+                           moveFunc ?? moveRival.GetRandom().Value,
+                           shootFunc ?? shootRival.GetRandom().Value);
     }
 
     public static void SetBehaviour(this Rival rival, Action<Rival, Vector3> rotate,

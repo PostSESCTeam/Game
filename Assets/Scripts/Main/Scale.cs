@@ -13,14 +13,19 @@ public class Scale : MonoBehaviour
     private void FixedUpdate()
     {
         scale.fillAmount = Mathf.Lerp(oldFillAmount, newFillAmount, t);
-        t += 0.2f * Time.deltaTime;
+        t += 0.5f * Time.deltaTime;
 
         if (t > 1.0f)
         {
             oldFillAmount = newFillAmount;
-            t = 0.0f;
+            t = 0;
         }
     }
 
-    public void UpdateScale(int newScaleValue) => newFillAmount = (float)newScaleValue / ScaleSize;
+    public void UpdateScale(int newScaleValue)
+    {
+        oldFillAmount = newFillAmount;
+        t = 0;
+        newFillAmount = (float)newScaleValue / ScaleSize;
+    }
 }

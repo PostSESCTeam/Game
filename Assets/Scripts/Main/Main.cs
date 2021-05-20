@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public static class Main
 {
@@ -11,6 +12,7 @@ public static class Main
     public static bool IsFormsOpened = true;
     public static bool IsProfileOpened = false;
     public static bool IsSwipesFrozen = false;
+    public static bool CanShoot = true;
 
     private static string behName = null;
     private static Act actor = null;
@@ -41,6 +43,7 @@ public static class Main
         actor = Object.FindObjectOfType<Act>();
         behName = rivalBehName;
         IsSwipesFrozen = true;
+        CanShoot = true;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadSceneAsync("Duel", LoadSceneMode.Additive);
@@ -57,6 +60,7 @@ public static class Main
     public static IEnumerator FinishDuel(Animator animator, DuelObject lostObject)
     {
         var isWin = !(lostObject is Player);
+        CanShoot = false;
 
         foreach (var i in Object.FindObjectsOfType<Bullet>())
             Object.Destroy(i.gameObject);
@@ -64,13 +68,24 @@ public static class Main
         if (isWin)
         {
             animator.SetTrigger("Winning");
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(2);
+            Object.FindObjectOfType<Button>().onClick.AddListener(() => EndDuel(isWin));
         }
         else
         {
             animator.SetTrigger("FadeOut");
             yield return new WaitForSeconds(1);
+            EndDuel(isWin);
         }
+    }
+
+    private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
+        => directories.Select(i => i.EnumerateFiles(filePattern)
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
+            .ToList();
+
+    private static void EndDuel(bool isWin)
+    {
         SceneManager.UnloadSceneAsync("Duel");
         foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
             i.SetActive(true);
@@ -78,9 +93,4 @@ public static class Main
         actor.UpdateAfterDuel(isWin);
         IsSwipesFrozen = false;
     }
-
-    private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
-        => directories.Select(i => i.EnumerateFiles(filePattern)
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
-            .ToList();
 }

@@ -14,7 +14,7 @@ public abstract class DuelObject : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         if (!isDied && lives == 0) Die();
         rigidbody.velocity = new Vector2();
@@ -27,7 +27,7 @@ public abstract class DuelObject : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
     }
 
-    public void Move(Vector3 target, float speed) => rigidbody.AddForce(target * speed, ForceMode2D.Impulse);
+    public void Move(Vector3 target, float speed) => rigidbody.velocity = target * speed;
 
     public void Die() 
     {
@@ -38,7 +38,7 @@ public abstract class DuelObject : MonoBehaviour
 
     public void Shoot(float fireRate)
     {
-        if (Time.time < nextFire) return;
+        if (Time.time < nextFire || !Main.CanShoot) return;
 
         nextFire = Time.time + fireRate;
         var bullet = Instantiate(transformBullet,
