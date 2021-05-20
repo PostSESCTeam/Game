@@ -69,4 +69,9 @@ public static class RivalBehaviours
         rival.MoveRival = target => move(rival, target);
         rival.ShootRival = fireRate => shoot(rival, fireRate);
     }
+
+    private static void FindMoveDirection(Vector3 start, Vector3 target, Map map)
+    {
+        // TODO: use BFS to find the path from start to target
+    }
 }
