@@ -10,7 +10,7 @@ public class Scale : MonoBehaviour
 
     private void Start() => scale = transform.GetComponentInChildren<Image>();
 
-    private void Update()
+    private void FixedUpdate()
     {
         scale.fillAmount = Mathf.Lerp(oldFillAmount, newFillAmount, t);
         t += 0.2f * Time.deltaTime;

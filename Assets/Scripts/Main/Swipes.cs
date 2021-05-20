@@ -12,14 +12,14 @@ public class Swipes : MonoBehaviour
     private readonly Vector3 RotationPoint = new Vector3(0f, -6f);
     private readonly Vector3 RotationAxis = new Vector3(0f, 0f, 1f);
 
-    void Start()
+    private void Start()
     {
         act = FindObjectOfType<Act>();
         Form = GameObject.Find("FrontFormsPlace").transform;
         rotation = Rotation.None;
     }
 
-    void Update()
+    private void Update()
     {
         if (!Main.IsFormsOpened || Main.IsSwipesFrozen)
             return;

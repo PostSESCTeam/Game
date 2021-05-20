@@ -35,9 +35,9 @@ public class ButtonHandler : MonoBehaviour
         Main.IsProfileOpened = false;
     }
 
-    // We have no chats, so this part should not work
     private void OpenChat()
     {
+        Debug.Log("ye i've opened chats");
         //CloseEverything();
         //Main.IsChatOpened = true;
     }
@@ -48,7 +48,7 @@ public class ButtonHandler : MonoBehaviour
         Main.IsFormsOpened = true;
     }
 
-    private void OpenProfile()
+    public void OpenProfile()
     {
         CloseEverything();
         Main.IsProfileOpened = true;
