@@ -9,25 +9,25 @@ using UnityEngine.UI;
 public static class Main
 {
     public static bool IsChatOpened = false;
-    public static bool IsFormsOpened = true;
-    public static bool IsProfileOpened = false;
+    public static bool IsFormsOpened = false;
+    public static bool IsProfileOpened = true;
     public static bool IsSwipesFrozen = false;
     public static bool IsCallingOpen = false;
     public static bool CanShoot = true;
 
-    private static string behName = null;
+    private static string behName;
     private static Act actor = null;
-    private static readonly List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
+    private static List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
 
-    private static string path = @"Assets\Sprites\Characters\";
+    private const string path = @"Assets\Sprites\Characters\";
     private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
         .Select(i => new DirectoryInfo(path + i.ToString()));
     public static List<Sprite> Bodies = sexFolders
         .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
         .ToList();
-    public static List<List<Sprite>> Hairs = LoadSprites(sexFolders, "Hair_*.png");
-    public static List<List<Sprite>> Ups = LoadSprites(sexFolders, "Up_*.png");
-    public static List<List<Sprite>> Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+    public static List<List<Sprite>> Hairs = LoadSprites(sexFolders, "Hair_*.png"),
+        Ups = LoadSprites(sexFolders, "Up_*.png"),
+        Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
 
     public static void Like(FormCard newLiked) => liked.Add(newLiked);
     public static void Dislike(FormCard newDisliked) => disliked.Add(newDisliked);
@@ -61,11 +61,7 @@ public static class Main
         foreach (var i in Object.FindObjectsOfType<Bullet>())
             Object.Destroy(i.gameObject);
 
-        if (isWin)
-            animator.SetTrigger("Winning");
-        else
-            animator.SetTrigger("Losing");
-
+        animator.SetTrigger(isWin ? "Winning" : "Losing");
         yield return new WaitForSeconds(2);
         Object.FindObjectOfType<Button>().onClick.AddListener(() =>
         {

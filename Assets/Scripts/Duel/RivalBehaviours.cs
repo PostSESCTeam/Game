@@ -29,7 +29,6 @@ public static class RivalBehaviours
             if ((target - rival.transform.position).magnitude > 2)
                 rival.Move(target, 3f);
         }),
-        //("Shy", (rival, target) => rival.Move(-target, 0.8f)),
         ("Lazy", (rival, target) =>
         {
             if ((target - rival.transform.position).magnitude < 7)
@@ -39,15 +38,23 @@ public static class RivalBehaviours
         //{
         //    if ((target - rival.transform.position).magnitude > 3)
         //    {
+        //        Debug.Log("rational does the job tho");
         //        var start = rival.transform.position;
-        //        var startInt = (Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.y));
-        //        var paths = FindPaths(startInt, rival.Map);
+        //        var startInt = (Mathf.FloorToInt(start.x) + 7, Mathf.FloorToInt(start.y) + 5);
 
-        //        var a = (Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y));
-        //        while (a != startInt)
+        //        Debug.Log(start);
+        //        Debug.Log(target);
+
+        //        var paths = FindPaths(startInt, rival.Map);
+        //        var a = (Mathf.FloorToInt(target.x) + 7, Mathf.FloorToInt(target.y) + 5);
+
+        //        Debug.Log(startInt);
+        //        Debug.Log(a);
+
+        //        while (paths[a] != startInt)
         //            a = paths[a];
 
-        //        var dir = new Vector3(a.Item1, a.Item2);
+        //        var dir = new Vector3(a.Item1 - 7, a.Item2 - 5);
         //        rival.Move(dir, (dir - target).magnitude);
         //    }
         //})
