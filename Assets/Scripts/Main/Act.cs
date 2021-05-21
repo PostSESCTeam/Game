@@ -5,14 +5,13 @@ public class Act : MonoBehaviour
     private int love;
     private MainScale scale;
     private Form form;
-    private Animator animator;
+    public string BehaviourName;
 
     private void Start() 
     {
         love = MainScale.BalancedValue;
         scale = FindObjectOfType<MainScale>();
         form = FindObjectOfType<Form>();
-        animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
     }
 
     public void ChangeFormCard(bool isLiked)
@@ -25,6 +24,7 @@ public class Act : MonoBehaviour
         love += isLiked ? 1 : -1;
         scale.UpdateScale(love);
         var fightProb = form.CurForm.FightProbability;
+        BehaviourName = form.CurForm.CharacterSet;
 
         if (love <= 0 || love >= MainScale.ScaleSize)
         {

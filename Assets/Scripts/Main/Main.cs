@@ -20,7 +20,8 @@ public static class Main
     private static readonly List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
 
     private static string path = @"Assets\Sprites\Characters\";
-    private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }.Select(i => new DirectoryInfo(path + i.ToString()));
+    private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
+        .Select(i => new DirectoryInfo(path + i.ToString()));
     public static List<Sprite> Bodies = sexFolders
         .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
         .ToList();
@@ -66,21 +67,21 @@ public static class Main
             animator.SetTrigger("Losing");
 
         yield return new WaitForSeconds(2);
-        Object.FindObjectOfType<Button>().onClick.AddListener(() => EndDuel(isWin));
+        Object.FindObjectOfType<Button>().onClick.AddListener(() =>
+        {
+            SceneManager.UnloadSceneAsync("Duel");
+            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+                i.SetActive(true);
+
+            actor.UpdateAfterDuel(isWin);
+            IsSwipesFrozen = false;
+            IsCallingOpen = false;
+            IsFormsOpened = true;
+        });
     }
 
     private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
         => directories.Select(i => i.EnumerateFiles(filePattern)
             .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
             .ToList();
-
-    private static void EndDuel(bool isWin)
-    {
-        SceneManager.UnloadSceneAsync("Duel");
-        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
-            i.SetActive(true);
-
-        actor.UpdateAfterDuel(isWin);
-        IsSwipesFrozen = false;
-    }
 }

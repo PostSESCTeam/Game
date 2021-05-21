@@ -13,27 +13,22 @@ public class ButtonHandler : MonoBehaviour
 
     private void Start()
     {
-        GameObject.Find("Exit").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
-        GameObject.Find("Chat").GetComponent<Button>().onClick.AddListener(OpenChat);
-        GameObject.Find("Forms").GetComponent<Button>().onClick.AddListener(OpenForms);
-        GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);
-
-        Debug.Log(GameObject.Find("Profile").GetComponent<Button>().transform.position);
-
-        animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
-        //foreach (var i in GameObject.Find("Calling").GetComponentsInChildren<Button>())
-        //{
-        //    Debug.Log(i.transform.position);
-        //    i.onClick.AddListener(() => Debug.Log("asddasdad"));
-        //    // i.onClick.AddListener(() => StartCoroutine(Main.StartDuel(animator)));
-        //}
-            
         //TODO: chats (or not to do)
         //chatPlace = GameObject.Find("ChatsPlace");
         frontFormsPlace = GameObject.Find("FrontFormsPlace");
         backFormsPlace = GameObject.Find("BackFormsPlace");
         profilePlace = GameObject.Find("ProfilePlace");
         calling = GameObject.Find("Calling");
+
+        GameObject.Find("Exit").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
+        GameObject.Find("Chat").GetComponent<Button>().onClick.AddListener(OpenChat);
+        GameObject.Find("Forms").GetComponent<Button>().onClick.AddListener(OpenForms);
+        GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);
+
+        animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
+        foreach (var i in calling.GetComponentsInChildren<Button>())
+            i.onClick.AddListener(() => StartCoroutine(Main.StartDuel(animator,
+                                                                      FindObjectOfType<Act>().BehaviourName)));
     }
 
     private void Update()
@@ -42,7 +37,7 @@ public class ButtonHandler : MonoBehaviour
         frontFormsPlace.SetActive(Main.IsFormsOpened);
         backFormsPlace.SetActive(Main.IsFormsOpened);
         profilePlace.SetActive(Main.IsProfileOpened);
-        // calling.SetActive(Main.IsCallingOpen);
+        calling.SetActive(Main.IsCallingOpen);
     }
 
     private void CloseEverything()
