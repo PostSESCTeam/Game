@@ -19,10 +19,10 @@ public static class RivalBehaviours
     private static readonly Dictionary<string, Action<Rival, Vector3>> moveRival
         = new List<(string, Action<Rival, Vector3>)>
     {
-        ("Standard", (rival, target) => 
+        ("Standard", (rival, target) =>
         {
             if ((target - rival.transform.position).magnitude > 1)
-                rival.Move(target, 1f); 
+                rival.Move(target, 1f);
         }),
         ("Crazy", (rival, target) =>
         {
@@ -34,7 +34,24 @@ public static class RivalBehaviours
         {
             if ((target - rival.transform.position).magnitude < 7)
                 rival.Move(target, 0.2f);
-        })
+        }),
+        //("Rational", (rival, target) =>
+        //{
+        //    Debug.Log("well fuck");
+        //    if ((target - rival.transform.position).magnitude > 3)
+        //    {
+        //        var start = rival.transform.position;
+        //        var startInt = (Mathf.FloorToInt(start.x), Mathf.FloorToInt(start.y));
+        //        var paths = FindPaths(startInt, rival.Map);
+
+        //        var a = (Mathf.FloorToInt(target.x), Mathf.FloorToInt(target.y));
+        //        while (a != startInt)
+        //            a = paths[a];
+
+        //        var dir = new Vector3(a.Item1, a.Item2);
+        //        rival.Move(dir, (dir - target).magnitude);
+        //    }
+        //})
     }.ToDictionary(i => i.Item1, i => i.Item2);
 
     private static readonly Dictionary<string, Action<Rival, float>> shootRival
@@ -70,8 +87,24 @@ public static class RivalBehaviours
         rival.ShootRival = fireRate => shoot(rival, fireRate);
     }
 
-    private static void FindMoveDirection(Vector3 start, Vector3 target, Map map)
+    private static Dictionary<(int, int), (int, int)> FindPaths((int, int) start, Map map)
     {
-        // TODO: use BFS to find the path from start to target
+        var paths = new Dictionary<(int, int), (int, int)>();
+        var queue = new Queue<(int, int)>();
+        paths.Add(start, (-1, -1));
+        queue.Enqueue(start);
+
+        while (queue.Count != 0)
+        {
+            var point = queue.Dequeue();
+            foreach (var newPoint in point.GetNeighbours()
+                .Where(i => map.IsInBounds(i) && !paths.ContainsKey(i) && map.Cells[i.Y, i.X] == Cell.Empty))
+            {
+                queue.Enqueue(newPoint);
+                paths.Add(newPoint, point);
+            }
+        }
+
+        return paths;
     }
 }

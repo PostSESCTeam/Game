@@ -19,7 +19,6 @@ public class MainMenu : MonoBehaviour
         GameObject.Find("SceneChanger").GetComponent<Animator>().SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadSceneAsync("MainScene");
-        Main.Init();
         yield return new WaitWhile(() => SceneManager.GetActiveScene().name != "MainMenu");
     }
 

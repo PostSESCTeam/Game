@@ -9,7 +9,7 @@ public class Map
     public Cell[,] Cells;
     public List<(int X, int Y)[]> Blocks;
     public List<(int X, int Y)> EmptyCells;
-    public static Dictionary<int, int> BlockAmount = new (int Size, int Amount)[] { (1, 3), (2, 2), (3, 1) }
+    public static Dictionary<int, int> BlockAmount = new (int Size, int Amount)[] { (1, 10), (2, 2), (3, 1) }
         .ToDictionary(i => i.Size, i => i.Amount);
 
     public Map(int mapHeight, int mapWidth, List<(int X, int Y)[]> blocks)
@@ -29,6 +29,9 @@ public class Map
 
     private static bool IsInBounds(int height, int width, (int X, int Y) point) 
         => (0 <= point.X) && (point.X < width) && (0 <= point.Y) && (point.Y < height);
+
+    public bool IsInBounds((int X, int Y) point)
+        => (0 <= point.X) && (point.X < MapWidth) && (0 <= point.Y) && (point.Y < MapHeight);
 
     public static Map GenerateMap(int height, int width)
     {
