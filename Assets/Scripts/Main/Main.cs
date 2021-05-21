@@ -12,6 +12,7 @@ public static class Main
     public static bool IsFormsOpened = true;
     public static bool IsProfileOpened = false;
     public static bool IsSwipesFrozen = false;
+    public static bool IsCallingOpen = false;
     public static bool CanShoot = true;
 
     private static string behName = null;

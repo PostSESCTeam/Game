@@ -36,7 +36,10 @@ public class Act : MonoBehaviour
             form.ChangeFormCard(isLiked);
 
         if (Random.Range(0f, 1f) <= fightProb)
-            StartCoroutine(Main.StartDuel(animator));
+        {
+            Main.IsCallingOpen = true;
+            Main.IsSwipesFrozen = true;
+        }
     }
 
     public void UpdateAfterDuel(bool isWin)
