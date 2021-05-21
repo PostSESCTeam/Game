@@ -18,25 +18,20 @@ public static class Main
     private static Act actor = null;
     private static readonly List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
 
-    public static List<Sprite> Bodies;
-    public static List<List<Sprite>> Hairs, Ups, Bottoms;
+    private static string path = @"Assets\Sprites\Characters\";
+    private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
+        .Select(i => new DirectoryInfo(path + i.ToString()));
+    public static List<Sprite> Bodies = sexFolders
+        .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
+        .ToList();
+    public static List<List<Sprite>> Hairs = LoadSprites(sexFolders, "Hair_*.png");
+    public static List<List<Sprite>> Ups = LoadSprites(sexFolders, "Up_*.png");
+    public static List<List<Sprite>> Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
 
     public static void Like(FormCard newLiked) => liked.Add(newLiked);
     public static void Dislike(FormCard newDisliked) => disliked.Add(newDisliked);
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
-
-    public static void Init()
-    {
-        var path = @"Assets\Sprites\Characters\";
-        var sexFolders = new Sex[] { Sex.Male, Sex.Female }.Select(i => new DirectoryInfo(path + i.ToString()));
-        Bodies = sexFolders
-            .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
-            .ToList();
-        Hairs = LoadSprites(sexFolders, "Hair_*.png");
-        Ups = LoadSprites(sexFolders, "Up_*.png");
-        Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
-    }
 
     public static IEnumerator StartDuel(Animator animator, string rivalBehName = null)
     {
@@ -66,31 +61,24 @@ public static class Main
             Object.Destroy(i.gameObject);
 
         if (isWin)
-        {
             animator.SetTrigger("Winning");
-            yield return new WaitForSeconds(2);
-            Object.FindObjectOfType<Button>().onClick.AddListener(() => EndDuel(isWin));
-        }
         else
+            animator.SetTrigger("Losing");
+
+        yield return new WaitForSeconds(2);
+        Object.FindObjectOfType<Button>().onClick.AddListener(() => 
         {
-            animator.SetTrigger("FadeOut");
-            yield return new WaitForSeconds(1);
-            EndDuel(isWin);
-        }
+            SceneManager.UnloadSceneAsync("Duel");
+            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+                i.SetActive(true);
+
+            actor.UpdateAfterDuel(isWin);
+            IsSwipesFrozen = false;
+        });
     }
 
     private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
         => directories.Select(i => i.EnumerateFiles(filePattern)
             .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
             .ToList();
-
-    private static void EndDuel(bool isWin)
-    {
-        SceneManager.UnloadSceneAsync("Duel");
-        foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
-            i.SetActive(true);
-
-        actor.UpdateAfterDuel(isWin);
-        IsSwipesFrozen = false;
-    }
 }
