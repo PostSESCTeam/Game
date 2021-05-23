@@ -33,6 +33,9 @@ public class Map
     public bool IsInBounds((int X, int Y) point)
         => (0 <= point.X) && (point.X < MapWidth) && (0 <= point.Y) && (point.Y < MapHeight);
 
+    public bool IsEmpty((int X, int Y) point)
+        => Cells[point.Y, point.X] == Cell.Empty;
+
     public static Map GenerateMap(int height, int width)
     {
         var blocks = new List<(int X, int Y)[]>();

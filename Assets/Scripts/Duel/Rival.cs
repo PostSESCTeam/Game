@@ -9,6 +9,7 @@ public class Rival : DuelObject
     public Action<float> ShootRival;
     public Map Map;
     private DuelScale scale;
+    public double NextMove = 0;
 
     private new void Start()
     {

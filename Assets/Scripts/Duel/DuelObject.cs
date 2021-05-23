@@ -27,7 +27,7 @@ public abstract class DuelObject : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, rotationZ);
     }
 
-    public void Move(Vector3 target, float speed) => rigidbody.velocity = target.normalized * speed;
+    public void Move(Vector3 direction, float speed) => rigidbody.velocity = direction.normalized * speed;
 
     public void Die() 
     {

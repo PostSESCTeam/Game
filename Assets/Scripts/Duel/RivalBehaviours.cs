@@ -31,28 +31,49 @@ public static class RivalBehaviours
         }),
         ("Lazy", (rival, target) =>
         {
-            if ((target - rival.transform.position).magnitude < 7)
+            var dist = (target - rival.transform.position).magnitude;
+            if (dist > 2 && dist < 7)
                 rival.Move(target, 0.2f);
         }),
         ("Rational", (rival, target) =>
         {
-            if ((target - rival.transform.position).magnitude > 3)
+            Debug.Log("r");
+            if ((target - rival.transform.position).magnitude > 2)
             {
                 var start = rival.transform.position;
                 var startInt = (X: Mathf.RoundToInt(start.x) + 7, Y: Mathf.RoundToInt(start.y) + 5);
-                var paths = FindPaths(startInt, rival.Map);
-                var a = (X:  Mathf.RoundToInt(target.x) + 7, Y: Mathf.RoundToInt(target.y) + 5);
+                var res = (X: Mathf.RoundToInt(target.x) + 7, Y: Mathf.RoundToInt(target.y) + 5);
+                var paths = rival.Map.FindPaths(startInt);
 
                 try
                 {
-                    while (paths[a] != startInt)
-                    a = paths[a];
+                    while (paths[res] != startInt)
+                        res = paths[res];
 
-                    var dir = new Vector3(a.X - startInt.X, a.Y - startInt.Y);
+                    var dir = new Vector3(res.X - startInt.X, res.Y - startInt.Y);
                     rival.Move(dir, 3f);
                 }
                 catch { }
             }
+        }),
+        ("Teleport", (rival, target) => 
+        {
+            if (Time.time < rival.NextMove) return;
+
+            var start = rival.transform.position;
+            var range = new int[] { -2, -1, 0, 1, 2 };
+
+            var res = range.SelectMany(i => range.Select(j => new Vector3(i, j) + target))
+                .Where(i =>
+                {
+                    var a = (X: Mathf.RoundToInt(i.x) + 7, Y: Mathf.RoundToInt(i.y) + 5);
+
+                    return rival.Map.IsInBounds(a) && rival.Map.IsEmpty(a);
+                })
+                .GetRandom();
+
+            rival.transform.position = res;
+            rival.NextMove = Time.time + 2;
         })
     }.ToDictionary(i => i.Item1, i => i.Item2);
 
@@ -89,7 +110,7 @@ public static class RivalBehaviours
         rival.ShootRival = fireRate => shoot(rival, fireRate);
     }
 
-    private static Dictionary<(int, int), (int, int)> FindPaths((int, int) start, Map map)
+    private static Dictionary<(int, int), (int, int)> FindPaths(this Map map, (int, int) start)
     {
         var paths = new Dictionary<(int, int), (int, int)>();
         var queue = new Queue<(int, int)>();
@@ -100,7 +121,7 @@ public static class RivalBehaviours
         {
             var point = queue.Dequeue();
             foreach (var newPoint in point.GetNeighbours()
-                .Where(i => map.IsInBounds(i) && !paths.ContainsKey(i) && map.Cells[i.Y, i.X] == Cell.Empty))
+                .Where(i => map.IsInBounds(i) && !paths.ContainsKey(i)))
             {
                 queue.Enqueue(newPoint);
                 paths.Add(newPoint, point);
