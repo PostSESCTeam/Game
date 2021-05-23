@@ -5,12 +5,35 @@ using System.Collections;
 
 public class MainMenu : MonoBehaviour
 {
+    private GameObject authors, settings;
+    private bool isAuthorsOpen = false;
+    private bool isSettingsOpen = false;
+
     private void Start()
     {
-        GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
-        //GameObject.Find("Options").GetComponent<Button>().onClick.AddListener(OpenForms);
-        //GameObject.Find("Authors").GetComponent<Button>().onClick.AddListener(OpenProfile);
-        GameObject.Find("Quit").GetComponent<Button>().onClick.AddListener(QuitGame);
+        authors = GameObject.Find("Authors");
+        authors.GetComponentInChildren<Button>().onClick.AddListener(() => isAuthorsOpen = false);
+        settings = GameObject.Find("Settings");
+        settings.GetComponentInChildren<Button>().onClick.AddListener(() => isSettingsOpen = false);
+
+        GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
+        GameObject.Find("OptionsBtn").GetComponent<Button>().onClick.AddListener(() =>
+        {
+            isAuthorsOpen = false;
+            isSettingsOpen = true;
+        });
+        GameObject.Find("AuthorsBtn").GetComponent<Button>().onClick.AddListener(() =>
+        {
+            isAuthorsOpen = true;
+            isSettingsOpen = false;
+        });
+        GameObject.Find("QuitBtn").GetComponent<Button>().onClick.AddListener(QuitGame);
+    }
+
+    private void Update()
+    {
+        authors.SetActive(isAuthorsOpen);
+        settings.SetActive(isSettingsOpen);
     }
 
     public IEnumerator PlayGame()

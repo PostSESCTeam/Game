@@ -37,7 +37,6 @@ public static class RivalBehaviours
         }),
         ("Rational", (rival, target) =>
         {
-            Debug.Log("r");
             if ((target - rival.transform.position).magnitude > 2)
             {
                 var start = rival.transform.position;
