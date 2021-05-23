@@ -10,6 +10,7 @@ public class InfoInput : MonoBehaviour
         input.onEndEdit.AddListener(i =>
         {
             texts[0].text = i;
+            Main.IsSwipesFrozen = false;
             Destroy(gameObject);
         });
     }

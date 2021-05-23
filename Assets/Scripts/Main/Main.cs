@@ -8,12 +8,13 @@ using UnityEngine.UI;
 
 public static class Main
 {
-    public static bool IsChatOpened = false;
-    public static bool IsFormsOpened = false;
-    public static bool IsProfileOpened = true;
-    public static bool IsSwipesFrozen = false;
-    public static bool IsCallingOpen = false;
-    public static bool CanShoot = true;
+    public static bool IsChatOpened = false,
+        IsFormsOpened = false,
+        IsProfileOpened = true,
+        IsSwipesFrozen = true,
+        IsCallingOpen = false,
+        IsTutorialOn = true,
+        CanShoot = true;
 
     private static string behName;
     private static Act actor = null;

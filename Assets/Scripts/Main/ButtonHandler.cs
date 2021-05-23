@@ -1,14 +1,9 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ButtonHandler : MonoBehaviour
 {
-    private GameObject chatPlace;
-    private GameObject frontFormsPlace;
-    private GameObject backFormsPlace;
-    private GameObject profilePlace;
-    private GameObject calling;
+    private GameObject chatPlace, frontFormsPlace, backFormsPlace, profilePlace, calling;
     private Animator animator;
 
     private void Start()
@@ -20,7 +15,6 @@ public class ButtonHandler : MonoBehaviour
         profilePlace = GameObject.Find("ProfilePlace");
         calling = GameObject.Find("Calling");
 
-        GameObject.Find("Exit").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
         GameObject.Find("Chat").GetComponent<Button>().onClick.AddListener(OpenChat);
         GameObject.Find("Forms").GetComponent<Button>().onClick.AddListener(OpenForms);
         GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);
