@@ -34,30 +34,26 @@ public static class RivalBehaviours
             if ((target - rival.transform.position).magnitude < 7)
                 rival.Move(target, 0.2f);
         }),
-        //("Rational", (rival, target) =>
-        //{
-        //    if ((target - rival.transform.position).magnitude > 3)
-        //    {
-        //        Debug.Log("rational does the job tho");
-        //        var start = rival.transform.position;
-        //        var startInt = (Mathf.FloorToInt(start.x) + 7, Mathf.FloorToInt(start.y) + 5);
+        ("Rational", (rival, target) =>
+        {
+            if ((target - rival.transform.position).magnitude > 3)
+            {
+                var start = rival.transform.position;
+                var startInt = (X: Mathf.RoundToInt(start.x) + 7, Y: Mathf.RoundToInt(start.y) + 5);
+                var paths = FindPaths(startInt, rival.Map);
+                var a = (X:  Mathf.RoundToInt(target.x) + 7, Y: Mathf.RoundToInt(target.y) + 5);
 
-        //        Debug.Log(start);
-        //        Debug.Log(target);
+                try
+                {
+                    while (paths[a] != startInt)
+                    a = paths[a];
 
-        //        var paths = FindPaths(startInt, rival.Map);
-        //        var a = (Mathf.FloorToInt(target.x) + 7, Mathf.FloorToInt(target.y) + 5);
-
-        //        Debug.Log(startInt);
-        //        Debug.Log(a);
-
-        //        while (paths[a] != startInt)
-        //            a = paths[a];
-
-        //        var dir = new Vector3(a.Item1 - 7, a.Item2 - 5);
-        //        rival.Move(dir, (dir - target).magnitude);
-        //    }
-        //})
+                    var dir = new Vector3(a.X - startInt.X, a.Y - startInt.Y);
+                    rival.Move(dir, 3f);
+                }
+                catch { }
+            }
+        })
     }.ToDictionary(i => i.Item1, i => i.Item2);
 
     private static readonly Dictionary<string, Action<Rival, float>> shootRival

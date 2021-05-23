@@ -32,6 +32,7 @@ public class Duel : MonoBehaviour
 
         rival.transform.position = new Vector3(rivalPos.Item1 - 7, rivalPos.Item2 - 5);
         rival.Map = map;
+        FindObjectOfType<Blocks>().map = map;
         DrawMap();
     }
 
