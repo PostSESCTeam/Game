@@ -6,8 +6,7 @@ using System.Collections;
 public class MainMenu : MonoBehaviour
 {
     private GameObject authors, settings;
-    private bool isAuthorsOpen = false;
-    private bool isSettingsOpen = false;
+    private bool isAuthorsOpen = false, isSettingsOpen = false, isTutorialOn = true;
 
     private void Start()
     {
@@ -15,6 +14,8 @@ public class MainMenu : MonoBehaviour
         authors.GetComponentInChildren<Button>().onClick.AddListener(() => isAuthorsOpen = false);
         settings = GameObject.Find("Settings");
         settings.GetComponentInChildren<Button>().onClick.AddListener(() => isSettingsOpen = false);
+        var toggle = GameObject.Find("TutorialToggle").GetComponent<Toggle>();
+        //toggle.onValueChanged.AddListener(() => isTutorialOn = toggle.isOn);
 
         GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
         GameObject.Find("OptionsBtn").GetComponent<Button>().onClick.AddListener(() =>
@@ -40,13 +41,17 @@ public class MainMenu : MonoBehaviour
     {
         Debug.Log("Let's get started");
         var animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
-        //Main.IsTutorialOn = GameObject.Find("TutorialToggle").GetComponent<Toggle>().isOn;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
+        animator.gameObject.SetActive(false);
+
+        var oper = SceneManager.LoadSceneAsync("MainScene");
+        //Main.IsTutorialOn = isTutorialOn;
         var animator2 = GameObject.Find("Loading").GetComponent<Animator>();
         animator2.SetTrigger("IsLoading");
-        SceneManager.LoadSceneAsync("MainScene");
-        yield return new WaitWhile(() => SceneManager.GetActiveScene().name != "MainMenu");
+
+        while (!oper.isDone)
+            yield return null;
     }
 
     public void QuitGame()
