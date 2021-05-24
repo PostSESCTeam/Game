@@ -39,9 +39,12 @@ public class MainMenu : MonoBehaviour
     public IEnumerator PlayGame()
     {
         Debug.Log("Let's get started");
+        var animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
         //Main.IsTutorialOn = GameObject.Find("TutorialToggle").GetComponent<Toggle>().isOn;
-        GameObject.Find("SceneChanger").GetComponent<Animator>().SetTrigger("FadeOut");
+        animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
+        var animator2 = GameObject.Find("Loading").GetComponent<Animator>();
+        animator2.SetTrigger("IsLoading");
         SceneManager.LoadSceneAsync("MainScene");
         yield return new WaitWhile(() => SceneManager.GetActiveScene().name != "MainMenu");
     }
