@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     private GameObject authors, settings;
     private bool isAuthorsOpen = false, isSettingsOpen = false, isTutorialOn = true;
+    public GameObject load;
 
     private void Start()
     {
@@ -16,7 +17,6 @@ public class MainMenu : MonoBehaviour
         settings.GetComponentInChildren<Button>().onClick.AddListener(() => isSettingsOpen = false);
         var toggle = GameObject.Find("TutorialToggle").GetComponent<Toggle>();
         //toggle.onValueChanged.AddListener(() => isTutorialOn = toggle.isOn);
-
         GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
         GameObject.Find("OptionsBtn").GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -47,8 +47,7 @@ public class MainMenu : MonoBehaviour
 
         var oper = SceneManager.LoadSceneAsync("MainScene");
         //Main.IsTutorialOn = isTutorialOn;
-        var animator2 = GameObject.Find("Loading").GetComponent<Animator>();
-        animator2.SetTrigger("IsLoading");
+        load.SetActive(true);
 
         while (!oper.isDone)
             yield return null;

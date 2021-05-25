@@ -6,12 +6,15 @@ public class Act : MonoBehaviour
     private MainScale scale;
     private Form form;
     public string BehaviourName;
+    public GameObject death;
 
     private void Start() 
     {
         love = MainScale.BalancedValue;
         scale = FindObjectOfType<MainScale>();
         form = FindObjectOfType<Form>();
+        death = GameObject.Find("Death");
+        death.SetActive(false);
     }
 
     public void ChangeFormCard(bool isLiked)
@@ -29,6 +32,8 @@ public class Act : MonoBehaviour
         if (love <= 0 || love >= MainScale.ScaleSize)
         {
             Debug.Log("YOU DIED!");
+            death.SetActive(true);
+            death.GetComponent<Animator>().SetTrigger("IsDead");
             Main.IsSwipesFrozen = true;
             Destroy(gameObject);
         }
