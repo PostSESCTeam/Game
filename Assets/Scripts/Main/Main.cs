@@ -14,7 +14,8 @@ public static class Main
         IsSwipesFrozen = true,
         IsCallingOpen = false,
         IsTutorialOn = true,
-        CanShoot = true;
+        CanShoot = false,
+        IsFirstDuel = true;
 
     private static string behName;
     private static Act actor = null;
@@ -40,7 +41,7 @@ public static class Main
         actor = Object.FindObjectOfType<Act>();
         behName = rivalBehName;
         IsSwipesFrozen = true;
-        CanShoot = true;
+        CanShoot = false;
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Duel", LoadSceneMode.Additive);

@@ -67,7 +67,7 @@ public static class RivalBehaviours
                 {
                     var a = (X: Mathf.RoundToInt(i.x) + 7, Y: Mathf.RoundToInt(i.y) + 5);
 
-                    return rival.Map.IsInBounds(a) && rival.Map.IsEmpty(a);
+                    return i.x > 0 && i.y > 0 && rival.Map.IsInBounds(a) && rival.Map.IsEmpty(a);
                 })
                 .GetRandom();
 

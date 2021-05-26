@@ -19,6 +19,8 @@ public class Rival : DuelObject
 
     private new void FixedUpdate()
     {
+        if (!Main.CanShoot) return;
+
         base.FixedUpdate();
         scale.UpdateScale(lives);
         var target = FindObjectOfType<Player>().gameObject.transform.position;

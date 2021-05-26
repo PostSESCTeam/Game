@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class Duel : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class Duel : MonoBehaviour
 
     private void Start()
     {
+        var tutorial = GameObject.Find("Tutorial");
+        GameObject.Find("OK").GetComponent<Button>().onClick.AddListener(() => EndTutorial(tutorial));
+
+        if (!Main.IsFirstDuel || !Main.IsTutorialOn)
+            EndTutorial(tutorial);
+
         tiles = Resources.LoadAll<Tile>("Tiles");
         map = Map.GenerateMap(10, 14);
         player = FindObjectOfType<Player>();
@@ -34,6 +41,8 @@ public class Duel : MonoBehaviour
         rival.Map = map;
         FindObjectOfType<Blocks>().map = map;
         DrawMap();
+
+        Main.IsFirstDuel = false;
     }
 
     public void SetRivalBehaviour(string behName = null) => rival.SetBehaviour(behName);
@@ -50,5 +59,11 @@ public class Duel : MonoBehaviour
         var collider = tilemap.GetComponent<TilemapCollider2D>();
         collider.gameObject.SetActive(false);
         collider.gameObject.SetActive(true);
+    }
+
+    private void EndTutorial(GameObject tutorial)
+    {
+        Destroy(tutorial);
+        Main.CanShoot = true;
     }
 }
