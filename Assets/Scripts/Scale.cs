@@ -21,7 +21,12 @@ public abstract class Scale : MonoBehaviour
         }
     }
 
-    public void Init(int maxVal) => ScaleSize = maxVal;
+    public void Init(int maxVal, float startFill = 0.5f)
+    {
+        ScaleSize = maxVal;
+        oldFillAmount = startFill;
+        newFillAmount = startFill;
+    }
 
     public void UpdateScale(int newScaleValue)
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class DuelObject : MonoBehaviour
 {
     private float nextFire = 0.0f;
-    public int lives = 10;
+    public int lives = 3;
     private bool isDied = false;
     private Transform transformBullet;
     private new Rigidbody2D rigidbody;

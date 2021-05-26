@@ -83,7 +83,7 @@ public static class Main
         Object.FindObjectOfType<Button>().onClick.AddListener(() =>
         {
             SceneManager.UnloadSceneAsync("Duel");
-            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects())
+            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects().Where(i => i.name != "Death"))
                 i.SetActive(true);
 
             actor.UpdateAfterDuel(isWin);
