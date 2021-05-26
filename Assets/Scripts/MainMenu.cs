@@ -52,7 +52,7 @@ public class MainMenu : MonoBehaviour
 
         var oper = SceneManager.LoadSceneAsync("MainScene");
         Main.IsTutorialOn = isTutorialOn;
-        Main.Chats = new List<Chat>();
+        Main.Chats = new Dictionary<string, Chat>();
         load.SetActive(true);
 
         while (!oper.isDone)

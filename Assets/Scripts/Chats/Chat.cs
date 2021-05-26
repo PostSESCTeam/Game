@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 public class Chat
 {
@@ -7,6 +8,8 @@ public class Chat
 
     public string Partner { get => partner; }
     public List<Message> Messages { get => messages; }
+
+    public Message LastMessage { get => messages.Last(); }
 
     public Chat(string partner)
     {

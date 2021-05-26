@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ public static class Main
         CanShoot = false,
         IsFirstDuel = true;
 
-    public static List<Chat> Chats;
+    public static Dictionary<string, Chat> Chats = new Dictionary<string, Chat>();
 
     private static string behName;
     private static Act actor = null;
@@ -27,23 +27,37 @@ public static class Main
     private const string path = @"Assets\Sprites\Characters\";
     private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
         .Select(i => new DirectoryInfo(path + i.ToString()));
-    public static List<Sprite> Bodies = sexFolders
+    public static Sprite[] Bodies = sexFolders
         .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
-        .ToList();
-    public static List<List<Sprite>> Hairs = LoadSprites(sexFolders, "Hair_*.png"),
+        .ToArray();
+    public static Sprite[][] Hairs = LoadSprites(sexFolders, "Hair_*.png"),
         Ups = LoadSprites(sexFolders, "Up_*.png"),
         Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+
+    private static readonly string[][] names = new Sex[] { Sex.Male, Sex.Female }
+        .Select(i => File.ReadAllLines(@"Assets\Forms\" + i.ToString() + "Names.txt"))
+        .ToArray();
+    private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
+
+    private static string chatsPath = @"Assets\Chats";
+    public static Dictionary<string, Dialog> dialogs = new DirectoryInfo(chatsPath).EnumerateFiles()
+        .Select(i => (i.Name, new Dialog(File.ReadAllLines(i.FullName))))
+        .ToDictionary(i => i.Item1, i => i.Item2);
 
     public static void Like(FormCard newLiked)
     {
         liked.Add(newLiked);
-        StartChat(newLiked);
+        
+        if (newLiked.IsSpecial)
+            StartChat(newLiked);
     }
 
     public static void Dislike(FormCard newDisliked)
     {
         disliked.Add(newDisliked);
-        StartChat(newDisliked);
+
+        if (newDisliked.IsSpecial)
+            StartChat(newDisliked);
     }
 
     public static IEnumerable<FormCard> GetLiked() => liked;
@@ -93,15 +107,20 @@ public static class Main
         });
     }
 
-    private static List<List<Sprite>> LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
+    private static Sprite[][] LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
         => directories.Select(i => i.EnumerateFiles(filePattern)
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
-            .ToList();
+            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToArray())
+            .ToArray();
 
     private static Chat StartChat(FormCard pers)
     {
-        var chat = new Chat($"{pers.Name}, {pers.Age}");
-
+        var partner = $"{pers.Name}, {pers.Age}";
+        var chat = new Chat(partner);
+        chat.SendMessage(partner, "Привет, Фуршет!");
+        Chats[partner] = chat;
         return chat;
     }
+
+    public static string GetRandomName(Sex sex) => names[(int)sex].GetRandom();
+    public static string GetRandomDesc() => descs.GetRandom();
 }
