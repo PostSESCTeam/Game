@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 public static class Main
 {
@@ -16,6 +17,8 @@ public static class Main
         IsTutorialOn = true,
         CanShoot = false,
         IsFirstDuel = true;
+
+    public static List<Chat> Chats;
 
     private static string behName;
     private static Act actor = null;
@@ -31,8 +34,18 @@ public static class Main
         Ups = LoadSprites(sexFolders, "Up_*.png"),
         Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
 
-    public static void Like(FormCard newLiked) => liked.Add(newLiked);
-    public static void Dislike(FormCard newDisliked) => disliked.Add(newDisliked);
+    public static void Like(FormCard newLiked)
+    {
+        liked.Add(newLiked);
+        StartChat(newLiked);
+    }
+
+    public static void Dislike(FormCard newDisliked)
+    {
+        disliked.Add(newDisliked);
+        StartChat(newDisliked);
+    }
+
     public static IEnumerable<FormCard> GetLiked() => liked;
     public static IEnumerable<FormCard> GetDisliked() => disliked;
 
@@ -51,7 +64,9 @@ public static class Main
         SceneManager.sceneLoaded += (scene, sceneMode) =>
         {
             var duel = Object.FindObjectOfType<Duel>();
-            duel.OnInitRival += () => duel.SetRivalBehaviour(rivalBehName);
+
+            if (duel)
+                duel.OnInitRival += () => duel.SetRivalBehaviour(behName);
         };
     }
 
@@ -82,4 +97,11 @@ public static class Main
         => directories.Select(i => i.EnumerateFiles(filePattern)
             .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToList())
             .ToList();
+
+    private static Chat StartChat(FormCard pers)
+    {
+        var chat = new Chat($"{pers.Name}, {pers.Age}");
+
+        return chat;
+    }
 }

@@ -24,8 +24,8 @@ public class Rival : DuelObject
         base.FixedUpdate();
         scale.UpdateScale(lives);
         var target = FindObjectOfType<Player>().gameObject.transform.position;
-        RotateRival(target);
         MoveRival(target);
+        RotateRival(target);
         ShootRival(fireRate);
     }
 }

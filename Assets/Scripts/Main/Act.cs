@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Act : MonoBehaviour
 {
@@ -14,6 +16,11 @@ public class Act : MonoBehaviour
         scale = FindObjectOfType<MainScale>();
         form = FindObjectOfType<Form>();
         death = GameObject.Find("Death");
+        death.GetComponentInChildren<Button>().onClick.AddListener(() =>
+        {
+            Debug.Log("act");
+            SceneManager.LoadScene("MainMenu");
+        });
         death.SetActive(false);
     }
 

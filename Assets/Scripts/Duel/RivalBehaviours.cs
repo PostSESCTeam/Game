@@ -62,17 +62,19 @@ public static class RivalBehaviours
             var start = rival.transform.position;
             var range = new int[] { -2, -1, 0, 1, 2 };
 
-            var res = range.SelectMany(i => range.Select(j => new Vector3(i, j) + target))
+            var cells = range.SelectMany(i => range.Select(j => new Vector3(i, j) + target))
                 .Where(i =>
                 {
                     var a = (X: Mathf.RoundToInt(i.x) + 7, Y: Mathf.RoundToInt(i.y) + 5);
 
-                    return i.x > 0 && i.y > 0 && rival.Map.IsInBounds(a) && rival.Map.IsEmpty(a);
-                })
-                .GetRandom();
+                    return a.X > 0 && a.Y > 0 && rival.Map.IsInBounds(a) && rival.Map.IsEmpty(a);
+                });
 
-            rival.transform.position = res;
-            rival.NextMove = Time.time + 2;
+            if (cells.Count() > 0)
+            {
+                rival.transform.position = cells.GetRandom();
+                rival.NextMove = Time.time + 2;
+            }
         })
     }.ToDictionary(i => i.Item1, i => i.Item2);
 

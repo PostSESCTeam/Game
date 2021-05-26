@@ -8,26 +8,24 @@ public class ButtonHandler : MonoBehaviour
 
     private void Start()
     {
-        //TODO: chats (or not to do)
-        //chatPlace = GameObject.Find("ChatsPlace");
+        chatPlace = GameObject.Find("ChatPlace");
         frontFormsPlace = GameObject.Find("FrontFormsPlace");
         backFormsPlace = GameObject.Find("BackFormsPlace");
         profilePlace = GameObject.Find("ProfilePlace");
         calling = GameObject.Find("Calling");
 
+        animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
+        foreach (var i in calling.GetComponentsInChildren<Button>())
+            i.onClick.AddListener(() => StartCoroutine(Main.StartDuel(animator, FindObjectOfType<Act>().BehaviourName)));
+
         GameObject.Find("Chat").GetComponent<Button>().onClick.AddListener(OpenChat);
         GameObject.Find("Forms").GetComponent<Button>().onClick.AddListener(OpenForms);
         GameObject.Find("Profile").GetComponent<Button>().onClick.AddListener(OpenProfile);
-
-        animator = GameObject.Find("SceneChanger").GetComponent<Animator>();
-        foreach (var i in calling.GetComponentsInChildren<Button>())
-            i.onClick.AddListener(() => StartCoroutine(Main.StartDuel(animator,
-                                                                      FindObjectOfType<Act>().BehaviourName)));
     }
 
     private void Update()
     {
-        // chatPlace.SetActive(Main.IsChatOpened);
+        chatPlace.SetActive(Main.IsChatOpened);
         frontFormsPlace.SetActive(Main.IsFormsOpened);
         backFormsPlace.SetActive(Main.IsFormsOpened);
         profilePlace.SetActive(Main.IsProfileOpened);
@@ -44,9 +42,8 @@ public class ButtonHandler : MonoBehaviour
 
     private void OpenChat()
     {
-        Debug.Log("ye i've opened chats");
-        //CloseEverything();
-        //Main.IsChatOpened = true;
+        CloseEverything();
+        Main.IsChatOpened = true;
     }
 
     private void OpenForms()

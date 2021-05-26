@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour
 {
-    private GameObject authors, settings;
+    private GameObject authors, settings, load;
     private bool isAuthorsOpen = false, isSettingsOpen = false, isTutorialOn = true;
-    public GameObject load;
 
     private void Start()
     {
@@ -15,8 +15,13 @@ public class MainMenu : MonoBehaviour
         authors.GetComponentInChildren<Button>().onClick.AddListener(() => isAuthorsOpen = false);
         settings = GameObject.Find("Settings");
         settings.GetComponentInChildren<Button>().onClick.AddListener(() => isSettingsOpen = false);
-        var toggle = GameObject.Find("TutorialToggle").GetComponent<Toggle>();
-        //toggle.onValueChanged.AddListener(() => isTutorialOn = toggle.isOn);
+
+        load = GameObject.Find("Loading");
+        load.SetActive(false);
+
+        var toggle = FindObjectOfType<Toggle>();
+        toggle.onValueChanged.AddListener(value => isTutorialOn = value);
+
         GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
         GameObject.Find("OptionsBtn").GetComponent<Button>().onClick.AddListener(() =>
         {
@@ -46,7 +51,8 @@ public class MainMenu : MonoBehaviour
         animator.gameObject.SetActive(false);
 
         var oper = SceneManager.LoadSceneAsync("MainScene");
-        //Main.IsTutorialOn = isTutorialOn;
+        Main.IsTutorialOn = isTutorialOn;
+        Main.Chats = new List<Chat>();
         load.SetActive(true);
 
         while (!oper.isDone)
