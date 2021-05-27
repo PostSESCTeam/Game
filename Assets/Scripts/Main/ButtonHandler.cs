@@ -19,7 +19,9 @@ public class ButtonHandler : MonoBehaviour
         foreach (var i in calling.GetComponentsInChildren<Button>())
             i.onClick.AddListener(() => StartCoroutine(Main.StartDuel(animator, FindObjectOfType<Act>().BehaviourName)));
 
-        GameObject.Find("ChatIcon").GetComponent<Button>().onClick.AddListener(OpenChat);
+        var chat = GameObject.Find("ChatIcon");
+        Main.ChatsBtnImg = chat.GetComponent<Image>(); 
+        chat.GetComponent<Button>().onClick.AddListener(OpenChat);
         GameObject.Find("FormsIcon").GetComponent<Button>().onClick.AddListener(OpenForms);
         GameObject.Find("ProfileIcon").GetComponent<Button>().onClick.AddListener(OpenProfile);
     }
@@ -45,6 +47,8 @@ public class ButtonHandler : MonoBehaviour
     {
         CloseEverything();
         Main.IsChatOpened = true;
+
+        Main.ChatsBtnImg.sprite = Main.RegularChats;
     }
 
     private void OpenForms()

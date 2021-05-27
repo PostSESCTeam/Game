@@ -42,8 +42,13 @@ public static class Main
         .ToArray();
     private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
 
+    public static Sprite RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
+    public static Sprite NewMessageChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\ChatNotification.png");
+
     private static int likedAmount = 0;
     public static Text Desc;
+    public static Image ChatsBtnImg;
+
     public static Dictionary<string, Dialog> Dialogs;
     public static Dictionary<string, double> FightProbabs = new Dictionary<string, double>();
     public static Dictionary<string, bool> IsLiked = new Dictionary<string, bool>();
@@ -125,6 +130,8 @@ public static class Main
 
     private static Chat StartChat(FormCard pers, bool isLiked)
     {
+        ChatsBtnImg.sprite = NewMessageChats;
+
         var partner = pers.FullName;
         FightProbabs[partner] = pers.FightProbability;
         var chat = new Chat(partner);
