@@ -3,7 +3,7 @@
 public class Dialog
 {
     private string[][][] partnersPhrases, playersPhrases;
-    private int phraseIndex = 0, phrasesCount;
+    public int phraseIndex = 1, phrasesCount;
 
     public Dialog(string[] file)
     {
@@ -20,6 +20,7 @@ public class Dialog
             else
             {
                 var strs = buffer.ToArray();
+                buffer.Clear();
                 if (i == string.Empty)
                 {
                     if (playerLiked.Count == playerDisliked.Count)
@@ -42,17 +43,17 @@ public class Dialog
                 }
                 else
                 {
-                    if (playerLiked.Count == partnerLiked.Count)
-                        playerLiked.Add(strs);
-                    else
+                    if (partnerLiked.Count == playerLiked.Count)
                         partnerLiked.Add(strs);
+                    else
+                        playerLiked.Add(strs);
                 }
             }
         }
 
         phrasesCount = partnerLiked.Count;
         partnersPhrases = new[] { partnerLiked.ToArray(), partnerDisliked.ToArray() };
-        partnersPhrases = new[] { playerLiked.ToArray(), playerDisliked.ToArray() };
+        playersPhrases = new[] { playerLiked.ToArray(), playerDisliked.ToArray() };
     }
 
     private string[] GetPhraseList(bool isLiked, string[][][] phrases)
@@ -60,8 +61,11 @@ public class Dialog
 
     public (string[], string[]) GetNextPhrases(bool isLiked)
     {
-        var res = (GetPhraseList(isLiked, partnersPhrases), GetPhraseList(isLiked, playersPhrases));
+        var res = (GetPartnersPhrases(isLiked), GetPlayersPhrases(isLiked));
         phraseIndex++;
         return res;
     }
+
+    public string[] GetPartnersPhrases(bool isLiked) => GetPhraseList(isLiked, partnersPhrases);
+    public string[] GetPlayersPhrases(bool isLiked) => GetPhraseList(isLiked, playersPhrases);
 }

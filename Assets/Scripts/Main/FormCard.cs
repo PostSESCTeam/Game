@@ -13,6 +13,8 @@ public class FormCard
     public string LatinName { get; private set; }
     public string CharacterSet { get; private set; }
 
+    public string FullName { get => $"{Name}, {Age}"; }
+
     public FormCard(string name, int age, Sex sex, Sprite[] pictures, string description,
         double fightProbability = 0.0, bool isSpecial = false, string latinName = null, string characterSet = null)
     {

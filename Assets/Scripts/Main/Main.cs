@@ -39,25 +39,25 @@ public static class Main
         .ToArray();
     private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
 
-    private static string chatsPath = @"Assets\Chats";
-    public static Dictionary<string, Dialog> dialogs = new DirectoryInfo(chatsPath).EnumerateFiles()
-        .Select(i => (i.Name, new Dialog(File.ReadAllLines(i.FullName))))
-        .ToDictionary(i => i.Item1, i => i.Item2);
+    public static Dictionary<string, Dialog> Dialogs;
+    public static Dictionary<string, bool> IsLiked = new Dictionary<string, bool>();
 
     public static void Like(FormCard newLiked)
     {
         liked.Add(newLiked);
+        IsLiked[newLiked.FullName] = true;
         
         if (newLiked.IsSpecial)
-            StartChat(newLiked);
+            StartChat(newLiked, true);
     }
 
     public static void Dislike(FormCard newDisliked)
     {
         disliked.Add(newDisliked);
+        IsLiked[newDisliked.FullName] = false;
 
         if (newDisliked.IsSpecial)
-            StartChat(newDisliked);
+            StartChat(newDisliked, false);
     }
 
     public static IEnumerable<FormCard> GetLiked() => liked;
@@ -97,7 +97,7 @@ public static class Main
         Object.FindObjectOfType<Button>().onClick.AddListener(() =>
         {
             SceneManager.UnloadSceneAsync("Duel");
-            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects().Where(i => i.name != "Death"))
+            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects().Where(i => i.name != "Death" && i.name != "Tutorial"))
                 i.SetActive(true);
 
             actor.UpdateAfterDuel(isWin);
@@ -112,11 +112,11 @@ public static class Main
             .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToArray())
             .ToArray();
 
-    private static Chat StartChat(FormCard pers)
+    private static Chat StartChat(FormCard pers, bool isLiked)
     {
-        var partner = $"{pers.Name}, {pers.Age}";
+        var partner = pers.FullName;
         var chat = new Chat(partner);
-        chat.SendMessage(partner, "Привет, Фуршет!");
+        chat.SendMessage(partner, Dialogs[partner].GetPartnersPhrases(isLiked).GetRandom());
         Chats[partner] = chat;
         return chat;
     }
