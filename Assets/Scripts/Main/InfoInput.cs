@@ -13,5 +13,7 @@ public class InfoInput : MonoBehaviour
             Main.IsSwipesFrozen = false;
             Destroy(gameObject);
         });
+
+        Main.Desc = texts[1];
     }
 }

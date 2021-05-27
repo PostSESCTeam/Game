@@ -43,7 +43,7 @@ public static class Main
     private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
 
     private static int likedAmount = 0;
-    private static Text desc = GameObject.Find("PlayerDescription").GetComponent<Text>();
+    public static Text Desc;
     public static Dictionary<string, Dialog> Dialogs;
     public static Dictionary<string, double> FightProbabs = new Dictionary<string, double>();
     public static Dictionary<string, bool> IsLiked = new Dictionary<string, bool>();
@@ -58,7 +58,7 @@ public static class Main
         }
 
         likedAmount++;
-        desc.text = $"Лайкнуто анкет: {likedAmount}";
+        Desc.text = $"Лайкнуто анкет: {likedAmount}";
     }
 
     public static void Dislike(FormCard newDisliked)
