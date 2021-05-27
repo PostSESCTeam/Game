@@ -114,7 +114,7 @@ public static class Main
         Object.FindObjectOfType<Button>().onClick.AddListener(() =>
         {
             SceneManager.UnloadSceneAsync("Duel");
-            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects().Where(i => i.name != "Death" && i.name != "Tutorial"))
+            foreach (var i in SceneManager.GetActiveScene().GetRootGameObjects().Where(i => i.name != "Death"))
                 i.SetActive(true);
 
             actor.UpdateAfterDuel(isWin);
@@ -144,7 +144,11 @@ public static class Main
         contactItem.Find("Message").GetComponent<Text>().text = chat.LastMessage.Sentence;
         contactItem.GetComponent<Button>().onClick.AddListener(() => CTM.OpenChat(chat.Partner));
 
-        ChatsTutorial.SetActive(IsFirstMessage);
+        if (IsFirstMessage)
+        {
+            ChatsTutorial.SetActive(true);
+            IsFirstMessage = false;
+        }
 
         return chat;
     }

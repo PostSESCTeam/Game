@@ -5,6 +5,9 @@ public class Tutorial : MonoBehaviour
 {
     void Start()
     {
+        if (!Main.IsTutorialOn)
+            Destroy(gameObject);
+
         Main.StartTutorial = GameObject.Find("AboutGame");
         var aboutScale = GameObject.Find("AboutScale");
         var aboutProfile = GameObject.Find("AboutProfile");
