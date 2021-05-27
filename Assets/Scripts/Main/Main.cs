@@ -23,6 +23,9 @@ public static class Main
     private static string behName;
     private static Act actor = null;
     private static List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
+    private static GameObject contactsContent = GameObject.Find("ContactsContent");
+    private static Transform contact = Resources.Load<Transform>("Contact");
+    private static ChatTabsManager ctm = Object.FindObjectOfType<ChatTabsManager>();
 
     private const string path = @"Assets\Sprites\Characters\";
     private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
@@ -122,6 +125,12 @@ public static class Main
         var chat = new Chat(partner);
         chat.SendMessage(partner, Dialogs[partner].GetPartnersPhrases(isLiked).GetRandom());
         Chats[partner] = chat;
+
+        var contactItem = Object.Instantiate(contact, contactsContent.transform);
+        contactItem.Find("Name").GetComponent<Text>().text = chat.Partner;
+        contactItem.Find("Message").GetComponent<Text>().text = chat.LastMessage.Sentence;
+        contactItem.GetComponent<Button>().onClick.AddListener(() => ctm.OpenChat(chat.Partner));
+
         return chat;
     }
 

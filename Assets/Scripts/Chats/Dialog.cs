@@ -3,7 +3,9 @@
 public class Dialog
 {
     private string[][][] partnersPhrases, playersPhrases;
-    public int phraseIndex = 1, phrasesCount;
+    public int phraseIndex = 0, phrasesCount;
+
+    public bool IsEnded { get => phraseIndex >= phrasesCount; }
 
     public Dialog(string[] file)
     {
@@ -56,16 +58,15 @@ public class Dialog
         playersPhrases = new[] { playerLiked.ToArray(), playerDisliked.ToArray() };
     }
 
+    public void MoveToNextPhrases() => phraseIndex++;
+    public void MoveToPrevPhrases() => phraseIndex--;
+
     private string[] GetPhraseList(bool isLiked, string[][][] phrases)
         => phraseIndex < phrasesCount ? phrases[isLiked ? 0 : 1][phraseIndex] : null;
 
-    public (string[], string[]) GetNextPhrases(bool isLiked)
-    {
-        var res = (GetPartnersPhrases(isLiked), GetPlayersPhrases(isLiked));
-        phraseIndex++;
-        return res;
-    }
+    public (string[], string[]) GetNextPhrases(bool isLiked) => (GetPartnersPhrases(isLiked), GetPlayersPhrases(isLiked));
 
     public string[] GetPartnersPhrases(bool isLiked) => GetPhraseList(isLiked, partnersPhrases);
+
     public string[] GetPlayersPhrases(bool isLiked) => GetPhraseList(isLiked, playersPhrases);
 }

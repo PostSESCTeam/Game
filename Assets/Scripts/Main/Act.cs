@@ -31,6 +31,7 @@ public class Act : MonoBehaviour
         scale.UpdateScale(love);
         var fightProb = form.CurForm.FightProbability;
         BehaviourName = form.CurForm.CharacterSet;
+        var isSpecial = form.CurForm.IsSpecial;
 
         if (love <= 0 || love >= MainScale.ScaleSize)
         {
@@ -43,7 +44,7 @@ public class Act : MonoBehaviour
         else
             form.ChangeFormCard(isLiked);
 
-        if (!form.CurForm.IsSpecial && Random.Range(0f, 1f) <= fightProb)
+        if (!isSpecial && Random.Range(0f, 1f) <= fightProb)
         {
             Main.IsCallingOpen = true;
             Main.IsSwipesFrozen = true;

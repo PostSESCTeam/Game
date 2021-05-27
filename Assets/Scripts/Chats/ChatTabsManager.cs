@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Threading;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ChatTabsManager : MonoBehaviour
 {
-    private bool IsChatOpen = false;
     private Transform message, partnerMessage, button;
     private GameObject contacts, chatWindow, chatsContent, buttons, icons;
     private string partner;
     private Chat chat;
     private Dialog dialog;
-    private bool isLiked;
+    private bool isLiked, isChatOpen;
 
     private void Start()
     {
@@ -28,13 +29,17 @@ public class ChatTabsManager : MonoBehaviour
         chatWindow.SetActive(false);
     }
 
+    private void Update()
+    {
+        contacts.SetActive(!isChatOpen);
+        chatWindow.SetActive(isChatOpen);
+        icons.SetActive(!isChatOpen);
+    }
+
     public void OpenChat(string partner)
     {
-        contacts.SetActive(false);
-        chatWindow.SetActive(true);
-        icons.SetActive(false);
-        IsChatOpen = true;
         isLiked = Main.IsLiked[partner];
+        isChatOpen = true;
 
         GameObject.Find("Name").GetComponent<Text>().text = partner;
 
@@ -49,28 +54,31 @@ public class ChatTabsManager : MonoBehaviour
             a.GetComponentInChildren<Text>().text = i.Sentence;
         }
 
-        var buttonsTexts = dialog.GetPlayersPhrases(isLiked);
+        if (dialog.IsEnded && chat.Messages.Count % 2 == 0)
+            return;
 
-        if (buttonsTexts.Length > 0)
-            foreach (var i in buttonsTexts)
-            {
-                var a = Instantiate(button, buttons.transform);
-                a.GetComponentInChildren<Text>().text = i;
-                a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
-            }
+        foreach (var i in dialog.GetPlayersPhrases(isLiked))
+        {
+            var a = Instantiate(button, buttons.transform);
+            a.GetComponentInChildren<Text>().text = i;
+            a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
+        }
 
-        dialog.phraseIndex++;
+        dialog.MoveToNextPhrases();
     }
 
     public void CloseChat()
     {
+        if (!dialog.IsEnded || chat.Messages.Count % 2 == 1)
+            dialog.MoveToPrevPhrases();
+
         foreach (Transform i in chatsContent.transform)
             Destroy(i.gameObject);
 
-        contacts.SetActive(true);
-        chatWindow.SetActive(false);
-        icons.SetActive(true);
-        IsChatOpen = false;
+        foreach (Transform i in buttons.transform)
+            Destroy(i.gameObject);
+
+        isChatOpen = false;
     }
 
     private void SendMessage(string messageStr)
@@ -87,15 +95,13 @@ public class ChatTabsManager : MonoBehaviour
         if (c == null)
         {
             if (Random.Range(0f, 1f) <= Main.FightProbabs[partner])
-            {
-                Main.IsCallingOpen = true;
-                Main.IsSwipesFrozen = true;
-            }
+                StartCoroutine(SetupDuel());
 
             Main.FightProbabs.Remove(partner);
             return;
         }
 
+        dialog.MoveToNextPhrases();
         var partMes = c.GetRandom();
         chat.SendMessage(partner, partMes);
         a = Instantiate(partnerMessage, chatsContent.transform);
@@ -107,5 +113,15 @@ public class ChatTabsManager : MonoBehaviour
             a.GetComponentInChildren<Text>().text = i;
             a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
         }
+    }
+
+    private IEnumerator SetupDuel()
+    {
+        yield return new WaitForSeconds(1.5f);
+        CloseChat();
+        Main.IsChatOpened = false;
+        Main.IsFormsOpened = true;
+        Main.IsCallingOpen = true;
+        Main.IsSwipesFrozen = true;
     }
 }
