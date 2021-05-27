@@ -23,7 +23,7 @@ public static class Main
     private static string behName;
     private static Act actor = null;
     private static List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
-    private static GameObject contactsContent = GameObject.Find("ContactsContent");
+    public static GameObject ContactsContent = GameObject.Find("ContactsContent");
     private static Transform contact = Resources.Load<Transform>("Contact");
     private static ChatTabsManager ctm = Object.FindObjectOfType<ChatTabsManager>();
 
@@ -126,7 +126,7 @@ public static class Main
         chat.SendMessage(partner, Dialogs[partner].GetPartnersPhrases(isLiked).GetRandom());
         Chats[partner] = chat;
 
-        var contactItem = Object.Instantiate(contact, contactsContent.transform);
+        var contactItem = Object.Instantiate(contact, ContactsContent.transform);
         contactItem.Find("Name").GetComponent<Text>().text = chat.Partner;
         contactItem.Find("Message").GetComponent<Text>().text = chat.LastMessage.Sentence;
         contactItem.GetComponent<Button>().onClick.AddListener(() => ctm.OpenChat(chat.Partner));
