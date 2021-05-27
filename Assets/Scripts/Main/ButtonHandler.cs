@@ -8,7 +8,6 @@ public class ButtonHandler : MonoBehaviour
 
     private void Start()
     {
-        Destroy(GameObject.Find("Tutorial"));
         chatPlace = GameObject.Find("ChatPlace");
         frontFormsPlace = GameObject.Find("FrontFormsPlace");
         backFormsPlace = GameObject.Find("BackFormsPlace");

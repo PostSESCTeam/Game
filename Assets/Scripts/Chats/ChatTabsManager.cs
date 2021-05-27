@@ -123,5 +123,7 @@ public class ChatTabsManager : MonoBehaviour
         Main.IsFormsOpened = true;
         Main.IsCallingOpen = true;
         Main.IsSwipesFrozen = true;
+
+        Main.DuelTutorial.SetActive(Main.IsFirstDuel);
     }
 }

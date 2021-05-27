@@ -16,14 +16,15 @@ public static class Main
         IsCallingOpen = false,
         IsTutorialOn = true,
         CanShoot = false,
-        IsFirstDuel = true;
+        IsFirstDuel = true,
+        IsFirstMessage = true;
 
     public static Dictionary<string, Chat> Chats = new Dictionary<string, Chat>();
 
     private static string behName;
     private static Act actor = null;
     private static List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
-    public static GameObject ContactsContent;
+    public static GameObject ContactsContent, StartTutorial, ChatsTutorial, DuelTutorial;
     private static Transform contact = Resources.Load<Transform>("Contact");
     public static ChatTabsManager CTM;
 
@@ -142,6 +143,8 @@ public static class Main
         contactItem.Find("Name").GetComponent<Text>().text = chat.Partner;
         contactItem.Find("Message").GetComponent<Text>().text = chat.LastMessage.Sentence;
         contactItem.GetComponent<Button>().onClick.AddListener(() => CTM.OpenChat(chat.Partner));
+
+        ChatsTutorial.SetActive(IsFirstMessage);
 
         return chat;
     }
