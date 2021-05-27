@@ -13,6 +13,9 @@ public class ChatTabsManager : MonoBehaviour
 
     private void Start()
     {
+        GameObject.Find("BackToChatsList").GetComponent<Button>().onClick.AddListener(()
+            => FindObjectOfType<ChatTabsManager>().CloseChat());
+
         message = Resources.Load<Transform>("Message");
         partnerMessage = Resources.Load<Transform>("PartnerMessage");
         button = Resources.Load<Transform>("Button");
@@ -33,6 +36,8 @@ public class ChatTabsManager : MonoBehaviour
         IsChatOpen = true;
         isLiked = Main.IsLiked[partner];
 
+        GameObject.Find("Name").GetComponent<Text>().text = partner;
+
         this.partner = partner;
         chat = Main.Chats[partner];
         dialog = Main.Dialogs[partner];
@@ -47,14 +52,12 @@ public class ChatTabsManager : MonoBehaviour
         var buttonsTexts = dialog.GetPlayersPhrases(isLiked);
 
         if (buttonsTexts.Length > 0)
-        {
             foreach (var i in buttonsTexts)
             {
                 var a = Instantiate(button, buttons.transform);
                 a.GetComponentInChildren<Text>().text = i;
                 a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
             }
-        }
 
         dialog.phraseIndex++;
     }
@@ -76,23 +79,33 @@ public class ChatTabsManager : MonoBehaviour
         var a = Instantiate(message, chatsContent.transform);
         a.GetComponentInChildren<Text>().text = messageStr;
 
+        foreach (Transform i in buttons.transform)
+            Destroy(i.gameObject);
+
         var (c, d) = dialog.GetNextPhrases(isLiked);
+
+        if (c == null)
+        {
+            if (Random.Range(0f, 1f) <= Main.FightProbabs[partner])
+            {
+                Main.IsCallingOpen = true;
+                Main.IsSwipesFrozen = true;
+            }
+
+            Main.FightProbabs.Remove(partner);
+            return;
+        }
+
         var partMes = c.GetRandom();
         chat.SendMessage(partner, partMes);
         a = Instantiate(partnerMessage, chatsContent.transform);
         a.GetComponentInChildren<Text>().text = partMes;
 
-        foreach (Transform i in buttons.transform)
-            Destroy(i.gameObject);
-
-        if (d.Length > 0)
+        foreach (var i in d)
         {
-            foreach (var i in d)
-            {
-                a = Instantiate(button, buttons.transform);
-                a.GetComponentInChildren<Text>().text = i;
-                a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
-            }
+            a = Instantiate(button, buttons.transform);
+            a.GetComponentInChildren<Text>().text = i;
+            a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
         }
     }
 }

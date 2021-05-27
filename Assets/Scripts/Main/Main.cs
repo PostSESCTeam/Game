@@ -40,24 +40,27 @@ public static class Main
     private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
 
     public static Dictionary<string, Dialog> Dialogs;
+    public static Dictionary<string, double> FightProbabs = new Dictionary<string, double>();
     public static Dictionary<string, bool> IsLiked = new Dictionary<string, bool>();
 
     public static void Like(FormCard newLiked)
     {
-        liked.Add(newLiked);
-        IsLiked[newLiked.FullName] = true;
-        
         if (newLiked.IsSpecial)
+        {
+            liked.Add(newLiked);
+            IsLiked[newLiked.FullName] = true;
             StartChat(newLiked, true);
+        }
     }
 
     public static void Dislike(FormCard newDisliked)
     {
-        disliked.Add(newDisliked);
-        IsLiked[newDisliked.FullName] = false;
-
         if (newDisliked.IsSpecial)
+        {
+            disliked.Add(newDisliked);
+            IsLiked[newDisliked.FullName] = false;
             StartChat(newDisliked, false);
+        }
     }
 
     public static IEnumerable<FormCard> GetLiked() => liked;
@@ -115,6 +118,7 @@ public static class Main
     private static Chat StartChat(FormCard pers, bool isLiked)
     {
         var partner = pers.FullName;
+        FightProbabs[partner] = pers.FightProbability;
         var chat = new Chat(partner);
         chat.SendMessage(partner, Dialogs[partner].GetPartnersPhrases(isLiked).GetRandom());
         Chats[partner] = chat;

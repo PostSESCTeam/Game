@@ -43,7 +43,7 @@ public class Act : MonoBehaviour
         else
             form.ChangeFormCard(isLiked);
 
-        if (Random.Range(0f, 1f) <= fightProb)
+        if (!form.CurForm.IsSpecial && Random.Range(0f, 1f) <= fightProb)
         {
             Main.IsCallingOpen = true;
             Main.IsSwipesFrozen = true;

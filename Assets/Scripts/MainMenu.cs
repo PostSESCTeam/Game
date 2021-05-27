@@ -51,7 +51,16 @@ public class MainMenu : MonoBehaviour
         animator.gameObject.SetActive(false);
 
         var oper = SceneManager.LoadSceneAsync("MainScene");
+
+        Main.IsChatOpened = false;
+        Main.IsFormsOpened = false;
+        Main.IsProfileOpened = true;
+        Main.IsSwipesFrozen = true;
+        Main.IsCallingOpen = false;
         Main.IsTutorialOn = isTutorialOn;
+        Main.CanShoot = false;
+        Main.IsFirstDuel = true;
+
         Main.Chats = new Dictionary<string, Chat>();
         load.SetActive(true);
 

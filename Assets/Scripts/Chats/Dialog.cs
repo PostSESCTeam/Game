@@ -57,7 +57,7 @@ public class Dialog
     }
 
     private string[] GetPhraseList(bool isLiked, string[][][] phrases)
-        => phraseIndex == phrasesCount ? null : phrases[isLiked ? 0 : 1][phraseIndex];
+        => phraseIndex < phrasesCount ? phrases[isLiked ? 0 : 1][phraseIndex] : null;
 
     public (string[], string[]) GetNextPhrases(bool isLiked)
     {
