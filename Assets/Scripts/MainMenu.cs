@@ -50,8 +50,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitForSeconds(1);
         animator.gameObject.SetActive(false);
 
-        var oper = SceneManager.LoadSceneAsync("MainScene");
-
+        load.SetActive(true);
         Main.IsChatOpened = false;
         Main.IsFormsOpened = false;
         Main.IsProfileOpened = true;
@@ -60,9 +59,9 @@ public class MainMenu : MonoBehaviour
         Main.IsTutorialOn = isTutorialOn;
         Main.CanShoot = false;
         Main.IsFirstDuel = true;
-
         Main.Chats = new Dictionary<string, Chat>();
-        load.SetActive(true);
+
+        var oper = SceneManager.LoadSceneAsync("MainScene");
 
         while (!oper.isDone)
             yield return null;
