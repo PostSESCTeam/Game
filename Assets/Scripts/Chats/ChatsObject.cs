@@ -3,7 +3,11 @@ using UnityEngine.UI;
 
 public class ChatsObject : MonoBehaviour
 {
-    private void Start() => Main.ContactsContent = GameObject.Find("ContactsContent");
+    private void Start()
+    {
+        Main.ContactsContent = GameObject.Find("ContactsContent");
+        Main.CTM = FindObjectOfType<ChatTabsManager>();
+    }
 
     private void Update()
     {
