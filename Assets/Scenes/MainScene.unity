@@ -1298,7 +1298,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &163579642
 GameObject:
@@ -2338,7 +2338,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 30
+  m_SortingOrder: 85
   m_Sprite: {fileID: 21300000, guid: 28e9bd21fbae57f4ab3116c56ce02120, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4064,7 +4064,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &636635554
 GameObject:
@@ -5046,7 +5046,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &737488464
 GameObject:
@@ -5151,7 +5151,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 31
+  m_SortingOrder: 70
   m_TargetDisplay: 0
 --- !u!1 &767137898
 GameObject:
@@ -6729,7 +6729,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &1023350499
 GameObject:
@@ -8532,7 +8532,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 91
   m_TargetDisplay: 0
 --- !u!1 &1290681925
 GameObject:
@@ -9511,7 +9511,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &1401211904
 GameObject:
@@ -10902,7 +10902,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 93
   m_TargetDisplay: 0
 --- !u!1 &1677853581
 GameObject:
@@ -11693,7 +11693,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 90
   m_TargetDisplay: 0
 --- !u!1 &1848079482
 GameObject:
@@ -12315,7 +12315,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 23
+  m_SortingOrder: 92
   m_TargetDisplay: 0
 --- !u!1 &2026048450
 GameObject:
