@@ -37,7 +37,7 @@ public class Tutorial : MonoBehaviour
 
         Main.ChatsTutorial.GetComponentInChildren<Button>().onClick.AddListener(() => Main.ChatsTutorial.SetActive(false));
 
-        Main.DuelTutorial.GetComponentInChildren<Button>().onClick.AddListener(() => Destroy(gameObject));
+        Main.DuelTutorial.GetComponentInChildren<Button>().onClick.AddListener(() => Main.DuelTutorial.SetActive(false));
 
         Main.StartTutorial.SetActive(false);
         aboutScale.SetActive(false);
@@ -45,5 +45,11 @@ public class Tutorial : MonoBehaviour
         aboutForms.SetActive(false);
         Main.ChatsTutorial.SetActive(false);
         Main.DuelTutorial.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (!Main.IsFirstMessage && !Main.IsFirstDuel)
+            Destroy(gameObject);
     }
 }

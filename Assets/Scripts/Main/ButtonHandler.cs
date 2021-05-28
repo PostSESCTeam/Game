@@ -32,6 +32,9 @@ public class ButtonHandler : MonoBehaviour
         backFormsPlace.SetActive(Main.IsFormsOpened);
         profilePlace.SetActive(Main.IsProfileOpened);
         calling.SetActive(Main.IsCallingOpen);
+
+        if (Main.IsFirstDuel && Main.IsCallingOpen)
+            Main.DuelTutorial.SetActive(true);
     }
 
     private void CloseEverything()
