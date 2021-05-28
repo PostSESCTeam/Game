@@ -34,7 +34,10 @@ public class ButtonHandler : MonoBehaviour
         calling.SetActive(Main.IsCallingOpen);
 
         if (Main.IsFirstDuel && Main.IsCallingOpen)
+        {
+            Main.IsFirstDuel = false;
             Main.DuelTutorial.SetActive(true);
+        }
     }
 
     private void CloseEverything()
