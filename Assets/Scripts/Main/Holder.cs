@@ -15,15 +15,23 @@ public class Holder : MonoBehaviour
 
     private void Start()
     {
-        var path = @"Assets\Sprites\Characters\";
-        var sexFolders = new Sex[] { Sex.Male, Sex.Female }
-            .Select(i => new DirectoryInfo(path + i.ToString()));
-        Bodies = sexFolders
-            .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
+        var path = @"Assets\Resources\Characters\";
+        var sexes = new Sex[] { Sex.Male, Sex.Female };
+        Bodies = new Sex[] { Sex.Male, Sex.Female }
+            .Select(i => Resources.Load<Sprite>($@"{path}\{i}\Body.png"))
             .ToArray();
-        Hairs = LoadSprites(sexFolders, "Hair_*.png");
-        Ups = LoadSprites(sexFolders, "Up_*.png");
-        Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+
+        Hairs = new Sex[] { Sex.Male, Sex.Female }
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Hair\"))
+            .ToArray();
+
+        Ups = new Sex[] { Sex.Male, Sex.Female }
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Up\"))
+            .ToArray();
+
+        Bottoms = new Sex[] { Sex.Male, Sex.Female }
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Bottom\"))
+            .ToArray();
 
         RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
         NewMessageChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\ChatNotification.png");
@@ -35,11 +43,6 @@ public class Holder : MonoBehaviour
 
         Main.Holder = this;
     }
-
-    private static Sprite[][] LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
-        => directories.Select(i => i.EnumerateFiles(filePattern)
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToArray())
-            .ToArray();
 
     public string GetRandomName(Sex sex) => names[(int)sex].GetRandom();
     public string GetRandomDesc() => descs.GetRandom();
