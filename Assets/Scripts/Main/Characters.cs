@@ -49,6 +49,6 @@ public class Characters
 
     private FormCard CreatePlotCharacter(string name, int age, Sex sex, string description,
         double fightProbability, string latinName, string characterSet = null) 
-        => new FormCard(name, age, sex, new string[] { $@"Assets\Sprites\Characters\Plot\{latinName}.png" },
+        => new FormCard(name, age, sex, new string[] { $@"Assets\Resources\Characters\Plot\{latinName}.png" },
               description, fightProbability, true, latinName, characterSet);
 }

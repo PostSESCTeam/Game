@@ -61,7 +61,7 @@ public static class Main
 
         if (IsFirstStart)
         {
-            var path = @"Assets\Sprites\Characters\";
+            var path = @"Assets\Resources\Characters\";
             var sexFolders = new Sex[] { Sex.Male, Sex.Female }
                 .Select(i => new DirectoryInfo(path + i.ToString()));
             Bodies = sexFolders
