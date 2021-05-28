@@ -46,10 +46,4 @@ public class Tutorial : MonoBehaviour
         Main.ChatsTutorial.SetActive(false);
         Main.DuelTutorial.SetActive(false);
     }
-
-    private void Update()
-    {
-        if (!Main.IsFirstMessage && !Main.IsFirstDuel)
-            Destroy(gameObject);
-    }
 }

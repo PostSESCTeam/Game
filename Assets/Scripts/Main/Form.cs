@@ -30,7 +30,7 @@ public class Form : MonoBehaviour
         backBG = backFormsPlace.GetComponent<SpriteRenderer>();
         backDrawPlaces = GetDrawPlaces(backFormsPlace);
 
-        NextForm = FormCard.GenerateForm();//chars.TakeRandomCard(randomAmount);
+        NextForm = chars.TakeRandomCard(randomAmount);
         backColor = Utils.GetRandomColor();
         Redraw(NextForm, backDrawPlaces, backTexts, backBG, backColor);
         ChangeFormCard(true);

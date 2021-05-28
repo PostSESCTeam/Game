@@ -17,10 +17,14 @@ public class Duel : MonoBehaviour
     private void Start()
     {
         var tutorial = GameObject.Find("Tutorial");
-        GameObject.Find("OK").GetComponent<Button>().onClick.AddListener(() => EndTutorial(tutorial));
 
-        if (!Main.IsFirstDuel || !Main.IsTutorialOn)
-            EndTutorial(tutorial);
+        if (tutorial)
+        {
+            GameObject.Find("OK").GetComponent<Button>().onClick.AddListener(() => EndTutorial(tutorial));
+
+            if (!Main.IsFirstDuel || !Main.IsTutorialOn)
+                EndTutorial(tutorial);
+        }
 
         tiles = Resources.LoadAll<Tile>("Tiles");
         map = Map.GenerateMap(10, 14);

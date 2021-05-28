@@ -136,12 +136,10 @@ public static class Main
         contactItem.Find("Message").GetComponent<Text>().text = chat.LastMessage.Sentence;
         contactItem.GetComponent<Button>().onClick.AddListener(() => CTM.OpenChat(chat.Partner));
 
-        if (IsFirstMessage)
-        {
+        if (IsTutorialOn && IsFirstMessage)
             ChatsTutorial.SetActive(true);
-            IsFirstMessage = false;
-        }
-
+            
+        IsFirstMessage = false;
         return chat;
     }
 }
