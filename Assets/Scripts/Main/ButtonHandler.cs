@@ -53,7 +53,7 @@ public class ButtonHandler : MonoBehaviour
         CloseEverything();
         Main.IsChatOpened = true;
 
-        Main.ChatsBtnImg.sprite = Main.RegularChats;
+        Main.ChatsBtnImg.sprite = Main.Holder.RegularChats;
     }
 
     private void OpenForms()

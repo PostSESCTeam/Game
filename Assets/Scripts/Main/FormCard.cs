@@ -41,14 +41,14 @@ public class FormCard
         var sex = Random.Range(0, 2);
         var pics = new Sprite[]
         {
-            Main.Bodies[sex],
-            Main.Hairs[sex].GetRandom(),
-            Main.Ups[sex].GetRandom(),
-            Main.Bottoms[sex].GetRandom()
+            Main.Holder.Bodies[sex],
+            Main.Holder.Hairs[sex].GetRandom(),
+            Main.Holder.Ups[sex].GetRandom(),
+            Main.Holder.Bottoms[sex].GetRandom()
         };
 
-        return new FormCard(Main.GetRandomName((Sex) sex), age, (Sex) sex, pics,
-            Main.GetRandomDesc(), Random.Range(0f, 1f));
+        return new FormCard(Main.Holder.GetRandomName((Sex) sex), age, (Sex) sex, pics,
+            Main.Holder.GetRandomDesc(), Random.Range(0f, 1f));
     }
 }
 

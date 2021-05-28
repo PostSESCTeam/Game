@@ -20,6 +20,7 @@ public static class Main
         IsFirstMessage = true,
         IsFirstStart = true;
 
+    public static Holder Holder;
     public static Dictionary<string, Chat> Chats;
     public static Dictionary<string, Dialog> Dialogs;
     public static Dictionary<string, double> FightProbabs;
@@ -30,14 +31,6 @@ public static class Main
     public static GameObject ContactsContent, StartTutorial, ChatsTutorial, DuelTutorial;
     private static Transform contact;
     public static ChatTabsManager CTM;
-
-    public static Sprite[] Bodies;
-    public static Sprite[][] Hairs, Ups, Bottoms;
-
-    private static string[][] names;
-    private static string[] descs;
-
-    public static Sprite RegularChats, NewMessageChats;
 
     private static int likedAmount = 0;
     public static Text Desc;
@@ -59,29 +52,7 @@ public static class Main
         FightProbabs = new Dictionary<string, double>();
         IsLiked = new Dictionary<string, bool>();
 
-        if (IsFirstStart)
-        {
-            var path = @"Assets\Resources\Characters\";
-            var sexFolders = new Sex[] { Sex.Male, Sex.Female }
-                .Select(i => new DirectoryInfo(path + i.ToString()));
-            Bodies = sexFolders
-                .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
-                .ToArray();
-            Hairs = LoadSprites(sexFolders, "Hair_*.png");
-            Ups = LoadSprites(sexFolders, "Up_*.png");
-            Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
-
-            contact = Resources.Load<Transform>("Contact");
-
-            RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
-            NewMessageChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\ChatNotification.png");
-
-            names = new Sex[] { Sex.Male, Sex.Female }
-                .Select(i => File.ReadAllLines(@"Assets\Forms\" + i.ToString() + "Names.txt"))
-                .ToArray();
-            descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
-        }
-
+        contact = Resources.Load<Transform>("Contact");
         IsFirstStart = false;
     }
 
@@ -150,14 +121,9 @@ public static class Main
         });
     }
 
-    private static Sprite[][] LoadSprites(IEnumerable<DirectoryInfo> directories, string filePattern)
-        => directories.Select(i => i.EnumerateFiles(filePattern)
-            .Select(j => Utils.GetSpriteFromFile(j.ToString())).ToArray())
-            .ToArray();
-
     private static Chat StartChat(FormCard pers, bool isLiked)
     {
-        ChatsBtnImg.sprite = NewMessageChats;
+        ChatsBtnImg.sprite = Holder.NewMessageChats;
 
         var partner = pers.FullName;
         FightProbabs[partner] = pers.FightProbability;
@@ -178,7 +144,4 @@ public static class Main
 
         return chat;
     }
-
-    public static string GetRandomName(Sex sex) => names[(int)sex].GetRandom();
-    public static string GetRandomDesc() => descs.GetRandom();
 }
