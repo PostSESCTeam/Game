@@ -1,3 +1,4 @@
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,8 +31,8 @@ public class Form : MonoBehaviour
         backBG = backFormsPlace.GetComponent<SpriteRenderer>();
         backDrawPlaces = GetDrawPlaces(backFormsPlace);
 
-        NextForm = FormCard.GenerateForm();//chars.TakeRandomCard(randomAmount);
         backColor = Utils.GetRandomColor();
+        NextForm = chars.TakeRandomCard(randomAmount);
         Redraw(NextForm, backDrawPlaces, backTexts, backBG, backColor);
         ChangeFormCard(true);
     }

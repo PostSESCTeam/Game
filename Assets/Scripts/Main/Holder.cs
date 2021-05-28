@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -5,6 +6,7 @@ using UnityEngine;
 
 public class Holder : MonoBehaviour
 {
+    public Dictionary<string, Sprite> PlotPers;
     public Sprite[] Bodies;
     public Sprite[][] Hairs, Ups, Bottoms;
 
@@ -15,22 +17,20 @@ public class Holder : MonoBehaviour
 
     private void Start()
     {
-        var path = @"Assets\Resources\Characters\";
-        var sexes = new Sex[] { Sex.Male, Sex.Female };
-        Bodies = new Sex[] { Sex.Male, Sex.Female }
-            .Select(i => Resources.Load<Sprite>($@"{path}\{i}\Body.png"))
-            .ToArray();
+        Main.Holder = this;
+        var path = @"Characters";
+        Bodies = Resources.LoadAll<Sprite>($@"{path}/Bodies");
 
         Hairs = new Sex[] { Sex.Male, Sex.Female }
-            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Hair\"))
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}/{i}/Hair"))
             .ToArray();
 
         Ups = new Sex[] { Sex.Male, Sex.Female }
-            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Up\"))
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}/{i}/Up"))
             .ToArray();
 
         Bottoms = new Sex[] { Sex.Male, Sex.Female }
-            .Select(i => Resources.LoadAll<Sprite>($@"{path}\{i}\Bottom\"))
+            .Select(i => Resources.LoadAll<Sprite>($@"{path}/{i}/Bottom"))
             .ToArray();
 
         RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
@@ -41,7 +41,9 @@ public class Holder : MonoBehaviour
             .ToArray();
         descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
 
-        Main.Holder = this;
+        PlotPers = Resources.LoadAll<Sprite>($@"{path}/Plot")
+            .Select(i => (i.name, i))
+            .ToDictionary(i => i.Item1, i => i.Item2);
     }
 
     public string GetRandomName(Sex sex) => names[(int)sex].GetRandom();

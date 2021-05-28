@@ -40,8 +40,9 @@ public class ChatTabsManager : MonoBehaviour
     {
         isLiked = Main.IsLiked[partner];
         isChatOpen = true;
+        Update();
 
-        GameObject.Find("Name").GetComponent<Text>().text = partner;
+        GameObject.Find("PartnerName").GetComponent<Text>().text = partner;
 
         this.partner = partner;
         chat = Main.Chats[partner];

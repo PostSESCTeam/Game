@@ -33,7 +33,7 @@ public class ButtonHandler : MonoBehaviour
         profilePlace.SetActive(Main.IsProfileOpened);
         calling.SetActive(Main.IsCallingOpen);
 
-        if (Main.IsFirstDuel && Main.IsCallingOpen)
+        if (Main.IsTutorialOn && Main.IsFirstDuel && Main.IsCallingOpen)
         {
             Main.IsFirstDuel = false;
             Main.DuelTutorial.SetActive(true);
