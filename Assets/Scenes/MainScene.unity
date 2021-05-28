@@ -8889,8 +8889,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6487eb2b30a1ec4eb8b1bf2f4bd7cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scale: {fileID: 1290681930}
   BehaviourName: 
-  death: {fileID: 0}
+  death: {fileID: 519197372}
 --- !u!4 &1313165856
 Transform:
   m_ObjectHideFlags: 0

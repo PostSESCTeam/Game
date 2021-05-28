@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class DuelObject : MonoBehaviour
+public class DuelObject : MonoBehaviour
 {
     private float nextFire = 0.0f;
     public int lives = 3;

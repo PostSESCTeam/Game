@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class Scale : MonoBehaviour
+public class Scale : MonoBehaviour
 {
     private int ScaleSize;
     private Image scale;

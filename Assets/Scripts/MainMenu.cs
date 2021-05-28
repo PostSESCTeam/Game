@@ -2,37 +2,38 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour
 {
-    private GameObject authors, settings, load;
+    public GameObject load;
+    private GameObject authors, settings;
     private bool isAuthorsOpen = false, isSettingsOpen = false, isTutorialOn = true;
 
     private void Start()
     {
         authors = GameObject.Find("Authors");
         authors.GetComponentInChildren<Button>().onClick.AddListener(() => isAuthorsOpen = false);
+
         settings = GameObject.Find("Settings");
         settings.GetComponentInChildren<Button>().onClick.AddListener(() => isSettingsOpen = false);
-
-        load = GameObject.Find("Loading");
-        load.SetActive(false);
 
         var toggle = FindObjectOfType<Toggle>();
         toggle.onValueChanged.AddListener(value => isTutorialOn = value);
 
         GameObject.Find("PlayBtn").GetComponent<Button>().onClick.AddListener(() => StartCoroutine(PlayGame()));
+
         GameObject.Find("OptionsBtn").GetComponent<Button>().onClick.AddListener(() =>
         {
             isAuthorsOpen = false;
             isSettingsOpen = true;
         });
+
         GameObject.Find("AuthorsBtn").GetComponent<Button>().onClick.AddListener(() =>
         {
             isAuthorsOpen = true;
             isSettingsOpen = false;
         });
+
         GameObject.Find("QuitBtn").GetComponent<Button>().onClick.AddListener(QuitGame);
     }
 
@@ -51,17 +52,11 @@ public class MainMenu : MonoBehaviour
         animator.gameObject.SetActive(false);
 
         load.SetActive(true);
-        Main.IsChatOpened = false;
-        Main.IsFormsOpened = false;
-        Main.IsProfileOpened = true;
-        Main.IsSwipesFrozen = true;
-        Main.IsCallingOpen = false;
-        Main.IsTutorialOn = isTutorialOn;
-        Main.CanShoot = false;
-        Main.IsFirstDuel = true;
-        Main.Chats = new Dictionary<string, Chat>();
+        load.GetComponent<Animator>().SetTrigger("IsLoading");
+        yield return new WaitForSeconds(1);
 
         var oper = SceneManager.LoadSceneAsync("MainScene");
+        Main.Init(isTutorialOn);
 
         while (!oper.isDone)
             yield return null;

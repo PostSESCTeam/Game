@@ -17,48 +17,78 @@ public static class Main
         IsTutorialOn = true,
         CanShoot = false,
         IsFirstDuel = true,
-        IsFirstMessage = true;
+        IsFirstMessage = true,
+        IsFirstStart = true;
 
-    public static Dictionary<string, Chat> Chats = new Dictionary<string, Chat>();
+    public static Dictionary<string, Chat> Chats;
+    public static Dictionary<string, Dialog> Dialogs;
+    public static Dictionary<string, double> FightProbabs;
+    public static Dictionary<string, bool> IsLiked;
 
     private static string behName;
     private static Act actor = null;
-    private static List<FormCard> liked = new List<FormCard>(), disliked = new List<FormCard>();
     public static GameObject ContactsContent, StartTutorial, ChatsTutorial, DuelTutorial;
-    private static Transform contact = Resources.Load<Transform>("Contact");
+    private static Transform contact;
     public static ChatTabsManager CTM;
 
-    private const string path = @"Assets\Sprites\Characters\";
-    private static IEnumerable<DirectoryInfo> sexFolders = new Sex[] { Sex.Male, Sex.Female }
-        .Select(i => new DirectoryInfo(path + i.ToString()));
-    public static Sprite[] Bodies = sexFolders
-        .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
-        .ToArray();
-    public static Sprite[][] Hairs = LoadSprites(sexFolders, "Hair_*.png"),
-        Ups = LoadSprites(sexFolders, "Up_*.png"),
-        Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+    public static Sprite[] Bodies;
+    public static Sprite[][] Hairs, Ups, Bottoms;
 
-    private static readonly string[][] names = new Sex[] { Sex.Male, Sex.Female }
-        .Select(i => File.ReadAllLines(@"Assets\Forms\" + i.ToString() + "Names.txt"))
-        .ToArray();
-    private static readonly string[] descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
+    private static string[][] names;
+    private static string[] descs;
 
-    public static Sprite RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
-    public static Sprite NewMessageChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\ChatNotification.png");
+    public static Sprite RegularChats, NewMessageChats;
 
     private static int likedAmount = 0;
     public static Text Desc;
     public static Image ChatsBtnImg;
 
-    public static Dictionary<string, Dialog> Dialogs;
-    public static Dictionary<string, double> FightProbabs = new Dictionary<string, double>();
-    public static Dictionary<string, bool> IsLiked = new Dictionary<string, bool>();
+    public static void Init(bool isTutorialOn)
+    {
+        IsChatOpened = false;
+        IsFormsOpened = false;
+        IsProfileOpened = true;
+        IsSwipesFrozen = true;
+        IsCallingOpen = false;
+        IsTutorialOn = isTutorialOn;
+        CanShoot = false;
+        IsFirstDuel = true;
+        IsFirstMessage = true;
+
+        Chats = new Dictionary<string, Chat>();
+        FightProbabs = new Dictionary<string, double>();
+        IsLiked = new Dictionary<string, bool>();
+
+        if (IsFirstStart)
+        {
+            var path = @"Assets\Sprites\Characters\";
+            var sexFolders = new Sex[] { Sex.Male, Sex.Female }
+                .Select(i => new DirectoryInfo(path + i.ToString()));
+            Bodies = sexFolders
+                .Select(i => Utils.GetSpriteFromFile(path + i.Name + @"\Body.png"))
+                .ToArray();
+            Hairs = LoadSprites(sexFolders, "Hair_*.png");
+            Ups = LoadSprites(sexFolders, "Up_*.png");
+            Bottoms = LoadSprites(sexFolders, "Bottom_*.png");
+
+            contact = Resources.Load<Transform>("Contact");
+
+            RegularChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\Chat.png");
+            NewMessageChats = Utils.GetSpriteFromFile(@"Assets\Sprites\Phone\ChatNotification.png");
+
+            names = new Sex[] { Sex.Male, Sex.Female }
+                .Select(i => File.ReadAllLines(@"Assets\Forms\" + i.ToString() + "Names.txt"))
+                .ToArray();
+            descs = File.ReadAllLines(@"Assets\Forms\Descriptions.txt");
+        }
+
+        IsFirstStart = false;
+    }
 
     public static void Like(FormCard newLiked)
     {
         if (newLiked.IsSpecial)
         {
-            liked.Add(newLiked);
             IsLiked[newLiked.FullName] = true;
             StartChat(newLiked, true);
         }
@@ -71,14 +101,10 @@ public static class Main
     {
         if (newDisliked.IsSpecial)
         {
-            disliked.Add(newDisliked);
             IsLiked[newDisliked.FullName] = false;
             StartChat(newDisliked, false);
         }
     }
-
-    public static IEnumerable<FormCard> GetLiked() => liked;
-    public static IEnumerable<FormCard> GetDisliked() => disliked;
 
     public static IEnumerator StartDuel(Animator animator, string rivalBehName = null)
     {

@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 public class Swipes : MonoBehaviour
@@ -8,7 +9,7 @@ public class Swipes : MonoBehaviour
     private Rotation rotation;
     private const int MinSwipeLenX = 20;
     private const int RotationSpeed = 100;
-    private const double MaxAngle = 0.5;
+    private const double MaxAngle = 60;
     private readonly Vector3 RotationPoint = new Vector3(0f, -6f);
     private readonly Vector3 RotationAxis = new Vector3(0f, 0f, 1f);
 
@@ -19,7 +20,7 @@ public class Swipes : MonoBehaviour
         rotation = Rotation.None;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!Main.IsFormsOpened || Main.IsSwipesFrozen)
             return;
@@ -40,11 +41,11 @@ public class Swipes : MonoBehaviour
 
         Form.RotateAround(RotationPoint, RotationAxis, (int) rotation * -RotationSpeed * Time.deltaTime);
 
-        if (Mathf.Abs(Form.transform.rotation.z) >= MaxAngle)
+        if (Mathf.Abs(Form.eulerAngles.z) >= MaxAngle)
         {
             act.ChangeFormCard(rotation > 0);
             rotation = Rotation.None;
-            Form.RotateAround(RotationPoint, RotationAxis, -Form.transform.eulerAngles.z);
+            Form.RotateAround(RotationPoint, RotationAxis, -Form.eulerAngles.z);
         }
     }
 }

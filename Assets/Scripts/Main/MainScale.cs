@@ -2,7 +2,7 @@
 {
     public const int ScaleSize = 20, BalancedValue = ScaleSize / 2;
 
-    public new void Start()
+    private new void Start()
     {
         base.Start();
         Init(ScaleSize);

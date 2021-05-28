@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Form : MonoBehaviour
 {
-    private int randomAmount = 2;//15;
+    private int randomAmount = 16;
     private bool isFirst = true;
     private Characters chars;
     private GameObject frontFormsPlace, backFormsPlace;

@@ -81,7 +81,7 @@ public class ChatTabsManager : MonoBehaviour
         isChatOpen = false;
     }
 
-    private void SendMessage(string messageStr)
+    private new void SendMessage(string messageStr)
     {
         chat.SendMessage("Player", messageStr);
         var a = Instantiate(message, chatsContent.transform);
