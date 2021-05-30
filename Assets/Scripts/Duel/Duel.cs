@@ -20,7 +20,7 @@ public class Duel : MonoBehaviour
 
         if (tutorial)
         {
-            GameObject.Find("OK").GetComponent<Button>().onClick.AddListener(() => EndTutorial(tutorial));
+            GameObject.Find("OKTutor").GetComponent<Button>().onClick.AddListener(() => EndTutorial(tutorial));
 
             if (!Main.IsFirstDuel || !Main.IsTutorialOn)
                 EndTutorial(tutorial);

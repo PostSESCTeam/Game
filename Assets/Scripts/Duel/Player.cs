@@ -10,7 +10,14 @@ public class Player : DuelObject
     private new void Start()
     {
         base.Start();
-        scale = GameObject.Find("PlayerScale").GetComponent<DuelScale>();
+        GameObject playerScale;
+
+        do
+            playerScale = GameObject.Find("PlayerScale");
+        while (!playerScale);
+
+        scale = playerScale.GetComponent<DuelScale>();
+        Debug.Log(scale);
     }
 
     private new void FixedUpdate()

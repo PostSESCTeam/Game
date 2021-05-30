@@ -28,7 +28,7 @@ public class Characters
             CreatePlotCharacter("Марго", 32, Sex.Female, "СКУЧАЕШЬ? МОЙ САЙТ [скрыто настройками фильтров]", 1.0, "Margo")
         });
 
-        Main.Dialogs = plotCards.Select(i => (i.FullName, new Dialog(File.ReadAllLines($@"Assets\Chats\{i.LatinName}.txt"))))
+        Main.Dialogs = plotCards.Select(i => (i.FullName, new Dialog(Main.Holder.Chats[i.LatinName])))
             .ToDictionary(i => i.Item1, i => i.Item2);
     }
 

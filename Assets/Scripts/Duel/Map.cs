@@ -9,7 +9,7 @@ public class Map
     public Cell[,] Cells;
     public List<(int X, int Y)[]> Blocks;
     public List<(int X, int Y)> EmptyCells;
-    public static Dictionary<int, int> BlockAmount = new (int Size, int Amount)[] { (1, 3), (2, 2), (3, 1) }
+    public static Dictionary<int, int> BlockAmount = new (int Size, int Amount)[] { (1, 5), (2, 2), (3, 1) }
         .ToDictionary(i => i.Size, i => i.Amount);
 
     public Map(int mapHeight, int mapWidth, List<(int X, int Y)[]> blocks)

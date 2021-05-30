@@ -50,9 +50,9 @@ public class ChatTabsManager : MonoBehaviour
 
         foreach (var i in Main.Chats[partner].Messages)
         {
-            var messageTr = i.Author == partner ? partnerMessage : message;
-            var a = Instantiate(messageTr, chatsContent.transform);
-            a.GetComponentInChildren<Text>().text = i.Sentence;
+            var messageTr = i.Author == partner ? partnerMessage : this.message;
+            var message = Instantiate(messageTr, chatsContent.transform);
+            message.GetComponentInChildren<Text>().text = i.Sentence;
         }
 
         if (dialog.IsEnded && chat.Messages.Count % 2 == 0)
@@ -60,9 +60,9 @@ public class ChatTabsManager : MonoBehaviour
 
         foreach (var i in dialog.GetPlayersPhrases(isLiked))
         {
-            var a = Instantiate(button, buttons.transform);
-            a.GetComponentInChildren<Text>().text = i;
-            a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
+            var answerBtn = Instantiate(button, buttons.transform);
+            answerBtn.GetComponentInChildren<Text>().text = i;
+            answerBtn.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
         }
 
         dialog.MoveToNextPhrases();
@@ -85,15 +85,15 @@ public class ChatTabsManager : MonoBehaviour
     private new void SendMessage(string messageStr)
     {
         chat.SendMessage("Player", messageStr);
-        var a = Instantiate(message, chatsContent.transform);
-        a.GetComponentInChildren<Text>().text = messageStr;
+        var message = Instantiate(this.message, chatsContent.transform);
+        message.GetComponentInChildren<Text>().text = messageStr;
 
         foreach (Transform i in buttons.transform)
             Destroy(i.gameObject);
 
-        var (c, d) = dialog.GetNextPhrases(isLiked);
+        var (partnerPhrases, playerPhrases) = dialog.GetNextPhrases(isLiked);
 
-        if (c == null)
+        if (partnerPhrases == null)
         {
             if (Random.Range(0f, 1f) <= Main.FightProbabs[partner])
                 StartCoroutine(SetupDuel());
@@ -103,16 +103,16 @@ public class ChatTabsManager : MonoBehaviour
         }
 
         dialog.MoveToNextPhrases();
-        var partMes = c.GetRandom();
+        var partMes = partnerPhrases.GetRandom();
         chat.SendMessage(partner, partMes);
-        a = Instantiate(partnerMessage, chatsContent.transform);
-        a.GetComponentInChildren<Text>().text = partMes;
+        message = Instantiate(partnerMessage, chatsContent.transform);
+        message.GetComponentInChildren<Text>().text = partMes;
 
-        foreach (var i in d)
+        foreach (var i in playerPhrases)
         {
-            a = Instantiate(button, buttons.transform);
-            a.GetComponentInChildren<Text>().text = i;
-            a.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
+            var answerBtn = Instantiate(button, buttons.transform);
+            answerBtn.GetComponentInChildren<Text>().text = i;
+            answerBtn.GetComponent<Button>().onClick.AddListener(() => SendMessage(i));
         }
     }
 

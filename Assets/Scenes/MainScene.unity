@@ -196,7 +196,9 @@ MonoBehaviour:
   m_Text: "\u0412 \u044D\u0442\u043E\u0439 \u0438\u0433\u0440\u0435 \u0432\u0430\u043C
     \u043D\u0443\u0436\u043D\u043E \u043F\u0440\u043E\u043B\u0430\u0439\u043A\u0430\u0442\u044C
     \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E
-    \u0430\u043D\u043A\u0435\u0442"
+    \u0430\u043D\u043A\u0435\u0442, \u043F\u043E\u043F\u0443\u0442\u043D\u043E \u0432\u043D\u0438\u043A\u0430\u044F
+    \u0432 \u0441\u044E\u0436\u0435\u0442 (\u0432 \u0442\u043E\u043C \u0447\u0438\u0441\u043B\u0435
+    \u0447\u0435\u0440\u0435\u0437 \u0447\u0430\u0442\u044B)"
 --- !u!222 &16581032
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3240,7 +3242,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 70
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!95 &519197377
 Animator:
@@ -6839,6 +6841,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7b174a5a2deec4a8f56c7f19588f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MalesNamesFile: {fileID: 4900000, guid: 4557a4f4cfebe3e4c8b60110647ecd74, type: 3}
+  FemalesNamesFile: {fileID: 4900000, guid: 945e5c8ee9a031449aa5e88e76a9bec1, type: 3}
+  DescsFile: {fileID: 4900000, guid: f135dccccf5d9fc49ad0956b76ad3aca, type: 3}
+  VictorChatFile: {fileID: 4900000, guid: c1a212e4edc8c774caabb061a0bd0851, type: 3}
+  FufeChatFile: {fileID: 4900000, guid: 67d8431f18cec9344b6adfc3e356a131, type: 3}
+  ReptiloidChatFile: {fileID: 4900000, guid: 88d8b314629e84e4289b1ca74c30c01e, type: 3}
+  TvarChatFile: {fileID: 4900000, guid: e3098a472988d8a438987e3f7a5566b0, type: 3}
+  LydiaChatFile: {fileID: 4900000, guid: 9cbd7d8825b6bf74cba30d74befa4640, type: 3}
+  EricChatFile: {fileID: 4900000, guid: 30773ab0d5c402748af3f34fcda06544, type: 3}
+  AlexeyChatFile: {fileID: 4900000, guid: b8156022390a11d439b1012ffa7591ff, type: 3}
+  DedChatFile: {fileID: 4900000, guid: cbd3a421d052a184981dd2c41c90872b, type: 3}
+  SkeletChatFile: {fileID: 4900000, guid: 5225c383ea4687745bc2c35ea81bee20, type: 3}
+  IgorChatFile: {fileID: 4900000, guid: c94e127468b01b74c9494aab0385460a, type: 3}
+  KeshaChatFile: {fileID: 4900000, guid: 1ef0c47df91cf8b4ba788ce69f681864, type: 3}
+  LeonidChatFile: {fileID: 4900000, guid: f5887163dd10d4841970ddf4e2d1616c, type: 3}
+  KoshkaChatFile: {fileID: 4900000, guid: 087e8348bd5bd894dbabcf975fa274cb, type: 3}
+  MargoChatFile: {fileID: 4900000, guid: 2a4ad9f6d1d503049a0e9423a94f1a9c, type: 3}
   Bodies: []
   RegularChats: {fileID: 0}
   NewMessageChats: {fileID: 0}

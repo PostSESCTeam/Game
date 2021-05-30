@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -47,8 +46,6 @@ public static class Main
         CanShoot = false;
         IsFirstDuel = true;
         IsFirstMessage = true;
-
-
 
         Chats = new Dictionary<string, Chat>();
         FightProbabs = new Dictionary<string, double>();

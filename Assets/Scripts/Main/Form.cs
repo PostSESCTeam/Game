@@ -19,6 +19,7 @@ public class Form : MonoBehaviour
 
     private void Start()
     {
+        while (!Main.Holder) ;
         chars = new Characters();
 
         frontFormsPlace = GameObject.Find("FrontFormsPlace");

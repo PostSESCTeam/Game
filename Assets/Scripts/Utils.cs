@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class Utils
 {
@@ -27,4 +29,7 @@ public static class Utils
     }
 
     public static Color GetRandomColor() => new Color(Random.Range(0.6f, 1), Random.Range(0.6f, 1), Random.Range(0.8f, 1));
+
+    public static string[] ReadLines(this TextAsset ta)
+        => ta.text.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 }

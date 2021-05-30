@@ -22,18 +22,18 @@ public static class RivalBehaviours
         ("Standard", (rival, target) =>
         {
             if ((target - rival.transform.position).magnitude > 2)
-                rival.Move(target, 1f);
+                rival.Move(target, 2.5f);
         }),
         ("Crazy", (rival, target) =>
         {
             if ((target - rival.transform.position).magnitude > 2)
-                rival.Move(target, 3f);
+                rival.Move(target, 5f);
         }),
         ("Lazy", (rival, target) =>
         {
             var dist = (target - rival.transform.position).magnitude;
             if (dist > 2 && dist < 7)
-                rival.Move(target, 0.2f);
+                rival.Move(target, 0.5f);
         }),
         ("Rational", (rival, target) =>
         {
@@ -50,7 +50,7 @@ public static class RivalBehaviours
                         res = paths[res];
 
                     var dir = new Vector3(res.X - startInt.X, res.Y - startInt.Y);
-                    rival.Move(dir, 3f);
+                    rival.Move(dir, 4f);
                 }
                 catch { }
             }
@@ -73,7 +73,7 @@ public static class RivalBehaviours
             if (cells.Count() > 0)
             {
                 rival.transform.position = cells.GetRandom();
-                rival.NextMove = Time.time + 2;
+                rival.NextMove = Time.time + 1;
             }
         })
     }.ToDictionary(i => i.Item1, i => i.Item2);

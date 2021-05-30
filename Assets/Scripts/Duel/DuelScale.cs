@@ -1,6 +1,6 @@
 ﻿public class DuelScale : Scale
 {
-    public const int ScaleSize = 3;
+    public const int ScaleSize = 7;
 
     public new void Start()
     {

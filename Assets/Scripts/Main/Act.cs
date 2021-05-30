@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,7 +17,6 @@ public class Act : MonoBehaviour
         scale = FindObjectOfType<MainScale>();
         form = FindObjectOfType<Form>();
         death = GameObject.Find("Death");
-        GameObject.Find("OKDeath").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
         death.SetActive(false);
     }
 
@@ -36,10 +36,8 @@ public class Act : MonoBehaviour
         if (love <= 0 || love >= MainScale.ScaleSize)
         {
             Debug.Log("YOU DIED!");
-            death.SetActive(true);
-            death.GetComponent<Animator>().SetTrigger("IsDead");
             Main.IsSwipesFrozen = true;
-            Destroy(gameObject);
+            StartCoroutine(Die());
         }
         else
             form.ChangeFormCard(isLiked);
@@ -65,5 +63,13 @@ public class Act : MonoBehaviour
                 love -= d;
         }
         scale.UpdateScale(love);
+    }
+
+    private IEnumerator Die()
+    {
+        death.SetActive(true);
+        death.GetComponent<Animator>().SetTrigger("IsDead");
+        yield return new WaitForSeconds(2);
+        GameObject.Find("OKDeath").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
     }
 }

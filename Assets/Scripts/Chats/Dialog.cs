@@ -17,13 +17,13 @@ public class Dialog
 
         foreach (var i in file)
         {
-            if (i != "=====" && i != "-----" && i != string.Empty)
+            if (i != "=====" && i != "-----" && i != "end")
                 buffer.Add(i);
             else
             {
                 var strs = buffer.ToArray();
                 buffer.Clear();
-                if (i == string.Empty)
+                if (i == "end")
                 {
                     if (playerLiked.Count == playerDisliked.Count)
                     {

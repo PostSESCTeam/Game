@@ -3,38 +3,33 @@ using System.Linq;
 
 public class Chat
 {
-    private string partner;
-    private List<Message> messages;
+    public string Partner { get; }
+    public List<Message> Messages { get; }
 
-    public string Partner { get => partner; }
-    public List<Message> Messages { get => messages; }
-
-    public Message LastMessage { get => messages.Last(); }
+    public Message LastMessage { get => Messages.Last(); }
 
     public Chat(string partner)
     {
-        this.partner = partner;
-        messages = new List<Message>();
+        Partner = partner;
+        Messages = new List<Message>();
     }
 
     public Message SendMessage(string author, string sentence)
     {
         var message = new Message(author, sentence);
-        messages.Add(message);
+        Messages.Add(message);
         return message;
     }
 }
 
 public class Message
 {
-    private string author, sentence;
-
-    public string Author { get => author; }
-    public string Sentence { get => sentence; }
+    public string Author { get; }
+    public string Sentence { get; }
 
     public Message(string author, string sentence)
     {
-        this.author = author;
-        this.sentence = sentence;
+        Author = author;
+        Sentence = sentence;
     }
 }

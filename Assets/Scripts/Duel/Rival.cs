@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Rival : DuelObject
 {
-    private const float fireRate = 2f;
+    private const float fireRate = 1f;
     public Action<Vector3> RotateRival;
     public Action<Vector3> MoveRival;
     public Action<float> ShootRival;
@@ -14,7 +14,13 @@ public class Rival : DuelObject
     private new void Start()
     {
         base.Start();
-        scale = GameObject.Find("RivalScale").GetComponent<DuelScale>();
+        GameObject rivalScale;
+
+        do
+            rivalScale = GameObject.Find("RivalScale");
+        while (!rivalScale);
+
+        scale = rivalScale.GetComponent<DuelScale>();
     }
 
     private new void FixedUpdate()
